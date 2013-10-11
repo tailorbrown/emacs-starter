@@ -13,20 +13,6 @@
 ;; Interface customizations, menus, etc.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Use bs.el for better buffer management
-(require 'bs) ; Better buffer selection
-(global-set-key [(control ?x) (control ?b)] 'bs-show) ; C-x C-b
-;; ;; Use mouse button 3 to display list of buffers
-;; (defun cw-build-buffers ()
-;;   "Popup buffer menu."
-;;   (interactive "@")
-;;   (run-hooks 'activate-menubar-hook)
-;;   (popup-menu (car (find-menu-item current-menubar '("Buffers")))))
-
-;; (define-key global-map [(button3)] 'cw-build-buffers)
-;; end cw-build-buffers
-
 ;; Setup speedbar, an additional frame for viewing source files
 (autoload 'speedbar-frame-mode "speedbar" "Popup a speedbar frame" t)
 (autoload 'speedbar-get-focus "speedbar" "Jump to speedbar frame" t)
