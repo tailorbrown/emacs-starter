@@ -144,43 +144,25 @@
 (add-to-list 'special-display-frame-alist '(tool-bar-lines . 0))
 
 
-;; Download this file:
-;; http://twb.ath.cx/~twb/canon/sticky-repl/sticky-repl.el
-;; and put it somewhere like ~/.emacs_addons/sticky-repl.el
-;; Then add the following to ~/.emacs:
-;; (load "~/.emacs_addons/sticky-repl.el")
-;; (setq special-display-function 'sticky-repl-display)
-;; (setq compilation-window-height 5)
-;; (setq same-window-buffer-names nil)
-
-;; (setq special-display-buffer-names
-;; '("*Apropos*"
-;; "*Backtrace*"
-;; "*Calculator*"
-;; "*Compile-log*"
-;; "*Help*"
-;; "*Messages*"
-;; "*Occur*"
-;; "*Shell Command Output*"
-;; "*compilation*"
-;; "*grep*"
-;; "*ielm*"
-;; "*inferior-lisp*"
-;; "*scheme*"
-;; "*vc*"
-;; "*vc-diff*"
-;; "shell"
-;; "*tex-shell*"))
-;; (setq special-display-regexps
-;; '("\\*shell\\(< [0-9]+>\\)?\\*"
-;; "\\*slime-repl .*\\*"
-;; "\\*sldb .*\\*"))
-
-
 ;; Setup save options (auto and backup) -- still buggy need new Replace func
+(setq backup-directory-alist `((".*" . "~/.saves")))
+(setq auto-save-file-name-transforms
+          `((".*" , "~/.saves" t)))
+
+;; delete backup files > week old
+(message "Deleting old backup files...")
+(let ((week (* 60 60 24 7))
+      (current (float-time (current-time))))
+  (dolist (file (directory-files "~/.saves" t))
+    (when (and (backup-file-name-p file)
+               (> (- current (float-time (fifth (file-attributes file))))
+                  week))
+      (message "%s" file)
+      (delete-file file))))
+
 ;;(setq auto-save-timeout 2000)
 ;;(setq make-backup-files t)
-(setq make-backup-files nil)
+;;(setq make-backup-files nil)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
