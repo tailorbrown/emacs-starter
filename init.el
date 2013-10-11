@@ -37,7 +37,6 @@
 ;; stop EasyPG from asking for the recipient
 (setq epa-file-encrypt-to "dylan@schwilk.org")
 
-
 ;; add the elisp directories under ~/emacs to my load path
 (defvar home-dir (expand-file-name "~/"))
 (defvar emacs-root (concat home-dir ".emacs.d/"))
@@ -54,7 +53,6 @@
                          ("org" . "http://orgmode.org/elpa/")
 ))
 
-
 ;; Package setup, taken from
 ;; https://github.com/zane/dotemacs/blob/master/zane-packages.el#L62
 (setq schwilk-packages
@@ -65,11 +63,9 @@
         rainbow-mode
         ))
 
-
 (package-initialize)
 
-
-;;; install missing packages ;; 2013-06-21 this is not working.  Leave for now
+;;; install missing packages 
 ;; see http://technical-dresese.blogspot.com/2012/12/elpa-and-initialization.html
 (let ((not-installed (remove-if 'package-installed-p schwilk-packages)))
   (if not-installed
@@ -83,7 +79,6 @@
 ;; not needed in current elpa versions
 ;;(add-to-list 'load-path "~/.emacs.d/elpa")
 
-
 ;; add path for emacs24 style themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
@@ -93,7 +88,7 @@
 
 ; add ESS from git for julia support change according to location
 ;;(add-to-list 'load-path "/opt/ESS/lisp")
-
+;; not needed, I am using a symlink to opt/julia/contrib/julia-mode.el in ./contrib
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Options ON/OFF
