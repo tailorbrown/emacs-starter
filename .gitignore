@@ -10,4 +10,3 @@ custom.el
 ido.last
 org-clock-save.el
 /.org-id-locations
-/init.el~
