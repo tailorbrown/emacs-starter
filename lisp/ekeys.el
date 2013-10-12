@@ -65,7 +65,7 @@
   "C-c b"   org-iswitchb
   "C-c c"   org-capture  
 
-  ;; Programming
+  ;; Programming and ess
   "<f8>"     compile
   ;"C-c C-r"  eval-region   ;; same as in ess ; should not be needed
   ;"C-c C-b"  eval-buffer   ;; same as in ess
@@ -136,3 +136,8 @@ org-completion-use-ido
   (defun cjm-fix-text-mode ()
     (define-key text-mode-map "\M-q" 'maybe-fill-paragraph)
     (remove-hook 'text-mode-hook 'cjm-fix-text-mode)))
+
+;; ESS ctl-return to start
+(add-hook 'ess-mode-hook
+  (lambda()
+    (local-set-key [(shift return)] 'my-ess-eval)))

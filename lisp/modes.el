@@ -207,20 +207,16 @@
       (call-interactively 'ess-eval-region)
       (call-interactively 'ess-eval-line-and-step)))
 
-(add-hook 'ess-mode-hook
-  (lambda()
-    (local-set-key [(shift return)] 'my-ess-eval)))
-
-;; Allow C-up anddown to scroll through history. alt-p also works
-(add-hook 'inferior-ess-mode-hook
-  #'(lambda()
-     (local-set-key [C-up] 'comint-previous-input)
-     (local-set-key [C-down] 'comint-next-input)))
+;; ;; Allow C-up anddown to scroll through history. alt-p also works
+;; (add-hook 'inferior-ess-mode-hook
+;;   #'(lambda()
+;;      (local-set-key [C-up] 'comint-previous-input)
+;;      (local-set-key [C-down] 'comint-next-input)))
 
 (autoload 'R-mode "R mode" "mode for interacting with R" t)
  (setq auto-mode-alist
-       (append '(("\\.[rR]$" . R-mode)
-                 ("\\.[rR]history" . R-mode)) auto-mode-alist))
+       (append '(("\\.[rR]$" . R-mode) 
+                 ("\\.[rr]history" . R-mode)) auto-mode-alist))
 
 ;; End setup R-mode -----------------------------------------------------------
 
