@@ -383,27 +383,3 @@ this method to convert it."
 (define-hash-region sha1-region sha1)
 (define-hash-region md5-region md5)
 
-(defvar screenshot-file (concat home-dir "Screenshot.png")
-  "Filename for screenshots.")
-
-(defun screenshot-take ()
-  "Take a screenshot of a single window."
-  (interactive)
-  (shell-command (concat "import -silent " screenshot-file)))
-
-(defun screenshot-take-all ()
-  "Take a screenshot of the whole screen."
-  (interactive)
-  (shell-command (concat "import -window root -silent " screenshot-file))) ;; uses ImageMagick import command
-
-(defun screenshot-display ()
-  "Display a previously taken screenshot."
-  (interactive)
-  (shell-command (concat "firefox " screenshot-file)))  ;; display in firefox
-
-;; ;; (defun screenshot-upload ()
-;; ;;   "Upload a screenshot to my web server."
-;; ;;   (interactive)
-;; ;;   (shell-command (concat "scp "
-;; ;;                          screenshot-file
-;; ;;                          " mkuze@schwilk.org:schwilk.org/files")))
