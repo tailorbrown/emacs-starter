@@ -77,9 +77,8 @@
 ;  "M-n"     chop-move-down
 ;  "M-p"     chop-move-up
 
-  ;; bindings for functions defined in lisp/ekeys.el
-  "C-x C-c" dont-kill-emacs
-  "C-c \\"  the-the
+  ;; bindings for functions defined in lisp/efuncs.el
+   "C-c \\"  the-the
 
   ;; Browse url
 ;  [(shift button3)] browse-url-at-mouse
