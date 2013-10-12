@@ -175,9 +175,6 @@
 (setq custom-file (concat emacs-root "custom.el"))
 (load custom-file)
 
-;; start emacs server for emacsclient instances
-(server-start)
-
 ;; Add final message so using C-h l I can see if .emacs failed
 (message ".emacs loaded successfully!.")
 
