@@ -26,18 +26,16 @@
 
 (set-frame-size-according-to-resolution)
 
-
 ;; Select theme using emacs24 theme system (~/.emacs.d/themes/)
 (load-theme 'schwilk t)
-
 
 ;; Dynamic fonts
 (setq dynamic-fonts-preferred-proportional-fonts
       '("Source Sans Pro" "DejaVu Sans" "Helvetica"))
   
 (setq dynamic-fonts-preferred-monospace-fonts
-      '("Inconsolata-14" "Envy Code R-14" "Source Code Pro-14" "Monaco" "Consolas" "Menlo"
-        "DejaVu Sans Mono" "Droid Sans Mono Pro" "Droid Sans Mono"))
+      '("Inconsolata" "Ubuntu Mono" "Source Code Pro" "Envy Code R"
+        "Droid Sans Mono Pro" "Droid Sans Mono" "DejaVu Sans Mono"))
 (setq dynamic-fonts-preferred-monospace-point-size 14)
 (setq dynamic-fonts-preferred-proportional-point-size 14)
 
@@ -48,7 +46,6 @@
     (dynamic-fonts-setup)
   (add-to-list 'after-make-frame-functions
                (lambda (frame) (dynamic-fonts-setup))))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set modeline
