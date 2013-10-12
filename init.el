@@ -76,15 +76,8 @@
                    (package-install package))))))
 
 
-;; not needed in current elpa versions
-;;(add-to-list 'load-path "~/.emacs.d/elpa")
-
 ;; add path for emacs24 style themes
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-
-;; add path to org-mode (from tarball) ;; using from org elpa repo now
-;;(add-to-list 'load-path "~/.emacs.d/contrib/org-8.0.3/lisp")
-;;(add-to-list 'load-path "~/path/to/orgdir/contrib/lisp" t)
+(add-to-list 'custom-theme-load-path (concat emacs-root "themes"))
 
 ; add ESS from git for julia support change according to location
 ;;(add-to-list 'load-path "/opt/ESS/lisp")
