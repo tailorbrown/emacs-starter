@@ -6,7 +6,6 @@ url/
 var/
 abbrev_defs
 bookmarks
-custom.el
 ido.last
 org-clock-save.el
 /.org-id-locations
