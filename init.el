@@ -175,7 +175,10 @@
 (setq custom-file (concat emacs-root "custom.el"))
 (load custom-file)
 
+;; Start in insert mode.  Needed?
+(put 'overwrite-mode 'disabled nil)
+
 ;; Add final message so using C-h l I can see if .emacs failed
 (message ".emacs loaded successfully!.")
 
-(put 'overwrite-mode 'disabled nil)
+
