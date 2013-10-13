@@ -180,5 +180,3 @@
 
 ;; Add final message so using C-h l I can see if .emacs failed
 (message ".emacs loaded successfully!.")
-
-

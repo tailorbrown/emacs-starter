@@ -9,7 +9,7 @@
 (add-hook 'org-mode-hook
           (lambda ()
             (setq line-mode-visual 1) 
-            (setq org-startup-indented 1)
+;;            (setq org-startup-indented 1)
             ;; flyspell mode for spell checking everywhere
             (flyspell-mode 1)
             ;; Undefine C-c [ and C-c ] since this breaks my org-agenda files
@@ -18,6 +18,9 @@
             (org-defkey org-mode-map "\C-c["    'undefined)
             (org-defkey org-mode-map "\C-c]"    'undefined)
 ))
+
+
+
 (setq org-agenda-files '("~/org"))
 ;;(setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
 (setq org-directory (quote "~/org"))
@@ -29,9 +32,18 @@
 (require 'org-contacts)
 (setq org-contacts-files (file-expand-wildcards "~/org/contacts.org"))
 
-
+;; org options
+(setq org-hide-leading-stars t)
 (setq org-startup-indented t)
 (setq org-agenda-include-diary 0)
+(setq org-startup-folded t)
+(setq org-alphabetical-lists t)
+(setq org-clone-delete-id t)
+(setq org-cycle-include-plain-lists t)
+(setq org-src-fontify-natively t)
+
+; Overwrite the current window with the agenda
+(setq org-agenda-window-setup 'current-window)
 
 
 ;; active Babel languages ;; removed after mvoe to elpa (load order issue) 2013-06-21
@@ -57,10 +69,6 @@
 
 ;; still need to get org mode complete bound to a key
 ;(setq org-fallback-completion-command 'hippie-expand)
-
-;; pretty indent
-(setq org-startup-indented t)
-
 
 (require 'org-habit)
 
@@ -1129,7 +1137,7 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
 
 ;; (define-abbrev org-mode-abbrev-table "selisp" "" 'skel-org-block-elisp)
 
-(global-set-key (kbd "<f5>") 'dws/org-todo)
+;;(global-set-key (kbd "<f5>") 'dws/org-todo)
 
 (defun dws/org-todo (arg)
   (interactive "p")
@@ -1443,9 +1451,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 (setq org-enforce-todo-dependencies t)
 
-(setq org-hide-leading-stars nil)
-
-(setq org-startup-indented t)
 
 (setq org-cycle-separator-lines 0)
 
@@ -1669,15 +1674,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
                             ("\\.x?html?\\'" . system)
                             ("\\.pdf\\'" . system))))
 
-; Overwrite the current window with the agenda
-(setq org-agenda-window-setup 'current-window)
-
-(setq org-clone-delete-id t)
-
-(setq org-cycle-include-plain-lists t)
-
-(setq org-src-fontify-natively t)
-
 (setq org-structure-template-alist
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
               ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
@@ -1706,11 +1702,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 (add-hook 'org-after-todo-state-change-hook 'dws/mark-next-parent-tasks-todo 'append)
 (add-hook 'org-clock-in-hook 'dws/mark-next-parent-tasks-todo 'append)
-
-(setq org-startup-folded t)
-
-(setq org-alphabetical-lists t)
-
 (add-hook 'message-mode-hook 'orgstruct++-mode 'append)
 (add-hook 'message-mode-hook 'turn-on-auto-fill 'append)
 (add-hook 'message-mode-hook 'bbdb-define-all-aliases 'append)
@@ -1767,9 +1758,8 @@ Late deadlines first, then scheduled, then non-late deadlines"
                                  ("=" org-code "<code>" "</code>" verbatim)
                                  ("~" org-verbatim "<code>" "</code>" verbatim))))
 
-(setq org-use-sub-superscripts nil)
-
-(setq org-odd-levels-only nil)
+;;(setq org-use-sub-superscripts nil)
+;;(setq org-odd-levels-only nil)
 
 (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 

@@ -581,7 +581,7 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(org-done ((t (:bold t :weight bold :foreground ,schwilk-green+3))))
    `(org-formula ((t (:foreground ,schwilk-yellow-2))))
    `(org-headline-done ((t (:foreground ,schwilk-green+3))))
-   `(org-hide ((t (:foreground ,schwilk-bg-1))))
+   `(org-hide ((t (:foreground ,schwilk-bg+1))))  ;; Note: org mode overwrites this on load for some reason
    `(org-level-1 ((t (:foreground ,schwilk-orange))))
    `(org-level-2 ((t (:foreground ,schwilk-yellow))))
    `(org-level-3 ((t (:foreground ,schwilk-green+4))))
