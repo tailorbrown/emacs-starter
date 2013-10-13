@@ -23,12 +23,13 @@
 (setq org-agenda-files '("~/org"))
 ;;(setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
 (setq org-directory (quote "~/org"))
-
 ;; catchall file (used for caldav-sync with google calendar as well)
 (setq org-default-notes-file "~/org/refile.org")
 
 
 ;; google calendar synchronization using org-caldev
+(require 'org-id)
+(setq org-id-method (quote uuidgen))
 (require 'org-caldav)
 (setq org-caldav-url "https://www.google.com/calendar/dav")
 ;(setq org-caldav-calendar-id "13pmcmb8vhe98pfd9lvggq2jos@group.calendar.google.com")
@@ -42,7 +43,12 @@
 (require 'org-contacts)
 (setq org-contacts-files (file-expand-wildcards "~/org/contacts.org"))
 
+
+;; org-protocol (require 'org-protocol) ;; I'm not using this yet. Maybe
+;;someday? Allows capturing web content easily.
+
 ;; org options
+;(setq require-final-newline t)
 (setq org-hide-leading-stars t)
 (setq org-startup-indented t)
 (setq org-agenda-include-diary 0)
@@ -54,7 +60,6 @@
 
 ; Overwrite the current window with the agenda
 (setq org-agenda-window-setup 'current-window)
-
 
 ;; active Babel languages ;; removed after mvoe to elpa (load order issue) 2013-06-21
 (org-babel-do-load-languages
@@ -126,11 +131,6 @@
 (setq org-directory "~/org")
 (setq org-default-notes-file "~/org/refile.org")
 
-;; ;; I use C-M-r to start capture mode
-;; (global-set-key (kbd "C-M-r") 'org-capture)
-;; ;; I use C-c r to start capture mode when using SSH from my Android phone
-;; (global-set-key (kbd "C-c r") 'org-capture)
-
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
 (setq org-capture-templates
       (quote (("t" "todo" entry (file "~/org/refile.org")
@@ -141,7 +141,7 @@
                "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
               ("j" "Journal" entry (file+datetree "~/org/journal.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("w" "org-protocol" entry (file "~/org/refile.org")
+             ; ("w" "org-protocol" entry (file "~/org/refile.org")
                "* TODO Review %c\n%U\n" :immediate-finish t)
               ("p" "Phone call" entry (file "~/org/refile.org")
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
@@ -422,7 +422,6 @@ as the default task."
 
 (add-hook 'org-clock-out-hook 'dws/clock-out-maybe 'append)
 
-(require 'org-id)
 (defun dws/clock-in-task-by-id (id)
   "Clock in a task by id"
   (org-with-point-at (org-id-find id 'marker)
@@ -672,7 +671,8 @@ Callers of this function already widen the buffer view."
         nil)))))
 
 (defun dws/skip-projects-and-habits-and-single-tasks ()
-  "Skip trees that are projects, tasks that are habits, single non-project tasks"
+  "Skip trees that are projects, tasks that are habits, single
+non-project tasks"
   (save-restriction
     (widen)
     (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
@@ -688,8 +688,10 @@ Callers of this function already widen the buffer view."
 
 (defun dws/skip-project-tasks-maybe ()
   "Show tasks related to the current restriction.
-When restricted to a project, skip project and sub project tasks, habits, NEXT tasks, and loose tasks.
-When not restricted, skip project and sub-project tasks, habits, and project related tasks."
+When restricted to a project, skip project and sub project tasks,
+habits, NEXT tasks, and loose tasks. When not restricted, skip
+project and sub-project tasks, habits, and project related
+tasks."
   (save-restriction
     (widen)
     (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
@@ -755,6 +757,10 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
         (or next-headline (point-max))))))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Export-related settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Explicitly load required exporters
 (require 'ox-html)
 (require 'ox-latex)
@@ -805,7 +811,7 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
                                        ("was-html" . "<?xml version=\"1.0\" encoding=\"%s\"?>")
                                        ("php" . "<?php echo \"<?xml version=\\\"1.0\\\" encoding=\\\"%s\\\" ?>\"; ?>"))))
 
-(setq org-export-allow-BIND t)
+;;(setq org-export-allow-BIND t)  ;; purpose?
 
 ;; ; Erase all reminders and rebuilt reminders for today from the agenda
 ;; (defun dws/org-agenda-to-appt ()
@@ -836,6 +842,11 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
         (org-show-todo-tree nil))
     (dws/narrow-to-org-subtree)
     (org-show-todo-tree nil)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Agenda functions and shortcuts
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun dws/widen ()
   (interactive)
@@ -1138,13 +1149,12 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 (setq org-enforce-todo-dependencies t)
 
-
 (setq org-cycle-separator-lines 0)
 
 (setq org-blank-before-new-entry (quote ((heading)
                                          (plain-list-item . auto))))
 
-(setq org-insert-heading-respect-content nil)
+;;(setq org-insert-heading-respect-content nil)
 
 (setq org-reverse-note-order nil)
 
@@ -1155,8 +1165,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (setq org-special-ctrl-a/e t)
 (setq org-special-ctrl-k t)
 (setq org-yank-adjusted-subtrees t)
-
-(setq org-id-method (quote uuidgen))
 
 (setq org-deadline-warning-days 30)
 
@@ -1213,9 +1221,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
   (switch-to-buffer "*Org Agenda*")
   (delete-other-windows))
 
-(require 'org-protocol)
-
-(setq require-final-newline t)
 
 (defvar dws/insert-inactive-timestamp t)
 
@@ -1307,15 +1312,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
                             ("\\.x?html?\\'" . system)
                             ("\\.pdf\\'" . system))))
 
-;; ; Overwrite the current window with the agenda
-;; (setq org-agenda-window-setup 'current-window)
-
-;; (setq org-clone-delete-id t)
-
-;; (setq org-cycle-include-plain-lists t)
-
-;; (setq org-src-fontify-natively t)
-
 (setq org-structure-template-alist
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
               ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
@@ -1353,19 +1349,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
           '(lambda () (setq fill-column 72))
           'append)
 
-;; flyspell mode for spell checking everywhere
-(add-hook 'org-mode-hook 'turn-on-flyspell 'append)
-
-;; Disable C-c [ and C-c ] and C-c ; in org-mode
-;; (add-hook 'org-mode-hook
-;;           '(lambda ()
-;;              ;; Undefine C-c [ and C-c ] since this breaks my
-;;              ;; org-agenda files when directories are include It
-;;              ;; expands the files in the directories individually
-;;              (org-defkey org-mode-map "\C-c["    'undefined)
-;;              (org-defkey org-mode-map "\C-c]"    'undefined)
-;;              (org-defkey org-mode-map "\C-c;"    'undefined))
-;;           'append)
 
 ;; (add-hook 'org-mode-hook
 ;;           (lambda ()
@@ -1400,8 +1383,4 @@ Late deadlines first, then scheduled, then non-late deadlines"
                                  ("=" org-code "<code>" "</code>" verbatim)
                                  ("~" org-verbatim "<code>" "</code>" verbatim))))
 
-;;(setq org-use-sub-superscripts nil)
-;;(setq org-odd-levels-only nil)
-
 (run-at-time "00:59" 3600 'org-save-all-org-buffers)
-
