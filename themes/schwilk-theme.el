@@ -1,9 +1,9 @@
 ;;; schwilk-theme.el --- A dark theme for Emacs.
 
-;; Copyright (C) 2013 Dylan Shwilk
+;; Copyright (C) 2013 Dylan Schwilk 
 
 ;; Author: Dylan Schwilk <dylan@schwilk.org>
-;; Version: 0.1
+;; Version: 0.2
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,6 +20,14 @@
 
 ;;; Commentary:
 
+;;; Credits:
+
+;;  Based on zenburn.el (by Bozhidar Batsov, <bozhidar@batsov.com> URL:
+;; http://github.com/bbatsov/zenburn-emacs)
+
+;; Jani Nurminen created the original theme for vim on such this port
+;; is based.
+
 ;;; Code:
 
 (deftheme schwilk "The Schwilk color theme")
@@ -27,40 +35,40 @@
 ;;; Color Palette
 
 (defvar schwilk-colors-alist
-  '(("schwilk-fg" . "#DCDCCC")
-    ("schwilk-fg-1" . "#656555")
-    ("schwilk-bg-1" . "#0F0F0F")
-    ("schwilk-bg-05" . "#171717")
-    ("schwilk-bg" . "#1F1F1F")
-    ("schwilk-bg+1" . "#2F2F2F")
-    ("schwilk-bg+2" . "#3F3F3F")
-    ("schwilk-bg+3" . "#4F4F4F")
-    ("schwilk-red+1" . "#ECB3B3")
-    ("schwilk-red" . "#CC9393")
-    ("schwilk-red-1" . "#BC8383")
-    ("schwilk-red-2" . "#AC7373")
-    ("schwilk-red-3" . "#9C6363")
-    ("schwilk-red-4" . "#8C5353")
-    ("schwilk-orange" . "#FFB272")
-    ("schwilk-yellow" . "#F0DFAF")
+  '(("schwilk-fg"       . "#DCDCCC")
+    ("schwilk-fg-1"     . "#656555")
+    ("schwilk-bg-1"     . "#0F0F0F")
+    ("schwilk-bg-05"    . "#171717")
+    ("schwilk-bg"       . "#1F1F1F")
+    ("schwilk-bg+1"     . "#2F2F2F")
+    ("schwilk-bg+2"     . "#3F3F3F")
+    ("schwilk-bg+3"     . "#4F4F4F")
+    ("schwilk-red+1"    . "#ECB3B3")
+    ("schwilk-red"      . "#CC9393")
+    ("schwilk-red-1"    . "#BC8383")
+    ("schwilk-red-2"    . "#AC7373")
+    ("schwilk-red-3"    . "#9C6363")
+    ("schwilk-red-4"    . "#8C5353")
+    ("schwilk-orange"   . "#FFB272")
+    ("schwilk-yellow"   . "#F0DFAF")
     ("schwilk-yellow-1" . "#E0CF9F")
     ("schwilk-yellow-2" . "#D0BF8F")
-    ("schwilk-green-1" . "#1F8A1F") 
-    ("schwilk-green" .   "#5FD45F")
-    ("schwilk-green+1" . "#89EA89") 
-    ("schwilk-green+2" . "#A3EAA3")
-    ("schwilk-green+3" . "#B3FAB3")
-    ("schwilk-green+4" . "#C3FFC3")
-    ("schwilk-cyan" . "#93E0E3")
-    ("schwilk-blue+1" . "#C0FAF2") 
-    ("schwilk-blue" .   "#8EF5E6") 
-    ("schwilk-blue-1" . "#7FD7D7")
-    ("schwilk-blue-2" . "#4A7F7F")
-    ("schwilk-blue-3" . "#3A6F6F")
-    ("schwilk-blue-4" . "#2A5F5F")
-    ("schwilk-blue-5" . "#1A4F4F")
-    ("schwilk-blue-6" . "#0A3F3F")
-    ("schwilk-magenta" . "#DC8CC3"))
+    ("schwilk-green-1"  . "#1F8A1F") 
+    ("schwilk-green"    . "#5FD45F")
+    ("schwilk-green+1"  . "#89EA89") 
+    ("schwilk-green+2"  . "#A3EAA3")
+    ("schwilk-green+3"  . "#B3FAB3")
+    ("schwilk-green+4"  . "#C3FFC3")
+    ("schwilk-cyan"     . "#93E0E3")
+    ("schwilk-blue+1"   . "#C0FAF2") 
+    ("schwilk-blue"     . "#8EF5E6") 
+    ("schwilk-blue-1"   . "#7FD7D7")
+    ("schwilk-blue-2"   . "#4A7F7F")
+    ("schwilk-blue-3"   . "#3A6F6F")
+    ("schwilk-blue-4"   . "#2A5F5F")
+    ("schwilk-blue-5"   . "#1A4F4F")
+    ("schwilk-blue-6"   . "#0A3F3F")
+    ("schwilk-magenta"  . "#DC8CC3"))
   "List of Schwilk colors.
 Each element has the form (NAME . HEX).
 
@@ -94,8 +102,9 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(header-line ((t (:foreground ,schwilk-yellow
                                   :background ,schwilk-bg-1
                                   :box (:line-width -1 :style released-button)))))
-   `(highlight ((t (:background ,schwilk-bg-1))))
-   `(region ((t (:background ,schwilk-bg-1))))
+   `(highlight ((t (:background ,schwilk-bg+2))))
+   `(region ((,class (:background ,schwilk-bg+2))
+             (t :inverse-video t)))
    `(success ((t (:foreground ,schwilk-green :weight bold))))
    `(warning ((t (:foreground ,schwilk-orange :weight bold))))
 ;;;;; compilation
@@ -123,7 +132,7 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(isearch ((t (:foreground ,schwilk-yellow-2 :weight bold :background ,schwilk-bg-1))))
    `(isearch-fail ((t (:foreground ,schwilk-fg :background ,schwilk-red-4))))
    `(lazy-highlight ((t (:foreground ,schwilk-yellow-2 :weight bold :background ,schwilk-bg-05))))
-
+;;;;; menu and mode line
    `(menu ((t (:foreground ,schwilk-fg :background ,schwilk-bg))))
    `(minibuffer-prompt ((t (:foreground ,schwilk-yellow))))
    `(mode-line
@@ -136,8 +145,6 @@ Also bind `class' to ((class color) (min-colors 89))."
      ((t (:foreground ,schwilk-green-1
                       :background ,schwilk-bg-05
                       :box (:line-width -1 :style released-button)))))
-   `(region ((,class (:background ,schwilk-bg-1))
-             (t :inverse-video t)))
    `(secondary-selection ((t (:background ,schwilk-bg+2))))
    `(trailing-whitespace ((t (:background ,schwilk-red))))
    `(vertical-border ((t (:foreground ,schwilk-fg))))
@@ -157,7 +164,6 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(font-lock-variable-name-face ((t (:foreground ,schwilk-orange))))
    `(font-lock-warning-face ((t (:foreground ,schwilk-yellow-2 :weight bold))))
    `(c-annotation-face ((t (:inherit font-lock-constant-face))))
-
 ;;;;; newsticker
    `(newsticker-date-face ((t (:foreground ,schwilk-fg))))
    `(newsticker-default-face ((t (:foreground ,schwilk-fg))))
@@ -242,7 +248,8 @@ Also bind `class' to ((class color) (min-colors 89))."
      ((,class (:background ,schwilk-bg+2 :foreground ,schwilk-fg :bold t))
       (t (:background ,schwilk-fg :foreground ,schwilk-bg :bold t))))
 ;;;;; magit (git interface, diffs)
-   `(magit-item-highlight ((,class :foreground "#ffffff" :background "#3f4747"))  )
+   `(magit-item-highlight ((,class :foreground "#ffffff" :background ,schwilk-bg+2))  )
+;   `(magit-item-highlight ((,class :foreground "#ffffff" :background "#3f4747"))  )
 ;;;;; dired+
    `(diredp-display-msg ((t (:foreground ,schwilk-blue))))
    `(diredp-compressed-file-suffix ((t (:foreground ,schwilk-orange))))
