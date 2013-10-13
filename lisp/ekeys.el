@@ -66,7 +66,7 @@
   "C-c c"   org-capture  
   "<f9> p"  dws/phone-call
   "<f5>"    dws/org-todo
-  "<S-f5>"  dws/widen)
+  "<S-f5>"  dws/widen
 
   ;; Programming and ess
   "<f8>"     compile
