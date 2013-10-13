@@ -1,7 +1,6 @@
 ;; Org mode setup
 ;; Dylan Schwilk
-;; 2013-06-30
-
+;; 2013-10-12
 
 ;; filetypes
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
@@ -27,6 +26,17 @@
 
 ;; catchall file (used for caldav-sync with google calendar as well)
 (setq org-default-notes-file "~/org/refile.org")
+
+
+;; google calendar synchronization using org-caldev
+(require 'org-caldav)
+(setq org-caldav-url "https://www.google.com/calendar/dav")
+;(setq org-caldav-calendar-id "13pmcmb8vhe98pfd9lvggq2jos@group.calendar.google.com")
+(setq org-caldav-calendar-id "dschwilk@gmail.com")
+(setq org-caldav-inbox "~/org/refile.org")
+(setq org-caldav-files '("~/org/work.org" "~/org/sky-islands.org" "~/org/personal.org"))
+(setq org-caldav-save-directory "~/org")
+(setq org-icalendar-include-sexps nil)
 
 ;; org-contacts
 (require 'org-contacts)
@@ -390,10 +400,6 @@ as the default task."
           (when dws/keep-clock-running
             (dws/clock-in-default-task)))))))
 
-
-(defvar dws/organization-task-id "eb155a82-92b2-4f25-a3c6-0304591af2f9")
-
-
 (defun dws/clock-in-organization-task-as-default ()
   (interactive)
   (org-with-point-at (org-id-find dws/organization-task-id 'marker)
@@ -484,9 +490,6 @@ A prefix arg forces clock in of the default task."
 (require 'bbdb)
 (require 'bbdb-com)
 
-(global-set-key (kbd "<f9> p") 'dws/phone-call)
-
-;;
 ;; Phone capture template handling with BBDB lookup
 ;; Adapted from code by Gregory J. Grubbs
 (defun dws/phone-call ()
@@ -780,8 +783,6 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
 (setq org-html-inline-images t)
 ; Do not use sub or superscripts - I currently don't need this functionality in my documents
 ;(setq org-export-with-sub-superscripts nil)
-; Use org.css from the norang website for export document stylesheets
-;(setq org-html-head-extra "<link rel=\"stylesheet\" href=\"http://doc.norang.ca/org.css\" type=\"text/css\" />")
 (setq org-html-head-include-default-style nil)
 ; Do not generate internal css formatting for HTML exports
 (setq org-export-htmlize-output-type (quote css))
@@ -789,22 +790,6 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
 (setq org-export-with-LaTeX-fragments t)
 ; Increase default number of headings to export
 (setq org-export-headline-levels 6)
-
-
-; I'm lazy and don't want to remember the name of the project to publish when I modify
-; a file that is part of a project.  So this function saves the file, and publishes
-; the project that includes this file
-;
-; It's bound to C-S-F12 so I just edit and hit C-S-F12 when I'm done and move on to the next thing
-;; (defun dws/save-then-publish (&optional force)
-;;   (interactive "P")
-;;   (save-buffer)
-;;   (org-save-all-org-buffers)
-;;   (let ((org-html-head-extra)
-;;         (org-html-validation-link "<a href=\"http://validator.w3.org/check?uri=referer\">Validate XHTML 1.0</a>"))
-;;     (org-publish-current-project force)))
-
-;; (global-set-key (kbd "C-s-<f12>") 'dws/save-then-publish)
 
 ;; (setq org-latex-listings t)
 
@@ -835,8 +820,6 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
 ;; ;; Enable abbrev-mode
 ;; (add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
 
-(global-set-key (kbd "<f5>") 'dws/org-todo)
-
 (defun dws/org-todo (arg)
   (interactive "p")
   (if (equal arg 4)
@@ -845,8 +828,6 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
         (org-show-todo-tree nil))
     (dws/narrow-to-org-subtree)
     (org-show-todo-tree nil)))
-
-(global-set-key (kbd "<S-f5>") 'dws/widen)
 
 (defun dws/widen ()
   (interactive)
@@ -1424,35 +1405,4 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (setq org-odd-levels-only nil)
 
 (run-at-time "00:59" 3600 'org-save-all-org-buffers)
-
-
-;; google calendar synchronization using org-caldev
-(require 'org-caldav)
-(setq org-caldav-url "https://www.google.com/calendar/dav")
-;(setq org-caldav-calendar-id "13pmcmb8vhe98pfd9lvggq2jos@group.calendar.google.com")
-(setq org-caldav-calendar-id "dschwilk@gmail.com")
-(setq org-caldav-inbox "~/org/refile.org")
-(setq org-caldav-files '("~/org/work.org" "~/org/sky-islands.org" "~/org/personal.org"))
-(setq org-caldav-save-directory "~/org")
-(setq org-icalendar-include-sexps nil)
-
-;; (defun org-caldav-sync-work ()
-;;   (interactive)
-;;   (require 'cl)
-;;   (setq org-caldav-event-list nil
-;;     org-caldav-calendar-id "cmmafq5cvb0q5oc1ecla2cvahg@group.calendar.google.com") ;; "Dylan org-mode" calendar
-;;     org-caldav-inbox "~/org/caldav-inbox-work.org"
-;;     org-caldav-files
-;;     (cl-set-difference org-agenda-files
-;;                '("~/org/home.org" "~/org/journal.org")
-;;                :test 'equal))
-;;   (org-caldav-sync))
-
-;; (defun org-caldav-sync-personal ()
-;;   (interactive)
-;;   (setq org-caldav-event-list nil
-;;     org-caldav-calendar-id "org-home"
-;;     org-caldav-inbox "~/org/caldav-inbox-personal.org"
-;;     org-caldav-files '("~/org/personal.org"))
-;;   (org-caldav-sync))
 
