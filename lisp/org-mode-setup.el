@@ -9,7 +9,7 @@
 (add-hook 'org-mode-hook
           (lambda ()
             (setq line-mode-visual 1) 
-;;            (setq org-startup-indented 1)
+            (setq org-startup-indented 1)
             ;; flyspell mode for spell checking everywhere
             (flyspell-mode 1)
             ;; Undefine C-c [ and C-c ] since this breaks my org-agenda files
@@ -19,12 +19,7 @@
             (org-defkey org-mode-map "\C-c]"    'undefined)
 ))
 
-<<<<<<< HEAD
-
-
-=======
 ;; My org agenda files
->>>>>>> e66c641b8640e9a9d648e78a7118e214646b750c
 (setq org-agenda-files '("~/org"))
 ;;(setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
 (setq org-directory (quote "~/org"))
@@ -47,11 +42,8 @@
 (require 'org-contacts)
 (setq org-contacts-files (file-expand-wildcards "~/org/contacts.org"))
 
-<<<<<<< HEAD
 ;; org options
 (setq org-hide-leading-stars t)
-=======
->>>>>>> e66c641b8640e9a9d648e78a7118e214646b750c
 (setq org-startup-indented t)
 (setq org-agenda-include-diary 0)
 (setq org-startup-folded t)
@@ -62,6 +54,7 @@
 
 ; Overwrite the current window with the agenda
 (setq org-agenda-window-setup 'current-window)
+
 
 ;; active Babel languages ;; removed after mvoe to elpa (load order issue) 2013-06-21
 (org-babel-do-load-languages
@@ -81,12 +74,6 @@
 ;; still need to get org mode complete bound to a key
 ;(setq org-fallback-completion-command 'hippie-expand)
 
-<<<<<<< HEAD
-=======
-;; pretty indent
-(setq org-startup-indented t)
-
->>>>>>> e66c641b8640e9a9d648e78a7118e214646b750c
 (require 'org-habit)
 
 (defun dws/hide-other ()
@@ -841,122 +828,6 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
 ;; ;; Enable abbrev-mode
 ;; (add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
 
-<<<<<<< HEAD
-;; ;; Skeletons
-;; ;;
-;; ;; sblk - Generic block #+begin_FOO .. #+end_FOO
-;; (define-skeleton skel-org-block
-;;   "Insert an org block, querying for type."
-;;   "Type: "
-;;   "#+begin_" str "\n"
-;;   _ - \n
-;;   "#+end_" str "\n")
-
-;; (define-abbrev org-mode-abbrev-table "sblk" "" 'skel-org-block)
-
-;; ;; splantuml - PlantUML Source block
-;; (define-skeleton skel-org-block-plantuml
-;;   "Insert a org plantuml block, querying for filename."
-;;   "File (no extension): "
-;;   "#+begin_src plantuml :file " str ".png :cache yes\n"
-;;   _ - \n
-;;   "#+end_src\n")
-
-;; (define-abbrev org-mode-abbrev-table "splantuml" "" 'skel-org-block-plantuml)
-
-;; (define-skeleton skel-org-block-plantuml-activity
-;;   "Insert a org plantuml block, querying for filename."
-;;   "File (no extension): "
-;;   "#+begin_src plantuml :file " str "-act.png :cache yes :tangle " str "-act.txt\n"
-;;   "@startuml\n"
-;;   "skinparam activity {\n"
-;;   "BackgroundColor<<New>> Cyan\n"
-;;   "}\n\n"
-;;   "title " str " - \n"
-;;   "note left: " str "\n"
-;;   "(*) --> (*)\n"
-;;   _ - \n
-;;   "@enduml\n"
-;;   "#+end_src\n")
-
-;; (define-abbrev org-mode-abbrev-table "sact" "" 'skel-org-block-plantuml-activity)
-
-;; (define-skeleton skel-org-block-plantuml-activity-if
-;;   "Insert a org plantuml block activity if statement"
-;;   "" 
-;;   "if \"\" then\n"
-;;   "  -> [] \"" - _ "\"\n"
-;;   "  --> ==M1==\n"
-;;   "  -left-> ==M2==\n"
-;;   "else\n"
-;;   "end if\n"
-;;   "--> ==M2==")
-
-;; (define-abbrev org-mode-abbrev-table "sif" "" 'skel-org-block-plantuml-activity-if)
-
-;; (define-skeleton skel-org-block-plantuml-activity-for
-;;   "Insert a org plantuml block activity for statement"
-;;   "" 
-;;   "--> ==LOOP1==\n"
-;;   "note left: Loop1: For each\n"
-;;   "--> ==ENDLOOP1==\n"
-;;   "note left: Loop1: End for each")
-
-;; (define-abbrev org-mode-abbrev-table "sfor" "" 'skel-org-block-plantuml-activity-for)
-
-;; (define-skeleton skel-org-block-plantuml-sequence
-;;   "Insert a org plantuml activity diagram block, querying for filename."
-;;   "File appends (no extension): "
-;;   "#+begin_src plantuml :file " str "-seq.png :cache yes :tangle " str "-seq.txt\n"
-;;   "@startuml\n"
-;;   "title " str " - \n"
-;;   "actor CSR as \"Customer Service Representative\"\n"
-;;   "participant CSMO as \"CSM Online\"\n"
-;;   "participant CSMU as \"CSM Unix\"\n"
-;;   "participant NRIS\n"
-;;   "actor Customer"
-;;   _ - \n
-;;   "@enduml\n"
-;;   "#+end_src\n")
-
-;; (define-abbrev org-mode-abbrev-table "sseq" "" 'skel-org-block-plantuml-sequence)
-
-;; ;; sdot - Graphviz DOT block
-;; (define-skeleton skel-org-block-dot
-;;   "Insert a org graphviz dot block, querying for filename."
-;;   "File (no extension): "
-;;   "#+begin_src dot :file " str ".png :cache yes :cmdline -Kdot -Tpng\n"
-;;   "graph G {\n"
-;;   _ - \n
-;;   "}\n"
-;;   "#+end_src\n")
-
-;; (define-abbrev org-mode-abbrev-table "sdot" "" 'skel-org-block-dot)
-
-;; ;; sditaa - Ditaa source block
-;; (define-skeleton skel-org-block-ditaa
-;;   "Insert a org ditaa block, querying for filename."
-;;   "File (no extension): "
-;;   "#+begin_src ditaa :file " str ".png :cache yes\n"
-;;   _ - \n
-;;   "#+end_src\n")
-
-;; (define-abbrev org-mode-abbrev-table "sditaa" "" 'skel-org-block-ditaa)
-
-;; ;; selisp - Emacs Lisp source block
-;; (define-skeleton skel-org-block-elisp
-;;   "Insert a org emacs-lisp block"
-;;   ""
-;;   "#+begin_src emacs-lisp\n"
-;;   _ - \n
-;;   "#+end_src\n")
-
-;; (define-abbrev org-mode-abbrev-table "selisp" "" 'skel-org-block-elisp)
-
-;;(global-set-key (kbd "<f5>") 'dws/org-todo)
-
-=======
->>>>>>> e66c641b8640e9a9d648e78a7118e214646b750c
 (defun dws/org-todo (arg)
   (interactive "p")
   (if (equal arg 4)
@@ -1435,6 +1306,15 @@ Late deadlines first, then scheduled, then non-late deadlines"
                             ("\\.mm\\'" . system)
                             ("\\.x?html?\\'" . system)
                             ("\\.pdf\\'" . system))))
+
+;; ; Overwrite the current window with the agenda
+;; (setq org-agenda-window-setup 'current-window)
+
+;; (setq org-clone-delete-id t)
+
+;; (setq org-cycle-include-plain-lists t)
+
+;; (setq org-src-fontify-natively t)
 
 (setq org-structure-template-alist
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
