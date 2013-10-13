@@ -3,7 +3,7 @@
 ;; ekeys.el configuration file
 ;; author: Dylan Schwilk
 ;; version: 1.3
-;; date: 2012-11-14
+;; date: 2013-10-13
 ;;
 ;;; my global key bindings and aliases for emacs
 ;;;;---------------------------------------------------------------------------
@@ -52,12 +52,12 @@
   "C-c g"   goto-line
   "C-c G"   goto-char
 
-  "C-c k"   delete-region
-  "C-c c"   comment-region
-  "C-c u"   uncomment-region
+; "C-c k"   delete-region
+; "C-c c"   comment-region
+; "C-c u"   uncomment-region
   "C-c w"   count-words-region
   "M-/"     hippie-expand
-  "\C-cr"   replace-garbage-chars ;; replaces MS-windows \222, etc
+ ; "\C-cr"   replace-garbage-chars ;; replaces MS-windows \222, etc
 
   ;; org-mode
   "C-c l"   org-store-link
@@ -73,6 +73,8 @@
   ;"C-c C-r"  eval-region   ;; same as in ess ; should not be needed
   ;"C-c C-b"  eval-buffer   ;; same as in ess
 
+  ;; git, magit, vc
+  "C-c m"   magit-status
   ;; blogging
 ;  "C-c b s" weblogger-start-entry
 
@@ -82,7 +84,7 @@
 
   ;; bindings for functions defined in lisp/efuncs.el
    "C-c \\"  the-the
-
+   "C-c i"   insert-date-string
   ;; Browse url
 ;  [(shift button3)] browse-url-at-mouse
   "C-c b"   browse-url

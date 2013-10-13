@@ -128,7 +128,7 @@ NEW-WRAP-COLUMN disables this behavior."
   (interactive)
   (insert (format-time-string "%Y-%m-%d")))
 ;; C-c i calls insert-date-string
-(global-set-key (kbd "C-c i") 'insert-date-string)
+
 ;; end insert-date-string
 
 
