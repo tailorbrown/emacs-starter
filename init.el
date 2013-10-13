@@ -57,6 +57,7 @@
 ;; https://github.com/zane/dotemacs/blob/master/zane-packages.el#L62
 (setq schwilk-packages
       '(auctex
+        bbdb
         dynamic-fonts
         ess
         org-plus-contrib
