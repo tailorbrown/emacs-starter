@@ -1,11 +1,11 @@
 ;; Org mode setup
 ;; Dylan Schwilk
-;; 2013-06-30
+;; 2013-10-12
 
-
-;(add-to-list 'load-path (expand-file-name "~/git/org-mode/lisp"))
+;; filetypes
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
-;;(require 'org)
+
+;; Some org-mode setings
 (add-hook 'org-mode-hook
           (lambda ()
             (setq line-mode-visual 1) 
@@ -19,21 +19,39 @@
             (org-defkey org-mode-map "\C-c]"    'undefined)
 ))
 
+<<<<<<< HEAD
 
 
+=======
+;; My org agenda files
+>>>>>>> e66c641b8640e9a9d648e78a7118e214646b750c
 (setq org-agenda-files '("~/org"))
 ;;(setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
 (setq org-directory (quote "~/org"))
 
-;; catchall file
+;; catchall file (used for caldav-sync with google calendar as well)
 (setq org-default-notes-file "~/org/refile.org")
+
+
+;; google calendar synchronization using org-caldev
+(require 'org-caldav)
+(setq org-caldav-url "https://www.google.com/calendar/dav")
+;(setq org-caldav-calendar-id "13pmcmb8vhe98pfd9lvggq2jos@group.calendar.google.com")
+(setq org-caldav-calendar-id "dschwilk@gmail.com")
+(setq org-caldav-inbox "~/org/refile.org")
+(setq org-caldav-files '("~/org/work.org" "~/org/sky-islands.org" "~/org/personal.org"))
+(setq org-caldav-save-directory "~/org")
+(setq org-icalendar-include-sexps nil)
 
 ;; org-contacts
 (require 'org-contacts)
 (setq org-contacts-files (file-expand-wildcards "~/org/contacts.org"))
 
+<<<<<<< HEAD
 ;; org options
 (setq org-hide-leading-stars t)
+=======
+>>>>>>> e66c641b8640e9a9d648e78a7118e214646b750c
 (setq org-startup-indented t)
 (setq org-agenda-include-diary 0)
 (setq org-startup-folded t)
@@ -45,23 +63,16 @@
 ; Overwrite the current window with the agenda
 (setq org-agenda-window-setup 'current-window)
 
-
 ;; active Babel languages ;; removed after mvoe to elpa (load order issue) 2013-06-21
 (org-babel-do-load-languages
 'org-babel-load-languages
 '((R . t)
   ))
 
-
 ;; ;; log the time of the things I have done
 (setq-default org-log-done t)
 (setq org-use-fast-todo-selection t)
 (setq org-default-notes-file (concat org-directory "/notes.org"))
-;; (setq org-todo-keywords (quote (
-;;             (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
-;;             (sequence "WAITING(w@/!)" "HOLD(s!)" "|" "CANCELLED(c@/!)" "PHONE")
-;;             (sequence "OPEN(O!)" "|" "CLOSED(C!)"))))
-
 
 ;; allow to create new nodes (must be confirmed by the user) as
 ;; refile targets
@@ -70,6 +81,12 @@
 ;; still need to get org mode complete bound to a key
 ;(setq org-fallback-completion-command 'hippie-expand)
 
+<<<<<<< HEAD
+=======
+;; pretty indent
+(setq org-startup-indented t)
+
+>>>>>>> e66c641b8640e9a9d648e78a7118e214646b750c
 (require 'org-habit)
 
 (defun dws/hide-other ()
@@ -90,15 +107,7 @@
     (set-window-start (selected-window)
                       (window-start (selected-window)))))
 
-;; (defun dws/make-org-scratch ()
-;;   (interactive)
-;;   (find-file "/tmp/publish/scratch.org")
-;;   (gnus-make-directory "/tmp/publish"))
-
-;; (defun dws/switch-to-scratch ()
-;;   (interactive)
-;;   (switch-to-buffer "*scratch*"))
-
+;; org keywords  and TODO states
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
@@ -174,6 +183,9 @@
 ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                  (org-agenda-files :maxlevel . 9))))
+
+
+;; refiling and IDO mode (I don't use IDO for now, maybe someday)
 
 ; Use full outline paths for refile targets - we file directly with IDO
 ;(setq org-refile-use-outline-path t)
@@ -409,8 +421,6 @@ as the default task."
           (when dws/keep-clock-running
             (dws/clock-in-default-task)))))))
 
-(defvar dws/organization-task-id "eb155a82-92b2-4f25-a3c6-0304591af2f9")
-
 (defun dws/clock-in-organization-task-as-default ()
   (interactive)
   (org-with-point-at (org-id-find dws/organization-task-id 'marker)
@@ -501,9 +511,6 @@ A prefix arg forces clock in of the default task."
 (require 'bbdb)
 (require 'bbdb-com)
 
-(global-set-key (kbd "<f9> p") 'dws/phone-call)
-
-;;
 ;; Phone capture template handling with BBDB lookup
 ;; Adapted from code by Gregory J. Grubbs
 (defun dws/phone-call ()
@@ -761,14 +768,10 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
         (or next-headline (point-max))))))
 
 
-
 ;; Explicitly load required exporters
 (require 'ox-html)
 (require 'ox-latex)
 (require 'ox-ascii)
-
-;; (setq org-ditaa-jar-path "~/java/ditaa0_6b.jar")
-;; (setq org-plantuml-jar-path "~/java/plantuml.jar")
 
 (add-hook 'org-babel-after-execute-hook 'dws/display-inline-images 'append)
 
@@ -784,34 +787,23 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
  (quote org-babel-load-languages)
  (quote ((emacs-lisp . t)
          (dot . t)
-       ;;  (ditaa . t)
          (R . t)
          (python . t)
          (ruby . t)
          (gnuplot . t)
-      ;;   (clojure . t)
          (sh . t)
-       ;;  (ledger . t)
          (org . t)
-       ;;  (plantuml . t)
          (latex . t))))
 
-;; ; Use fundamental mode when editing plantuml blocks with C-c '
-;; (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
 
 ;; ;; Don't enable this because it breaks access to emacs from my Android phone
 ;; (setq org-startup-with-inline-images nil)
 
-; experimenting with docbook exports - not finished
-(setq org-export-docbook-xsl-fo-proc-command "fop %s %s")
-(setq org-export-docbook-xslt-proc-command "xsltproc --output %s /usr/share/xml/docbook/stylesheet/nwalsh/fo/docbook.xsl %s")
 ;; ;
 ; Inline images in HTML instead of producting links to the image
 (setq org-html-inline-images t)
 ; Do not use sub or superscripts - I currently don't need this functionality in my documents
-(setq org-export-with-sub-superscripts nil)
-; Use org.css from the norang website for export document stylesheets
-;(setq org-html-head-extra "<link rel=\"stylesheet\" href=\"http://doc.norang.ca/org.css\" type=\"text/css\" />")
+;(setq org-export-with-sub-superscripts nil)
 (setq org-html-head-include-default-style nil)
 ; Do not generate internal css formatting for HTML exports
 (setq org-export-htmlize-output-type (quote css))
@@ -819,183 +811,6 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
 (setq org-export-with-LaTeX-fragments t)
 ; Increase default number of headings to export
 (setq org-export-headline-levels 6)
-
-; List of projects
-; norang       - http://www.norang.ca/
-; doc          - http://doc.norang.ca/
-; org-mode-doc - http://doc.norang.ca/org-mode.html and associated files
-; org          - miscellaneous todo lists for publishing
-;; (setq org-publish-project-alist
-;;       ;
-;;       ; http://www.norang.ca/  (norang website)
-;;       ; norang-org are the org-files that generate the content
-;;       ; norang-extra are images and css files that need to be included
-;;       ; norang is the top-level project that gets published
-;;       (quote (("norang-org"
-;;                :base-directory "~/git/www.norang.ca"
-;;                :publishing-directory "/ssh:www-data@www:~/www.norang.ca/htdocs"
-;;                :recursive t
-;;                :table-of-contents nil
-;;                :base-extension "org"
-;;                :publishing-function org-html-publish-to-html
-;;                :style-include-default nil
-;;                :section-numbers nil
-;;                :table-of-contents nil
-;;                :html-head "<link rel=\"stylesheet\" href=\"norang.css\" type=\"text/css\" />"
-;;                :author-info nil
-;;                :creator-info nil)
-;;               ("norang-extra"
-;;                :base-directory "~/git/www.norang.ca/"
-;;                :publishing-directory "/ssh:www-data@www:~/www.norang.ca/htdocs"
-;;                :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-;;                :publishing-function org-publish-attachment
-;;                :recursive t
-;;                :author nil)
-;;               ("norang"
-;;                :components ("norang-org" "norang-extra"))
-;;               ;
-;;               ; http://doc.norang.ca/  (norang website)
-;;               ; doc-org are the org-files that generate the content
-;;               ; doc-extra are images and css files that need to be included
-;;               ; doc is the top-level project that gets published
-;;               ("doc-org"
-;;                :base-directory "~/git/doc.norang.ca/"
-;;                :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs"
-;;                :recursive nil
-;;                :section-numbers nil
-;;                :table-of-contents nil
-;;                :base-extension "org"
-;;                :publishing-function (org-html-publish-to-html org-org-publish-to-org)
-;;                :style-include-default nil
-;;                :html-head "<link rel=\"stylesheet\" href=\"/org.css\" type=\"text/css\" />"
-;;                :author-info nil
-;;                :creator-info nil)
-;;               ("doc-extra"
-;;                :base-directory "~/git/doc.norang.ca/"
-;;                :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs"
-;;                :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-;;                :publishing-function org-publish-attachment
-;;                :recursive nil
-;;                :author nil)
-;;               ("doc"
-;;                :components ("doc-org" "doc-extra"))
-;;               ("doc-private-org"
-;;                :base-directory "~/git/doc.norang.ca/private"
-;;                :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs/private"
-;;                :recursive nil
-;;                :section-numbers nil
-;;                :table-of-contents nil
-;;                :base-extension "org"
-;;                :publishing-function (org-html-publish-to-html org-org-publish-to-org)
-;;                :style-include-default nil
-;;                :html-head "<link rel=\"stylesheet\" href=\"/org.css\" type=\"text/css\" />"
-;;                :auto-sitemap t
-;;                :sitemap-filename "index.html"
-;;                :sitemap-title "Norang Private Documents"
-;;                :sitemap-style "tree"
-;;                :author-info nil
-;;                :creator-info nil)
-;;               ("doc-private-extra"
-;;                :base-directory "~/git/doc.norang.ca/private"
-;;                :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs/private"
-;;                :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-;;                :publishing-function org-publish-attachment
-;;                :recursive nil
-;;                :author nil)
-;;               ("doc-private"
-;;                :components ("doc-private-org" "doc-private-extra"))
-;;               ;
-;;               ; Miscellaneous pages for other websites
-;;               ; org are the org-files that generate the content
-;;               ("org-org"
-;;                :base-directory "~/git/org/"
-;;                :publishing-directory "/ssh:www-data@www:~/org"
-;;                :recursive t
-;;                :section-numbers nil
-;;                :table-of-contents nil
-;;                :base-extension "org"
-;;                :publishing-function org-html-publish-to-html
-;;                :style-include-default nil
-;;                :html-head "<link rel=\"stylesheet\" href=\"/org.css\" type=\"text/css\" />"
-;;                :author-info nil
-;;                :creator-info nil)
-;;               ;
-;;               ; http://doc.norang.ca/  (norang website)
-;;               ; org-mode-doc-org this document
-;;               ; org-mode-doc-extra are images and css files that need to be included
-;;               ; org-mode-doc is the top-level project that gets published
-;;               ; This uses the same target directory as the 'doc' project
-;;               ("org-mode-doc-org"
-;;                :base-directory "~/git/org-mode-doc/"
-;;                :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs"
-;;                :recursive t
-;;                :section-numbers nil
-;;                :table-of-contents nil
-;;                :base-extension "org"
-;;                :publishing-function (org-html-publish-to-html org-org-publish-to-org)
-;;                :plain-source t
-;;                :htmlized-source t
-;;                :style-include-default nil
-;;                :html-head "<link rel=\"stylesheet\" href=\"/org.css\" type=\"text/css\" />"
-;;                :author-info nil
-;;                :creator-info nil)
-;;               ("org-mode-doc-extra"
-;;                :base-directory "~/git/org-mode-doc/"
-;;                :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs"
-;;                :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-;;                :publishing-function org-publish-attachment
-;;                :recursive t
-;;                :author nil)
-;;               ("org-mode-doc"
-;;                :components ("org-mode-doc-org" "org-mode-doc-extra"))
-;;               ;
-;;               ; http://doc.norang.ca/  (norang website)
-;;               ; org-mode-doc-org this document
-;;               ; org-mode-doc-extra are images and css files that need to be included
-;;               ; org-mode-doc is the top-level project that gets published
-;;               ; This uses the same target directory as the 'doc' project
-;;               ("tmp-org"
-;;                :base-directory "/tmp/publish/"
-;;                :publishing-directory "/ssh:www-data@www:~/www.norang.ca/htdocs/tmp"
-;;                :recursive t
-;;                :section-numbers nil
-;;                :table-of-contents nil
-;;                :base-extension "org"
-;;                :publishing-function (org-html-publish-to-html org-org-publish-to-org)
-;;                :html-head "<link rel=\"stylesheet\" href=\"http://doc.norang.ca/org.css\" type=\"text/css\" />"
-;;                :plain-source t
-;;                :htmlized-source t
-;;                :style-include-default nil
-;;                :auto-sitemap t
-;;                :sitemap-filename "index.html"
-;;                :sitemap-title "Test Publishing Area"
-;;                :sitemap-style "tree"
-;;                :author-info t
-;;                :creator-info t)
-;;               ("tmp-extra"
-;;                :base-directory "/tmp/publish/"
-;;                :publishing-directory "/ssh:www-data@www:~/www.norang.ca/htdocs/tmp"
-;;                :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-;;                :publishing-function org-publish-attachment
-;;                :recursive t
-;;                :author nil)
-;;               ("tmp"
-;;                :components ("tmp-org" "tmp-extra")))))
-
-; I'm lazy and don't want to remember the name of the project to publish when I modify
-; a file that is part of a project.  So this function saves the file, and publishes
-; the project that includes this file
-;
-; It's bound to C-S-F12 so I just edit and hit C-S-F12 when I'm done and move on to the next thing
-;; (defun dws/save-then-publish (&optional force)
-;;   (interactive "P")
-;;   (save-buffer)
-;;   (org-save-all-org-buffers)
-;;   (let ((org-html-head-extra)
-;;         (org-html-validation-link "<a href=\"http://validator.w3.org/check?uri=referer\">Validate XHTML 1.0</a>"))
-;;     (org-publish-current-project force)))
-
-;; (global-set-key (kbd "C-s-<f12>") 'dws/save-then-publish)
 
 ;; (setq org-latex-listings t)
 
@@ -1026,6 +841,7 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
 ;; ;; Enable abbrev-mode
 ;; (add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
 
+<<<<<<< HEAD
 ;; ;; Skeletons
 ;; ;;
 ;; ;; sblk - Generic block #+begin_FOO .. #+end_FOO
@@ -1139,6 +955,8 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
 
 ;;(global-set-key (kbd "<f5>") 'dws/org-todo)
 
+=======
+>>>>>>> e66c641b8640e9a9d648e78a7118e214646b750c
 (defun dws/org-todo (arg)
   (interactive "p")
   (if (equal arg 4)
@@ -1147,8 +965,6 @@ When not restricted, skip project and sub-project tasks, habits, and project rel
         (org-show-todo-tree nil))
     (dws/narrow-to-org-subtree)
     (org-show-todo-tree nil)))
-
-(global-set-key (kbd "<S-f5>") 'dws/widen)
 
 (defun dws/widen ()
   (interactive)
@@ -1486,8 +1302,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (setq org-log-into-drawer t)
 (setq org-log-state-notes-insert-after-drawers nil)
 
-;(setq org-clock-sound "/usr/local/lib/tngchime.wav")
-
 ;; ; Enable habit tracking (and a bunch of other modules)
 ;; (setq org-modules (quote (org-bbdb
 ;;                           org-bibtex
@@ -1522,58 +1336,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 ;(setq org-crypt-key "F0B66B40")
 
 ;(setq org-crypt-disable-auto-save nil)
-
-;; (setq org-use-speed-commands t)
-;; (setq org-speed-commands-user (quote (("0" . ignore)
-;;                                       ("1" . ignore)
-;;                                       ("2" . ignore)
-;;                                       ("3" . ignore)
-;;                                       ("4" . ignore)
-;;                                       ("5" . ignore)
-;;                                       ("6" . ignore)
-;;                                       ("7" . ignore)
-;;                                       ("8" . ignore)
-;;                                       ("9" . ignore)
-
-;;                                       ("a" . ignore)
-;;                                       ("d" . ignore)
-;;                                       ("h" . dws/hide-other)
-;;                                       ("i" progn
-;;                                        (forward-char 1)
-;;                                        (call-interactively 'org-insert-heading-respect-content))
-;;                                       ("k" . org-kill-note-or-show-branches)
-;;                                       ("l" . ignore)
-;;                                       ("m" . ignore)
-;;                                       ("q" . dws/show-org-agenda)
-;;                                       ("r" . ignore)
-;;                                       ("s" . org-save-all-org-buffers)
-;;                                       ("w" . org-refile)
-;;                                       ("x" . ignore)
-;;                                       ("y" . ignore)
-;;                                       ("z" . org-add-note)
-
-;;                                       ("A" . ignore)
-;;                                       ("B" . ignore)
-;;                                       ("E" . ignore)
-;;                                       ("F" . dws/restrict-to-file-or-follow)
-;;                                       ("G" . ignore)
-;;                                       ("H" . ignore)
-;;                                       ("J" . org-clock-goto)
-;;                                       ("K" . ignore)
-;;                                       ("L" . ignore)
-;;                                       ("M" . ignore)
-;;                                       ("N" . dws/narrow-to-org-subtree)
-;;                                       ("P" . dws/narrow-to-org-project)
-;;                                       ("Q" . ignore)
-;;                                       ("R" . ignore)
-;;                                       ("S" . ignore)
-;;                                       ("T" . dws/org-todo)
-;;                                       ("U" . dws/narrow-up-one-org-level)
-;;                                       ("V" . ignore)
-;;                                       ("W" . dws/widen)
-;;                                       ("X" . ignore)
-;;                                       ("Y" . ignore)
-;;                                       ("Z" . ignore))))
 
 (defun dws/show-org-agenda ()
   (interactive)
@@ -1762,35 +1524,4 @@ Late deadlines first, then scheduled, then non-late deadlines"
 ;;(setq org-odd-levels-only nil)
 
 (run-at-time "00:59" 3600 'org-save-all-org-buffers)
-
-
-;; google calendar synchronization using org-caldev
-(require 'org-caldav)
-(setq org-caldav-url "https://www.google.com/calendar/dav")
-;(setq org-caldav-calendar-id "13pmcmb8vhe98pfd9lvggq2jos@group.calendar.google.com")
-(setq org-caldav-calendar-id "dschwilk@gmail.com")
-(setq org-caldav-inbox "~/org/refile.org")
-(setq org-caldav-files '("~/org/work.org" "~/org/sky-islands.org" "~/org/personal.org"))
-(setq org-caldav-save-directory "~/org")
-(setq org-icalendar-include-sexps nil)
-
-;; (defun org-caldav-sync-work ()
-;;   (interactive)
-;;   (require 'cl)
-;;   (setq org-caldav-event-list nil
-;;     org-caldav-calendar-id "cmmafq5cvb0q5oc1ecla2cvahg@group.calendar.google.com") ;; "Dylan org-mode" calendar
-;;     org-caldav-inbox "~/org/caldav-inbox-work.org"
-;;     org-caldav-files
-;;     (cl-set-difference org-agenda-files
-;;                '("~/org/home.org" "~/org/journal.org")
-;;                :test 'equal))
-;;   (org-caldav-sync))
-
-;; (defun org-caldav-sync-personal ()
-;;   (interactive)
-;;   (setq org-caldav-event-list nil
-;;     org-caldav-calendar-id "org-home"
-;;     org-caldav-inbox "~/org/caldav-inbox-personal.org"
-;;     org-caldav-files '("~/org/personal.org"))
-;;   (org-caldav-sync))
 

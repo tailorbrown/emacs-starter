@@ -57,6 +57,7 @@
 ;; https://github.com/zane/dotemacs/blob/master/zane-packages.el#L62
 (setq schwilk-packages
       '(auctex
+        bbdb
         dynamic-fonts
         ess
         org-plus-contrib
@@ -165,7 +166,7 @@
 (mapcar
  'load-library
  '( "modes"        ; various modes configurations
-   "org-mode-setup"; org-mode specific
+   "org-mode-setup"; org-mode specific settings
    "efuncs"        ; a bunch of utilities functions
    "ekeys"         ; my key bindings and some aliases
    "theme" ))      ; all the visual stuff goes there
