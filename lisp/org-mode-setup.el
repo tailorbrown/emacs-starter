@@ -142,7 +142,7 @@
               ("j" "Journal" entry (file+datetree "~/org/journal.org")
                "* %?\n%U\n" :clock-in t :clock-resume t)
              ; ("w" "org-protocol" entry (file "~/org/refile.org")
-               "* TODO Review %c\n%U\n" :immediate-finish t)
+             ;  "* TODO Review %c\n%U\n" :immediate-finish t)
               ("p" "Phone call" entry (file "~/org/refile.org")
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file "~/org/refile.org")
@@ -1032,11 +1032,11 @@ so change the default 'F' binding in the agenda to allow both"
 (setq org-agenda-show-all-dates t)
 
 ;; Sorting order for tasks on the agenda
-(setq org-agenda-sorting-strategy
-      (quote ((agenda habit-down time-up user-defined-up priority-down effort-up category-keep)
-              (todo category-up priority-down effort-up)
-              (tags category-up priority-down effort-up)
-              (search category-up))))
+;; (setq org-agenda-sorting-strategy
+;;       (quote ((agenda habit-down time-up user-defined-up priority-down effort-up category-keep)
+;;               (todo category-up priority-down effort-up)
+;;               (tags category-up priority-down effort-up)
+;;               (search category-up))))
 
 ;; Start the weekly agenda on Monday
 (setq org-agenda-start-on-weekday 1)
