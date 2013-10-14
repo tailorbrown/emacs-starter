@@ -133,7 +133,7 @@ NEW-WRAP-COLUMN disables this behavior."
 ))
 
 ;;;----------------------------------------------------------------------------
-;;; Instert date
+;;; Insert date
 (defun insert-date-string ()
   "Insert a nicely formated date string."
   (interactive)
@@ -179,7 +179,6 @@ NEW-WRAP-COLUMN disables this behavior."
 
 ;;;----------------------------------------------------------------------------
 ;; word-count-region
-;;; First version; has bugs!
 (defun count-words-region (beginning end)
   "Print number of words in the region.
 Words are defined as at least one word-constituent

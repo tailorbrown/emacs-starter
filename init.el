@@ -8,7 +8,7 @@
 ;;   bs (buffer management), cc-mode, font-lock, func-menu, html-mode,
 ;;   speedbar, auctex, reftex, vc (version control)
 ;;
-;; Supports modes for: text, RestructuredText, LaTeX and bibtex, C,
+;; Supports modes for: text,  LaTeX and bibtex, C,
 ;; C++, python, html
 ;;
 ;; this .emacs file loads several other customization files:

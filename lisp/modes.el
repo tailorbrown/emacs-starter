@@ -2,9 +2,13 @@
 ;;;;---------------------------------------------------------------------------
 ;; modes.el configuration file
 ;; author: Dylan Schwilk
-;; version: 2.2
-;; date: 2012-12-03
+;; version: 2.3
+;; date: 2013-10-13
 ;;
+;; Provides hooks and customizations for various modes (text, LaTeX and bibtex,
+;; html, C, C++, python, ess (R and julia).
+;;
+;; All org-mode customizations are in ~/.emacs.d/lisp/org-mode-setup.el
 ;;;;---------------------------------------------------------------------------
 
 ;; setup SVN hooks
@@ -15,10 +19,9 @@
 (require 'vc-hooks)
 (setq vc-colorized-diffs t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code for various document modes
-;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Setup text mode
 ;;(add-hook 'text-mode-hook '(lambda() (auto-fill-mode 1)))
@@ -32,8 +35,8 @@
 (add-hook 'text-mode-hook 'table-recognize)
 
 ;; Setup RST mode
-;(require 'rst)
-;   (add-hook 'text-mode-hook 'rst-text-mode-bindings)
+; (require 'rst)
+; (add-hook 'text-mode-hook 'rst-text-mode-bindings)
 
 ;;;---------------------------------------------------------------------------
 ;;; Setup psgml-mode ;;  
@@ -92,7 +95,6 @@
   (error (message "Unable to load Common Lisp package.")))
 ;; End setup lisp-mode --------------------------------------------------------
 
-
 ;;;----------------------------------------------------------------------------
 ;; Setup C, C++ mode
 (autoload 'c++-mode  "cc-mode" "C++ Editing Mode" t)
@@ -145,13 +147,6 @@
 
 
 ;;;----------------------------------------------------------------------------
-;; Setup python mode - 
-;; not needed in GNU Emacs 22 and up. Replaced by
-;; python.el which is loaded automatically
-;; End setup python mode ------------------------------------------------------
-
-
-;;;----------------------------------------------------------------------------
 ;; Setup flymake for pylint -- uses my custom epylint script in ~/scripts
     (when (load "flymake" t)
       (defun flymake-pylint-init ()
@@ -168,13 +163,11 @@
 
 
 ;;;----------------------------------------------------------------------------
-;; Setup julia mode for ESS
+;; Setup R and julia mode for ESS
 (require 'ess-site) 
 (setq inferior-julia-program-name "/opt/julia/usr/bin/julia-release-basic")
 
-;;;----------------------------------------------------------------------------
-;; Setup R mode and and define the shift-enter function
-(require 'ess-site)
+;; R
 (setq ess-ask-for-ess-directory nil)
 (setq ess-local-process-name "R")
 (setq ansi-color-for-comint-mode 'filter)
@@ -223,7 +216,7 @@
 ;; ----------------------------------------------------------------------------
 ;; Setup Latex mode
 
-;;(load "auctex.el" nil t t)  ;; not needed when using auctex from ELPA
+;; (load "auctex.el" nil t t)  ;; not needed when using auctex from ELPA
 ;; (require 'latex) ;; not needed when using auctex from ELPA
 
 ;(define-key LaTeX-mode-map "\C-cw" 'latex-word-count))
@@ -246,14 +239,6 @@
 (add-hook 'LaTeX-mode-hook '(lambda() (setq ispell-check-comments nil)))
 (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
 (setq TeX-show-compilation nil) ;; turn off compilation buffer
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Enable synctex correlation
-;;(setq TeX-source-correlate-method 'synctex)
-;; Enable synctex generation. Even though the command shows
-;; as "latex" pdflatex is actually called
-;;(custom-set-variables '(LaTeX-command "latex -synctex=1") )
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Use Okular as the pdf viewer. Build okular 
