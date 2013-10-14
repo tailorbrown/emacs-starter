@@ -22,6 +22,7 @@
 ;; schwilk-theme.el
 ;;;;---------------------------------------------------------------------------
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; General setup
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -32,10 +33,6 @@
 ;; Identification
 (defun user-mail-address() "dylan@schwilk.org")
 (setq user-full-name "Dylan W. Schwilk")
-
-;; google calendar sync info
-(defun google-calendar-id() "dschwilk@gmail.com")
-(defun exclude-from-caldav-sync() (file-expand-wildcards "~/org/*journal.org") )
 
 ;; EasyPG for gpg. built-in
 (require 'epa-file)
@@ -51,8 +48,11 @@
   (add-path "lisp")              ; my personal elisp code
   (add-path "contrib")           ; elisp code from other people
 )
+;; add path for emacs24 style themes
+(add-to-list 'custom-theme-load-path (concat emacs-root "themes"))
 
-;; ELPA
+
+;; ELPA Package Management
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")
@@ -61,9 +61,8 @@
 
 ;; Package setup, taken from
 ;; https://github.com/zane/dotemacs/blob/master/zane-packages.el#L62
-(setq schwilk-packages
+(setq required-packages
       '(auctex
-        bbdb
         dynamic-fonts
         ess
         org-plus-contrib
@@ -74,17 +73,13 @@
 
 ;;; install missing packages 
 ;; see http://technical-dresese.blogspot.com/2012/12/elpa-and-initialization.html
-(let ((not-installed (remove-if 'package-installed-p schwilk-packages)))
+(let ((not-installed (remove-if 'package-installed-p required-packages)))
   (if not-installed
       (if (y-or-n-p (format "there are %d packages to be installed. install them? "
                             (length not-installed)))
           (progn (package-refresh-contents)
                  (dolist (package not-installed)
                    (package-install package))))))
-
-
-;; add path for emacs24 style themes
-(add-to-list 'custom-theme-load-path (concat emacs-root "themes"))
 
 ; add ESS from git for julia support change according to location
 ;;(add-to-list 'load-path "/opt/ESS/lisp")

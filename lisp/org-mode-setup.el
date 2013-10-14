@@ -1,16 +1,42 @@
 ;; Org mode setup
 ;; Dylan Schwilk
-;; 2013-10-12
+;; 2013-10-14
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Personalization and local settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; My org agenda files
+(setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
+(setq org-directory "~/org/")
+;; catchall file (used for caldav-sync with google calendar as well)
+(setq org-default-notes-file (concat org-directory "refile.org"))
+
+;; google calendar synchronization using org-caldev
+(require 'org-id)
+(setq org-id-method (quote uuidgen))
+(require 'org-caldav)
+(setq org-caldav-url "https://www.google.com/calendar/dav")
+(setq org-caldav-calendar-id "dschwilk@gmail.com")
+(setq org-caldav-inbox org-default-notes-file)
+(setq my-journal-file "~/org/*journal.org")
+(setq my-exclude-from-caldav-sync (file-expand-wildcards "~/org/*journal.org") )
+(setq org-caldav-files (my-set-difference org-agenda-files my-exclude-from-caldav-sync) )
+(setq org-caldav-save-directory org-directory)
+(setq org-icalendar-include-sexps nil)
+;; org-contacts
+(require 'org-contacts)
+(setq my-contacts-file "~/org/contacts.org")
+(setq org-contacts-files (file-expand-wildcards my-contacts-file) )
 
 
-;; filetypes
-(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; General settings to invoke for org-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Some org-mode setings
 (add-hook 'org-mode-hook
           (lambda ()
             (setq line-mode-visual 1) 
-            (setq org-startup-indented 1)
             ;; flyspell mode for spell checking everywhere
             (flyspell-mode 1)
             ;; Undefine C-c [ and C-c ] since this breaks my org-agenda files
@@ -20,36 +46,14 @@
             (org-defkey org-mode-map "\C-c]"    'undefined)
 ))
 
-;; My org agenda files
-(setq org-agenda-files '("~/org"))
-(setq org-directory (quote "~/org"))
-;; catchall file (used for caldav-sync with google calendar as well)
-(setq org-default-notes-file "~/org/refile.org")
-
-;; google calendar synchronization using org-caldev
-(require 'org-id)
-(setq org-id-method (quote uuidgen))
-(require 'org-caldav)
-(setq org-caldav-url "https://www.google.com/calendar/dav")
-(setq org-caldav-calendar-id (google-calendar-id)) ;; function in init.el
-(setq org-caldav-inbox org-default-notes-file)
-(setq org-caldav-files (my-set-difference 
-                         (file-expand-wildcards "~/org/*.org") 
-                          (exclude-from-caldav-sync) )
-                        )
-;(setq org-caldav-files '("~/org/work.org" "~/org/sky-islands.org" "~/org/personal.org"))
-(setq org-caldav-save-directory "~/org")
-(setq org-icalendar-include-sexps nil)
-
-;; org-contacts
-(require 'org-contacts)
-(setq org-contacts-files (file-expand-wildcards "~/org/contacts.org"))
-
-;; org-protocol (require 'org-protocol) ;; I'm not using this yet. Maybe
-;;someday? Allows capturing web content easily.
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org options
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; filetypes
+(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 ;(setq require-final-newline t)
+(setq org-startup-indented 1)
 (setq org-hide-leading-stars t)
 (setq org-startup-indented t)
 (setq org-agenda-include-diary 0)
@@ -114,7 +118,6 @@
 (setq org-log-into-drawer t)
 (setq org-log-state-notes-insert-after-drawers nil)
 (setq org-use-fast-todo-selection t)
-(setq org-default-notes-file (concat org-directory "/notes.org"))
 
 ;; Remove empty LOGBOOK drawers on clock out
 (defun dws/remove-empty-drawer-on-clock-out ()
@@ -239,25 +242,25 @@
 
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
 (setq org-capture-templates
-      (quote (("t" "todo" entry (file "~/org/refile.org")
+      (quote (("t" "todo" entry (file org-default-notes-file)
                "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-              ("r" "respond" entry (file "~/org/refile.org")
+              ("r" "respond" entry (file org-default-notes-file)
                "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-              ("n" "note" entry (file "~/git/org/refile.org")
+              ("n" "note" entry (file org-default-notes-file)
                "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-              ("j" "Journal" entry (file+datetree "~/org/journal.org")
+              ("j" "Journal" entry (file+datetree my-journal-file)
                "* %?\n%U\n" :clock-in t :clock-resume t)
              ; ("w" "org-protocol" entry (file "~/org/refile.org")
              ;  "* TODO Review %c\n%U\n" :immediate-finish t)
-              ("p" "Phone call" entry (file "~/org/refile.org")
+              ("p" "Phone call" entry (file org-default-notes-file)
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-              ("h" "Habit" entry (file "~/org/refile.org")
+              ("h" "Habit" entry (file org-default-notes-file)
                "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
-              ("a" "Appointment" entry (file+headline "~/org/refile.org" "Appointments") 
+              ("a" "Appointment" entry (file+headline org-default-notes-file "Appointments") 
                "* APPT %^{Description} %^t %^g %? Added: %U") 
               ;; ("m" "Meeting" entry (file+headline "~/org/work.org" "Calendar") 
               ;;  "* APPT %^{Description} %^t %^g %? Added: %U") 
-              ("c" "Contacts" entry (file "~/org/contacts.org")
+              ("c" "Contacts" entry (file my-contacts-file)
                "* %(org-contacts-template-name)
 :PROPERTIES:
 :EMAIL: %(org-contacts-template-email)
@@ -479,48 +482,48 @@ A prefix arg forces clock in of the default task."
       (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
 
 ; Set default column view headings: Task Effort Clock_Summary
-(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
+;(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
 
 ; global Effort estimate values
 ; global STYLE property values for completion
-(setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
-                                    ("STYLE_ALL" . "habit"))))
+;(setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+;                                    ("STYLE_ALL" . "habit"))))
 
 
 
-(require 'bbdb)
-(require 'bbdb-com)
+;(require 'bbdb)
+;(require 'bbdb-com)
 
 ;; Phone capture template handling with BBDB lookup
 ;; Adapted from code by Gregory J. Grubbs
-(defun dws/phone-call ()
-  "Return name and company info for caller from bbdb lookup"
-  (interactive)
-  (let* (name rec caller)
-    (setq name (completing-read "Who is calling? "
-                                (bbdb-hashtable)
-                                'bbdb-completion-predicate
-                                'confirm))
-    (when (> (length name) 0)
-      ; Something was supplied - look it up in bbdb
-      (setq rec
-            (or (first
-                 (or (bbdb-search (bbdb-records) name nil nil)
-                     (bbdb-search (bbdb-records) nil name nil)))
-                name)))
+;; (defun dws/phone-call ()
+;;   "Return name and company info for caller from bbdb lookup"
+;;   (interactive)
+;;   (let* (name rec caller)
+;;     (setq name (completing-read "Who is calling? "
+;;                                 (bbdb-hashtable)
+;;                                 'bbdb-completion-predicate
+;;                                 'confirm))
+;;     (when (> (length name) 0)
+;;       ; Something was supplied - look it up in bbdb
+;;       (setq rec
+;;             (or (first
+;;                  (or (bbdb-search (bbdb-records) name nil nil)
+;;                      (bbdb-search (bbdb-records) nil name nil)))
+;;                 name)))
 
-    ; Build the bbdb link if we have a bbdb record, otherwise just return the name
-    (setq caller (cond ((and rec (vectorp rec))
-                        (let ((name (bbdb-record-name rec))
-                              (company (bbdb-record-company rec)))
-                          (concat "[[bbdb:"
-                                  name "]["
-                                  name "]]"
-                                  (when company
-                                    (concat " - " company)))))
-                       (rec)
-                       (t "NameOfCaller")))
-    (insert caller)))
+;;     ; Build the bbdb link if we have a bbdb record, otherwise just return the name
+;;     (setq caller (cond ((and rec (vectorp rec))
+;;                         (let ((name (bbdb-record-name rec))
+;;                               (company (bbdb-record-company rec)))
+;;                           (concat "[[bbdb:"
+;;                                   name "]["
+;;                                   name "]]"
+;;                                   (when company
+;;                                     (concat " - " company)))))
+;;                        (rec)
+;;                        (t "NameOfCaller")))
+;;     (insert caller)))
 
 (defun dws/is-project-p ()
   "Any task with a todo keyword subtask"
