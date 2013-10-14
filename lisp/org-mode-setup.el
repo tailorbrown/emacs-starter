@@ -26,13 +26,11 @@
 ;; catchall file (used for caldav-sync with google calendar as well)
 (setq org-default-notes-file "~/org/refile.org")
 
-
 ;; google calendar synchronization using org-caldev
 (require 'org-id)
 (setq org-id-method (quote uuidgen))
 (require 'org-caldav)
 (setq org-caldav-url "https://www.google.com/calendar/dav")
-;(setq org-caldav-calendar-id "13pmcmb8vhe98pfd9lvggq2jos@group.calendar.google.com")
 (setq org-caldav-calendar-id "dschwilk@gmail.com")
 (setq org-caldav-inbox "~/org/refile.org")
 (setq org-caldav-files '("~/org/work.org" "~/org/sky-islands.org" "~/org/personal.org"))
@@ -57,29 +55,144 @@
 (setq org-clone-delete-id t)
 (setq org-cycle-include-plain-lists t)
 (setq org-src-fontify-natively t)
+(setq org-reverse-note-order nil)
+(setq org-show-following-heading t)
+(setq org-show-hierarchy-above t)
+(setq org-show-siblings (quote ((default))))
+(setq org-yank-adjusted-subtrees t)  ;; adjusts level during paste of subtree
+(setq org-deadline-warning-days 30)
+(setq org-export-with-timestamps nil) ;;?
+(setq org-return-follows-link t)
+(setq org-special-ctrl-a/e t) ;; begin/end of heading rather than line in org-mode
+(setq org-special-ctrl-k t) ;; special kill-line
+; Use the current window for C-c ' source editing:
+(setq org-src-window-setup 'current-window) 
+(setq org-enforce-todo-dependencies t)
+(setq org-cycle-separator-lines 0)
+(setq org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
+;(setq org-blank-before-new-entry (quote ((heading)
+;                                         (plain-list-item . auto))))
+(setq org-table-export-default-format "orgtbl-to-csv") ; tables exported csv, not tab
+;;(setq org-table-use-standard-references 'from)
 
-; Overwrite the current window with the agenda
-(setq org-agenda-window-setup 'current-window)
-
-;; active Babel languages ;; removed after mvoe to elpa (load order issue) 2013-06-21
-(org-babel-do-load-languages
-'org-babel-load-languages
-'((R . t)
-  ))
-
-;; ;; log the time of the things I have done
-(setq-default org-log-done t)
-(setq org-use-fast-todo-selection t)
-(setq org-default-notes-file (concat org-directory "/notes.org"))
-
+;; refile options:
 ;; allow to create new nodes (must be confirmed by the user) as
 ;; refile targets
 (setq org-refile-allow-creating-parent-nodes 'confirm)
+; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+(setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                 (org-agenda-files :maxlevel . 9))))
+
+(setq org-catch-invisible-edits 'error) ;; catch edits to hidden parts. Try this
+
+;; (setq org-src-preserve-indentation nil)
+;; (setq org-edit-src-content-indentation 0)
+;; (setq org-export-coding-system 'utf-8)
+
+;; TODO states, selection
+(setq org-use-fast-todo-selection t)
+;(setq org-treat-S-cursor-todo-selection-as-state-change nil)
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; logging and timestamps
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; org-habit setup
+(require 'org-habit)
+;; ; position the habit graph on the agenda to the right of the default
+;; (setq org-habit-graph-column 50)
+;; (run-at-time "06:00" 86400 '(lambda () (setq org-habit-show-habits t)))
+;; (global-auto-revert-mode t)
+
+
+(setq org-log-done 'time)
+(setq org-log-into-drawer t)
+(setq org-log-state-notes-insert-after-drawers nil)
+(setq org-use-fast-todo-selection t)
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+
+;; Remove empty LOGBOOK drawers on clock out
+(defun dws/remove-empty-drawer-on-clock-out ()
+  (interactive)
+  (save-excursion
+    (beginning-of-line 0)
+    (org-remove-empty-drawer-at "LOGBOOK" (point))))
+
+(add-hook 'org-clock-out-hook 'dws/remove-empty-drawer-on-clock-out 'append)
+
+(defvar dws/insert-inactive-timestamp t)
+
+(defun dws/toggle-insert-inactive-timestamp ()
+  (interactive)
+  (setq dws/insert-inactive-timestamp (not dws/insert-inactive-timestamp))
+  (message "Heading timestamps are %s" (if dws/insert-inactive-timestamp "ON" "OFF")))
+
+(defun dws/insert-inactive-timestamp ()
+  (interactive)
+  (org-insert-time-stamp nil t t nil nil nil))
+
+(defun dws/insert-inactive-timestamp ()
+  (interactive)
+  (org-insert-time-stamp nil t t nil nil nil))
+
+(defun dws/insert-heading-inactive-timestamp ()
+  (save-excursion
+    (when dws/insert-inactive-timestamp
+      (org-return)
+      (org-cycle)
+      (dws/insert-inactive-timestamp))))
+
+
+;; this adds timestamps to everything
+;;(add-hook 'org-insert-heading-hook 'dws/insert-heading-inactive-timestamp 'append)
+
+;(custom-set-faces
+ ;'(org-mode-line-clock ((t (:foreground "red" :box (:line-width -1 :style released-button)))) t))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; babel
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(org-babel-do-load-languages
+ (quote org-babel-load-languages)
+ (quote ((emacs-lisp . t)
+         (dot . t)
+         (R . t)
+         (python . t)
+         (ruby . t)
+         (gnuplot . t)
+         (sh . t)
+         (org . t)
+         (latex . t))))
+
+(add-hook 'org-babel-after-execute-hook 'dws/display-inline-images 'append)
+
+; Make babel results blocks lowercase
+(setq org-babel-results-keyword "results")
+
+
 
 ;; still need to get org mode complete bound to a key
 ;(setq org-fallback-completion-command 'hippie-expand)
 
-(require 'org-habit)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; org-crypt
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;(require 'org-crypt)
+; Encrypt all entries before saving
+;(org-crypt-use-before-save-magic)
+;(setq org-tags-exclude-from-inheritance (quote ("crypt")))
+; GPG key to use for encryption
+;(setq org-crypt-key "")
+;(setq org-crypt-disable-auto-save nil)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; dws org functions, TODO states, tags taetc
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun dws/hide-other ()
   (interactive)
@@ -115,10 +228,6 @@
               ("CLOSED" :inherit: font-lock-comment-face :weight bold)
               ("PHONE" :inherit font-lock-doc-face  :weight bold))))
 
-(setq org-use-fast-todo-selection t)
-
-(setq org-treat-S-cursor-todo-selection-as-state-change nil)
-
 (setq org-todo-state-tags-triggers
       (quote (("CANCELLED" ("CANCELLED" . t))
               ("WAITING" ("WAITING" . t))
@@ -127,9 +236,6 @@
               ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
               ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
               ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
-
-(setq org-directory "~/org")
-(setq org-default-notes-file "~/org/refile.org")
 
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
 (setq org-capture-templates
@@ -158,19 +264,38 @@
 :END:")
 )))
 
-;; Remove empty LOGBOOK drawers on clock out
-(defun dws/remove-empty-drawer-on-clock-out ()
-  (interactive)
-  (save-excursion
-    (beginning-of-line 0)
-    (org-remove-empty-drawer-at "LOGBOOK" (point))))
 
-(add-hook 'org-clock-out-hook 'dws/remove-empty-drawer-on-clock-out 'append)
+; Tags with fast selection keys
+(setq org-tag-alist (quote ((:startgroup)
+                            ("@errand" . ?e)
+                            ("@office" . ?o)
+                            ("@home" . ?H)
+                              (:endgroup)
+                            ("PHONE" . ?p)
+                            ("WAITING" . ?w)
+                            ("HOLD" . ?h)
+                            ("personal" . ?P)
+                            ("WORK" . ?W)
+                            ("ORG" . ?O)
+                            ("MARK" . ?M)
+                            ("NOTE" . ?n)
+                            ("CANCELLED" . ?c)
+                            ("FLAGGED" . ??))))
 
-; Targets include this file and any file contributing to the agenda - up to 9 levels deep
-(setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                 (org-agenda-files :maxlevel . 9))))
+; Allow setting single tags without the menu
+;(setq org-fast-tag-selection-single-key (quote expert))
 
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Refile settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Exclude DONE state tasks from refile targets
+(defun dws/verify-refile-target ()
+  "Exclude todo keywords with a done state from refile targets"
+  (not (member (nth 2 (org-heading-components)) org-done-keywords)))
+
+(setq org-refile-target-verify-function 'dws/verify-refile-target)
 
 ;; refiling and IDO mode (I don't use IDO for now, maybe someday)
 
@@ -179,9 +304,6 @@
 
 ; Targets complete directly with IDO
 ;(setq org-outline-path-complete-in-steps nil)
-
-; Allow refile to create parent tasks with confirmation
-(setq org-refile-allow-creating-parent-nodes (quote confirm))
 
 ;; ; Use IDO for both buffer and file completion and ido-everywhere to t
 ;; (setq org-completion-use-ido t)
@@ -192,118 +314,12 @@
 ;; (setq ido-default-file-method 'selected-window)
 ;; (setq ido-default-buffer-method 'selected-window)
 
-;;;; Refile settings
-; Exclude DONE state tasks from refile targets
-(defun dws/verify-refile-target ()
-  "Exclude todo keywords with a done state from refile targets"
-  (not (member (nth 2 (org-heading-components)) org-done-keywords)))
-
-(setq org-refile-target-verify-function 'dws/verify-refile-target)
-
-;; Do not dim blocked tasks
-(setq org-agenda-dim-blocked-tasks nil)
-
-;; Compact the block agenda view
-(setq org-agenda-compact-blocks t)
-
-;; Custom agenda command definitions
-(setq org-agenda-custom-commands
-      (quote (("N" "Notes" tags "NOTE"
-               ((org-agenda-overriding-header "Notes")
-                (org-tags-match-list-sublevels t)))
-              ("h" "Habits" tags-todo "STYLE=\"habit\""
-               ((org-agenda-overriding-header "Habits")
-                (org-agenda-sorting-strategy
-                 '(todo-state-down effort-up category-keep))))
-              (" " "Agenda"  ;; space bar give whole list
-               ((agenda "" nil)
-                (tags "REFILE"
-                      ((org-agenda-overriding-header "Tasks to Refile")
-                       (org-tags-match-list-sublevels nil)))
-                (tags-todo "-CANCELLED/!"
-                           ((org-agenda-overriding-header "Stuck Projects")
-                            (org-agenda-skip-function 'dws/skip-non-stuck-projects)
-                            (org-agenda-sorting-strategy
-                             '(priority-down category-keep))))
-                (tags-todo "-WAITING-CANCELLED/!NEXT"
-                           ((org-agenda-overriding-header "Next Tasks")
-                            (org-agenda-skip-function 'dws/skip-projects-and-habits-and-single-tasks)
-                            (org-agenda-todo-ignore-scheduled t)
-                            (org-agenda-todo-ignore-deadlines t)
-                            (org-agenda-todo-ignore-with-date t)
-                            (org-tags-match-list-sublevels t)
-                            (org-agenda-sorting-strategy
-                             '(priority-down todo-state-down effort-up category-keep))))
-                (tags-todo "-REFILE-CANCELLED/!-HOLD-WAITING"
-                           ((org-agenda-overriding-header "Tasks")
-                            (org-agenda-skip-function 'dws/skip-project-tasks-maybe)
-                            (org-agenda-todo-ignore-scheduled t)
-                            (org-agenda-todo-ignore-deadlines t)
-                            (org-agenda-todo-ignore-with-date t)
-                            (org-agenda-sorting-strategy
-                             '(category-keep))))
-                (tags-todo "-HOLD-CANCELLED/!"
-                           ((org-agenda-overriding-header "Projects")
-                            (org-agenda-skip-function 'dws/skip-non-projects)
-                            (org-agenda-sorting-strategy
-                             '(priority-down category-keep))))
-                (tags-todo "-CANCELLED+WAITING/!"
-                           ((org-agenda-overriding-header "Waiting and Postponed Tasks")
-                            (org-agenda-skip-function 'dws/skip-stuck-projects)
-                            (org-tags-match-list-sublevels nil)
-                            (org-agenda-todo-ignore-scheduled 'future)
-                            (org-agenda-todo-ignore-deadlines 'future)))
-                (tags "-REFILE/"
-                      ((org-agenda-overriding-header "Tasks to Archive")
-                       (org-agenda-skip-function 'dws/skip-non-archivable-tasks)
-                       (org-tags-match-list-sublevels nil))))
-               nil)
-              ("r" "Tasks to Refile" tags "REFILE"
-               ((org-agenda-overriding-header "Tasks to Refile")
-                (org-tags-match-list-sublevels nil)))
-              ("#" "Stuck Projects" tags-todo "-CANCELLED/!"
-               ((org-agenda-overriding-header "Stuck Projects")
-                (org-agenda-skip-function 'dws/skip-non-stuck-projects)))
-              ("n" "Next Tasks" tags-todo "-WAITING-CANCELLED/!NEXT"
-               ((org-agenda-overriding-header "Next Tasks")
-                (org-agenda-skip-function 'dws/skip-projects-and-habits-and-single-tasks)
-                (org-agenda-todo-ignore-scheduled t)
-                (org-agenda-todo-ignore-deadlines t)
-                (org-agenda-todo-ignore-with-date t)
-                (org-tags-match-list-sublevels t)
-                (org-agenda-sorting-strategy
-                 '(todo-state-down effort-up category-keep))))
-              ("R" "Tasks" tags-todo "-REFILE-CANCELLED/!-HOLD-WAITING"
-               ((org-agenda-overriding-header "Tasks")
-                (org-agenda-skip-function 'dws/skip-project-tasks-maybe)
-                (org-agenda-sorting-strategy
-                 '(category-keep))))
-              ("p" "Projects" tags-todo "-HOLD-CANCELLED/!"
-               ((org-agenda-overriding-header "Projects")
-                (org-agenda-skip-function 'dws/skip-non-projects)
-                (org-agenda-sorting-strategy
-                 '(category-keep))))
-              ("w" "Waiting Tasks" tags-todo "-CANCELLED+WAITING/!"
-               ((org-agenda-overriding-header "Waiting and Postponed tasks"))
-               (org-tags-match-list-sublevels nil))
-              ("A" "Tasks to Archive" tags "-REFILE/"
-               ((org-agenda-overriding-header "Tasks to Archive")
-                (org-agenda-skip-function 'dws/skip-non-archivable-tasks)
-                (org-tags-match-list-sublevels nil))))))
 
 
-(defun dws/org-auto-exclude-function (tag)
-  "Automatic task exclusion in the agenda with / RET"
-  (and (cond
-        ((string= tag "hold")
-         t)
-        ((string= tag "@home")
-         t))
-       (concat "-" tag)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Clocking
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq org-agenda-auto-exclude-function 'dws/org-auto-exclude-function)
-
-;;
 ;; Resume clocking task when emacs is restarted
 (org-clock-persistence-insinuate)
 ;;
@@ -468,31 +484,7 @@ A prefix arg forces clock in of the default task."
 (setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
                                     ("STYLE_ALL" . "habit"))))
 
-;; Agenda log mode items to display (closed and state changes by default)
-(setq org-agenda-log-mode-items (quote (closed state)))
 
-; Tags with fast selection keys
-(setq org-tag-alist (quote ((:startgroup)
-                            ("@errand" . ?e)
-                            ("@office" . ?o)
-                            ("@home" . ?H)
-                              (:endgroup)
-                            ("PHONE" . ?p)
-                            ("WAITING" . ?w)
-                            ("HOLD" . ?h)
-                            ("personal" . ?P)
-                            ("WORK" . ?W)
-                            ("ORG" . ?O)
-                            ("MARK" . ?M)
-                            ("NOTE" . ?n)
-                            ("CANCELLED" . ?c)
-                            ("FLAGGED" . ??))))
-
-; Allow setting single tags without the menu
-;(setq org-fast-tag-selection-single-key (quote expert))
-
-; For tag searches ignore tasks with scheduled and deadline dates
-(setq org-agenda-tags-todo-honor-ignore-options t)
 
 (require 'bbdb)
 (require 'bbdb-com)
@@ -527,10 +519,6 @@ A prefix arg forces clock in of the default task."
                        (rec)
                        (t "NameOfCaller")))
     (insert caller)))
-
-(setq org-agenda-span 'day)
-
-(setq org-stuck-projects (quote ("" nil nil "")))
 
 (defun dws/is-project-p ()
   "Any task with a todo keyword subtask"
@@ -766,28 +754,10 @@ tasks."
 (require 'ox-latex)
 (require 'ox-ascii)
 
-(add-hook 'org-babel-after-execute-hook 'dws/display-inline-images 'append)
-
-; Make babel results blocks lowercase
-(setq org-babel-results-keyword "results")
-
 (defun dws/display-inline-images ()
   (condition-case nil
       (org-display-inline-images)
     (error nil)))
-
-(org-babel-do-load-languages
- (quote org-babel-load-languages)
- (quote ((emacs-lisp . t)
-         (dot . t)
-         (R . t)
-         (python . t)
-         (ruby . t)
-         (gnuplot . t)
-         (sh . t)
-         (org . t)
-         (latex . t))))
-
 
 ;; ;; Don't enable this because it breaks access to emacs from my Android phone
 ;; (setq org-startup-with-inline-images nil)
@@ -844,9 +814,118 @@ tasks."
     (org-show-todo-tree nil)))
 
 
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Agenda functions and shortcuts
+;;   Agenda functions, options
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Overwrite the current window with the agenda
+(setq org-agenda-window-setup 'current-window)
+
+;; Agenda log mode items to display (closed and state changes by default)
+(setq org-agenda-log-mode-items (quote (closed state)))
+
+; For tag searches ignore tasks with scheduled and deadline dates
+(setq org-agenda-tags-todo-honor-ignore-options t)
+
+
+;; Custom agenda command definitions
+(setq org-agenda-custom-commands
+      (quote (("N" "Notes" tags "NOTE"
+               ((org-agenda-overriding-header "Notes")
+                (org-tags-match-list-sublevels t)))
+              ("h" "Habits" tags-todo "STYLE=\"habit\""
+               ((org-agenda-overriding-header "Habits")
+                (org-agenda-sorting-strategy
+                 '(todo-state-down effort-up category-keep))))
+              (" " "Agenda"  ;; space bar give whole list
+               ((agenda "" nil)
+                (tags "REFILE"
+                      ((org-agenda-overriding-header "Tasks to Refile")
+                       (org-tags-match-list-sublevels nil)))
+                (tags-todo "-CANCELLED/!"
+                           ((org-agenda-overriding-header "Stuck Projects")
+                            (org-agenda-skip-function 'dws/skip-non-stuck-projects)
+                            (org-agenda-sorting-strategy
+                             '(priority-down category-keep))))
+                (tags-todo "-WAITING-CANCELLED/!NEXT"
+                           ((org-agenda-overriding-header "Next Tasks")
+                            (org-agenda-skip-function 'dws/skip-projects-and-habits-and-single-tasks)
+                            (org-agenda-todo-ignore-scheduled t)
+                            (org-agenda-todo-ignore-deadlines t)
+                            (org-agenda-todo-ignore-with-date t)
+                            (org-tags-match-list-sublevels t)
+                            (org-agenda-sorting-strategy
+                             '(priority-down todo-state-down effort-up category-keep))))
+                (tags-todo "-REFILE-CANCELLED/!-HOLD-WAITING"
+                           ((org-agenda-overriding-header "Tasks")
+                            (org-agenda-skip-function 'dws/skip-project-tasks-maybe)
+                            (org-agenda-todo-ignore-scheduled t)
+                            (org-agenda-todo-ignore-deadlines t)
+                            (org-agenda-todo-ignore-with-date t)
+                            (org-agenda-sorting-strategy
+                             '(category-keep))))
+                (tags-todo "-HOLD-CANCELLED/!"
+                           ((org-agenda-overriding-header "Projects")
+                            (org-agenda-skip-function 'dws/skip-non-projects)
+                            (org-agenda-sorting-strategy
+                             '(priority-down category-keep))))
+                (tags-todo "-CANCELLED+WAITING/!"
+                           ((org-agenda-overriding-header "Waiting and Postponed Tasks")
+                            (org-agenda-skip-function 'dws/skip-stuck-projects)
+                            (org-tags-match-list-sublevels nil)
+                            (org-agenda-todo-ignore-scheduled 'future)
+                            (org-agenda-todo-ignore-deadlines 'future)))
+                (tags "-REFILE/"
+                      ((org-agenda-overriding-header "Tasks to Archive")
+                       (org-agenda-skip-function 'dws/skip-non-archivable-tasks)
+                       (org-tags-match-list-sublevels nil))))
+               nil)
+              ("r" "Tasks to Refile" tags "REFILE"
+               ((org-agenda-overriding-header "Tasks to Refile")
+                (org-tags-match-list-sublevels nil)))
+              ("#" "Stuck Projects" tags-todo "-CANCELLED/!"
+               ((org-agenda-overriding-header "Stuck Projects")
+                (org-agenda-skip-function 'dws/skip-non-stuck-projects)))
+              ("n" "Next Tasks" tags-todo "-WAITING-CANCELLED/!NEXT"
+               ((org-agenda-overriding-header "Next Tasks")
+                (org-agenda-skip-function 'dws/skip-projects-and-habits-and-single-tasks)
+                (org-agenda-todo-ignore-scheduled t)
+                (org-agenda-todo-ignore-deadlines t)
+                (org-agenda-todo-ignore-with-date t)
+                (org-tags-match-list-sublevels t)
+                (org-agenda-sorting-strategy
+                 '(todo-state-down effort-up category-keep))))
+              ("R" "Tasks" tags-todo "-REFILE-CANCELLED/!-HOLD-WAITING"
+               ((org-agenda-overriding-header "Tasks")
+                (org-agenda-skip-function 'dws/skip-project-tasks-maybe)
+                (org-agenda-sorting-strategy
+                 '(category-keep))))
+              ("p" "Projects" tags-todo "-HOLD-CANCELLED/!"
+               ((org-agenda-overriding-header "Projects")
+                (org-agenda-skip-function 'dws/skip-non-projects)
+                (org-agenda-sorting-strategy
+                 '(category-keep))))
+              ("w" "Waiting Tasks" tags-todo "-CANCELLED+WAITING/!"
+               ((org-agenda-overriding-header "Waiting and Postponed tasks"))
+               (org-tags-match-list-sublevels nil))
+              ("A" "Tasks to Archive" tags "-REFILE/"
+               ((org-agenda-overriding-header "Tasks to Archive")
+                (org-agenda-skip-function 'dws/skip-non-archivable-tasks)
+                (org-tags-match-list-sublevels nil))))))
+
+
+(defun dws/org-auto-exclude-function (tag)
+  "Automatic task exclusion in the agenda with / RET"
+  (and (cond
+        ((string= tag "hold")
+         t)
+        ((string= tag "@home")
+         t))
+       (concat "-" tag)))
+
+(setq org-agenda-auto-exclude-function 'dws/org-auto-exclude-function)
 
 (defun dws/widen ()
   (interactive)
@@ -991,10 +1070,25 @@ so change the default 'F' binding in the agenda to allow both"
           (org-with-point-at pom
             (org-agenda-set-restriction-lock restriction-type))))))))
 
-;; Always hilight the current agenda line
+;; Always highlight the current agenda line
 (add-hook 'org-agenda-mode-hook
           '(lambda () (hl-line-mode 1))
           'append)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; agenda options
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq org-tags-match-list-sublevels t)
+(setq org-agenda-persistent-filter t)
+(setq org-agenda-span 'day)
+(setq org-stuck-projects (quote ("" nil nil "")))
+
+;; Do not dim blocked tasks
+(setq org-agenda-dim-blocked-tasks nil)
+
+;; Compact the block agenda view
+(setq org-agenda-compact-blocks t)
 
 ;; Keep tasks with dates on the global todo lists
 (setq org-agenda-todo-ignore-with-date nil)
@@ -1017,10 +1111,9 @@ so change the default 'F' binding in the agenda to allow both"
 ;; Remove completed items from search results
 (setq org-agenda-skip-timestamp-if-done t)
 
-;(setq org-agenda-include-diary nil)
-;(setq org-agenda-diary-file "~/git/org/diary.org")
-
-(setq org-agenda-insert-diary-extract-time t)
+; (setq org-agenda-include-diary nil)
+; (setq org-agenda-diary-file "~/git/org/diary.org")
+; (setq org-agenda-insert-diary-extract-time t)
 
 ;; Include agenda archive files when searching for things
 (setq org-agenda-text-search-extra-files (quote (agenda-archives)))
@@ -1031,15 +1124,11 @@ so change the default 'F' binding in the agenda to allow both"
 ;; Show all agenda dates - even if they are empty
 (setq org-agenda-show-all-dates t)
 
-;; Sorting order for tasks on the agenda
-;; (setq org-agenda-sorting-strategy
-;;       (quote ((agenda habit-down time-up user-defined-up priority-down effort-up category-keep)
-;;               (todo category-up priority-down effort-up)
-;;               (tags category-up priority-down effort-up)
-;;               (search category-up))))
-
 ;; Start the weekly agenda on Monday
 (setq org-agenda-start-on-weekday 1)
+
+;;
+(setq org-agenda-skip-additional-timestamps-same-entry t)
 
 ;; Enable display of the time grid so we can see the marker for the current time
 (setq org-agenda-time-grid (quote ((daily today remove-match)
@@ -1048,6 +1137,12 @@ so change the default 'F' binding in the agenda to allow both"
 
 ;; Display tags farther right
 (setq org-agenda-tags-column -102)
+
+(setq org-read-date-prefer-future 'time)
+(setq org-list-demote-modify-bullet (quote (("+" . "-")
+                                            ("*" . "-")
+                                            ("1." . "-")
+                                            ("1)" . "-"))))
 
 ;;
 ;; Agenda sorting functions
@@ -1147,116 +1242,19 @@ Late deadlines first, then scheduled, then non-late deadlines"
             (define-key org-agenda-mode-map "q" 'bury-buffer))
           'append)
 
-(setq org-enforce-todo-dependencies t)
-
-(setq org-cycle-separator-lines 0)
-
-(setq org-blank-before-new-entry (quote ((heading)
-                                         (plain-list-item . auto))))
-
-;;(setq org-insert-heading-respect-content nil)
-
-(setq org-reverse-note-order nil)
-
-(setq org-show-following-heading t)
-(setq org-show-hierarchy-above t)
-(setq org-show-siblings (quote ((default))))
-
-(setq org-special-ctrl-a/e t)
-(setq org-special-ctrl-k t)
-(setq org-yank-adjusted-subtrees t)
-
-(setq org-deadline-warning-days 30)
-
-(setq org-table-export-default-format "orgtbl-to-csv")
-
-(setq org-link-frame-setup (quote ((vm . vm-visit-folder)
-                                   (gnus . org-gnus-no-new-news)
-                                   (file . find-file))))
-
-; Use the current window for C-c ' source editing
-(setq org-src-window-setup 'current-window)
-
-(setq org-log-done (quote time))
-(setq org-log-into-drawer t)
-(setq org-log-state-notes-insert-after-drawers nil)
-
-;; ; Enable habit tracking (and a bunch of other modules)
-;; (setq org-modules (quote (org-bbdb
-;;                           org-bibtex
-;;                           org-crypt
-;;                       ;    org-gnus
-;;                           org-id
-;;                           org-info
-;;                           org-jsinfo
-;;                           org-habit
-;;                           org-inlinetask
-;;                           org-irc
-;;                        ;   org-mew
-;;                           org-mhe
-;;                           org-protocol
-;;                           org-rmail
-;;                           org-vm
-;;                           org-wl
-;;                           org-w3m)))
-
-;; ; position the habit graph on the agenda to the right of the default
-;; (setq org-habit-graph-column 50)
-
-;; (run-at-time "06:00" 86400 '(lambda () (setq org-habit-show-habits t)))
-
-;; (global-auto-revert-mode t)
-
-;(require 'org-crypt)
-; Encrypt all entries before saving
-;(org-crypt-use-before-save-magic)
-;(setq org-tags-exclude-from-inheritance (quote ("crypt")))
-; GPG key to use for encryption
-;(setq org-crypt-key "F0B66B40")
-
-;(setq org-crypt-disable-auto-save nil)
-
 (defun dws/show-org-agenda ()
   (interactive)
   (switch-to-buffer "*Org Agenda*")
   (delete-other-windows))
 
 
-(defvar dws/insert-inactive-timestamp t)
+;;;;;;;;;;;; end agenda section
 
-(defun dws/toggle-insert-inactive-timestamp ()
-  (interactive)
-  (setq dws/insert-inactive-timestamp (not dws/insert-inactive-timestamp))
-  (message "Heading timestamps are %s" (if dws/insert-inactive-timestamp "ON" "OFF")))
 
-(defun dws/insert-inactive-timestamp ()
-  (interactive)
-  (org-insert-time-stamp nil t t nil nil nil))
 
-(defun dws/insert-inactive-timestamp ()
-  (interactive)
-  (org-insert-time-stamp nil t t nil nil nil))
 
-(defun dws/insert-heading-inactive-timestamp ()
-  (save-excursion
-    (when dws/insert-inactive-timestamp
-      (org-return)
-      (org-cycle)
-      (dws/insert-inactive-timestamp))))
 
-;; this adds timestamps to everything
-;;(add-hook 'org-insert-heading-hook 'dws/insert-heading-inactive-timestamp 'append)
 
-(setq org-export-with-timestamps nil)
-
-(setq org-return-follows-link t)
-
-;(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- ;'(org-mode-line-clock ((t (:foreground "red" :box (:line-width -1 :style released-button)))) t))
 
 (defun dws/prepare-meeting-notes ()
   "Prepare meeting notes for email
@@ -1273,39 +1271,19 @@ Late deadlines first, then scheduled, then non-late deadlines"
         (goto-char (point-min))
         (kill-ring-save (point-min) (point-max))))))
 
-;(add-to-list 'Info-default-directory-list "~/git/org-mode/doc")
-
-(setq org-read-date-prefer-future 'time)
-
-(setq org-list-demote-modify-bullet (quote (("+" . "-")
-                                            ("*" . "-")
-                                            ("1." . "-")
-                                            ("1)" . "-"))))
-
-(setq org-tags-match-list-sublevels t)
-
-(setq org-agenda-persistent-filter t)
-
-;; (setq org-link-mailto-program (quote (compose-mail "%a" "%s")))
-
-;; (add-to-list 'load-path (expand-file-name "~/.emacs.d"))
+;; smex, not used
 ;; (require 'smex)
 ;; (smex-initialize)
-
 ;; (global-set-key (kbd "M-x") 'smex)
 ;; (global-set-key (kbd "C-x x") 'smex)
 ;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;; Bookmark handling
 ;;
-(global-set-key (kbd "<C-f6>") '(lambda () (interactive) (bookmark-set "SAVED")))
-(global-set-key (kbd "<f6>") '(lambda () (interactive) (bookmark-jump "SAVED")))
+;(global-set-key (kbd "<C-f6>") '(lambda () (interactive) (bookmark-set "SAVED")))
+;(global-set-key (kbd "<f6>") '(lambda () (interactive) (bookmark-jump "SAVED")))
 
 (require 'org-mime)
-
-(setq org-agenda-skip-additional-timestamps-same-entry t)
-
-(setq org-table-use-standard-references (quote from))
 
 (setq org-file-apps (quote ((auto-mode . emacs)
                             ("\\.mm\\'" . system)
@@ -1360,19 +1338,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 ;;   (org-mark-subtree)
 ;;   (org-mime-subtree))
 
-;; (setq org-enable-priority-commands t)
-;; (setq org-default-priority ?E)
-;; (setq org-lowest-priority ?E)
-
-;; (setq org-src-preserve-indentation nil)
-;; (setq org-edit-src-content-indentation 0)
-
-;; (setq org-catch-invisible-edits 'error)
-
-;; (setq org-export-coding-system 'utf-8)
-;; (prefer-coding-system 'utf-8)
-;; (set-charset-priority 'unicode)
-;; (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 
 (setq org-time-clocksum-format
       '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
