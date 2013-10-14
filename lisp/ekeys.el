@@ -127,9 +127,6 @@
 (defalias 'qrr 'query-replace-regexp)
 (defalias 'rr 'replace-regexp)
 
-;; ?
-org-completion-use-ido
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; mode specific bindings
 ;; Don't fill when we are in visual-line-mode

@@ -299,20 +299,22 @@
 
 ;; refiling and IDO mode (I don't use IDO for now, maybe someday)
 
+(setq org-completion-use-ido 1)
+
 ; Use full outline paths for refile targets - we file directly with IDO
-;(setq org-refile-use-outline-path t)
+(setq org-refile-use-outline-path t)
 
 ; Targets complete directly with IDO
-;(setq org-outline-path-complete-in-steps nil)
+(setq org-outline-path-complete-in-steps nil)
 
 ;; ; Use IDO for both buffer and file completion and ido-everywhere to t
-;; (setq org-completion-use-ido t)
-;; (setq ido-everywhere t)
-;; (setq ido-max-directory-size 100000)
-;; (ido-mode (quote both))
+(setq org-completion-use-ido t)
+(setq ido-everywhere t)
+(setq ido-max-directory-size 100000)
+(ido-mode (quote both))
 ;; ; Use the current window when visiting files and buffers with ido
-;; (setq ido-default-file-method 'selected-window)
-;; (setq ido-default-buffer-method 'selected-window)
+(setq ido-default-file-method 'selected-window)
+(setq ido-default-buffer-method 'selected-window)
 
 
 
