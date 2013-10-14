@@ -2,11 +2,22 @@
 ;;;;---------------------------------------------------------------------------
 ;; efuncs.el configuration file
 ;; author: Dylan Schwilk
-;; version: 2.2
-;; date: 2012-11-14
+;; version: 2.3
+;; date: 2013-10-13
 ;;
 ;;; my utility functions
 ;;;;---------------------------------------------------------------------------
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; General lisp functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; function to calculate set-differences that works on strings
+(defun my-set-difference (a b)
+  (remove-if
+     #'(lambda (x) (and (member x a) (member x b)))
+     (append a b)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -96,7 +107,7 @@ NEW-WRAP-COLUMN disables this behavior."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; My general custom functions
+;; My custom editing functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;----------------------------------------------------------------------------
@@ -128,9 +139,7 @@ NEW-WRAP-COLUMN disables this behavior."
   (interactive)
   (insert (format-time-string "%Y-%m-%d")))
 ;; C-c i calls insert-date-string
-
 ;; end insert-date-string
-
 
 
 ;;;----------------------------------------------------------------------------

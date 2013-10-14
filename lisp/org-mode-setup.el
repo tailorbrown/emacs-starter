@@ -2,6 +2,7 @@
 ;; Dylan Schwilk
 ;; 2013-10-12
 
+
 ;; filetypes
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
@@ -21,7 +22,6 @@
 
 ;; My org agenda files
 (setq org-agenda-files '("~/org"))
-;;(setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
 (setq org-directory (quote "~/org"))
 ;; catchall file (used for caldav-sync with google calendar as well)
 (setq org-default-notes-file "~/org/refile.org")
@@ -31,16 +31,19 @@
 (setq org-id-method (quote uuidgen))
 (require 'org-caldav)
 (setq org-caldav-url "https://www.google.com/calendar/dav")
-(setq org-caldav-calendar-id "dschwilk@gmail.com")
-(setq org-caldav-inbox "~/org/refile.org")
-(setq org-caldav-files '("~/org/work.org" "~/org/sky-islands.org" "~/org/personal.org"))
+(setq org-caldav-calendar-id (google-calendar-id)) ;; function in init.el
+(setq org-caldav-inbox org-default-notes-file)
+(setq org-caldav-files (my-set-difference 
+                         (file-expand-wildcards "~/org/*.org") 
+                          (exclude-from-caldav-sync) )
+                        )
+;(setq org-caldav-files '("~/org/work.org" "~/org/sky-islands.org" "~/org/personal.org"))
 (setq org-caldav-save-directory "~/org")
 (setq org-icalendar-include-sexps nil)
 
 ;; org-contacts
 (require 'org-contacts)
 (setq org-contacts-files (file-expand-wildcards "~/org/contacts.org"))
-
 
 ;; org-protocol (require 'org-protocol) ;; I'm not using this yet. Maybe
 ;;someday? Allows capturing web content easily.
@@ -92,7 +95,6 @@
 ;; TODO states, selection
 (setq org-use-fast-todo-selection t)
 ;(setq org-treat-S-cursor-todo-selection-as-state-change nil)
-
 
 
 
@@ -171,8 +173,6 @@
 
 ; Make babel results blocks lowercase
 (setq org-babel-results-keyword "results")
-
-
 
 ;; still need to get org mode complete bound to a key
 ;(setq org-fallback-completion-command 'hippie-expand)
@@ -1249,12 +1249,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 
 
 ;;;;;;;;;;;; end agenda section
-
-
-
-
-
-
 
 (defun dws/prepare-meeting-notes ()
   "Prepare meeting notes for email

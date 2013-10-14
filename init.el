@@ -2,7 +2,7 @@
 ;; init.el emacs configuration file
 ;; author: Dylan W. Schwilk
 ;; version: 2.2
-;; date: 2013-10-07
+;; date: 2013-10-13
 ;;
 ;; packages supported:
 ;;   bs (buffer management), cc-mode, font-lock, func-menu, html-mode,
@@ -17,7 +17,7 @@
 ;;        - ~/.emacs./lisp/ekeys     -   key bindings
 ;;        - ~/.emacs.d/lisp/theme.el  -   modeline and color theme
 ;;
-;; And color themese are in ~/.emacs.d/themes
+;; And color themes are in ~/.emacs.d/themes
 ;;;;---------------------------------------------------------------------------
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -30,6 +30,10 @@
 ;; Identification
 (defun user-mail-address() "dylan@schwilk.org")
 (setq user-full-name "Dylan W. Schwilk")
+
+;; google calendar sync info
+(defun google-calendar-id() "dschwilk@gmail.com")
+(defun exclude-from-caldav-sync() (file-expand-wildcards "~/org/*journal.org") )
 
 ;; EasyPG for gpg. built-in
 (require 'epa-file)
@@ -166,8 +170,8 @@
 (mapcar
  'load-library
  '( "modes"        ; various modes configurations
-   "org-mode-setup"; org-mode specific settings
    "efuncs"        ; a bunch of utilities functions
+   "org-mode-setup"; org-mode specific settings
    "ekeys"         ; my key bindings and some aliases
    "theme" ))      ; all the visual stuff goes there
 
