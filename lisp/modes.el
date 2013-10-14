@@ -241,23 +241,28 @@
 (setq TeX-show-compilation nil) ;; turn off compilation buffer
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Enable synctex correlation
+(setq TeX-source-correlate-method 'synctex)
+;; Enable synctex generation. Even though the command shows
+;; as "latex" pdflatex is actually called
+(custom-set-variables '(LaTeX-command "latex -synctex=1") )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Use Okular as the pdf viewer. Build okular 
 ;; command, so that Okular jumps to the current line 
 ;; in the viewer.
-
-;; this is not working as of 2013-07-25.  docview works ok, but C-c C-v complains about a missing dvi file
-;; (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode) 
-
-;; (defun pdf-with-okular ()
-;;  (add-to-list 'TeX-output-view-style
-;;  (quote ("^pdf$" "." "okular %o %(outpage)"))))
-
-;; (add-hook 'LaTeX-mode-hook 'pdf-with-okular t)
-
-;; (setq TeX-view-program-selection
-;;  '((output-pdf "PDF Viewer")))
-;; (setq TeX-view-program-list
-;;      '(("Okular" "okular --unique %o#src:%n%(dir)./%b"))); %o: TeX-output-extension; %n: TeX-current-line; %b: TeX-current-file-name-master-relative
+;; Okular setup: 
+;; 1.) Open Okular and go to...
+;; 2.) Settings -> Configure Okular -> Editor
+;; 3.) Set Editor to "Emacs client"
+;; 4.) Command should automatically set to: 
+;; emacsclient -a emacs --no-wait +%l %f
+(setq TeX-view-program-selection
+ '((output-pdf "PDF Viewer")))
+(setq TeX-view-program-list
+ '(("PDF Viewer" "okular --unique %o#src:%n%b")))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;; turn on reftex
