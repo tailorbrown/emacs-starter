@@ -24,13 +24,15 @@
 
 (bind-keys
 '(
+   ;; Function keys:
+   ;; f1 - help
+   ;; f2 - 2-column
+   ;; f3 - define kbd macro
+   "<f12>" toggle-truncate-lines
    "C-x w"    what-line
    "M-g"      goto-line
    "s-n"   next-logical-line
    "s-p"   previous-logical-line
- ;;  "<f5>"     copy-region-as-kill ; Copy  also S-ins
- ;;  "<f6>"     kill-region         ; Cut also S-del
- ;;  "<f7>"     yank                ; yank also C-ins
   ;; prefer backward-kill-word over Backspace
 ;  "C-w"     backward-kill-word
 ;  "C-x C-k" kill-region
@@ -87,7 +89,7 @@
    "C-c i"   insert-date-string
   ;; Browse url
 ;  [(shift button3)] browse-url-at-mouse
-  "C-c b"   browse-url
+  ;"C-c b"   browse-url
 ))
 
 ;; kill ring menu
@@ -98,12 +100,7 @@
    (interactive)
    (popup-menu 'yank-menu)))
 
-;; quick function keys 
-;; f1 - help
-;; f2 - 2-column
-;; f3 - define kbd macro
 
-(global-set-key [f12]      'toggle-truncate-lines)
 
 ;; (eval-when-compile
 ;;   (require 'python-mode))

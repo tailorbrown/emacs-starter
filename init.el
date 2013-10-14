@@ -12,12 +12,14 @@
 ;; C++, python, html
 ;;
 ;; this .emacs file loads several other customization files:
-;;        - ~/.emacs.d/lisp/efunc.el  -   custom functions
-;;        - ~/.emacs.d/lisp/mode.el   -   modes supported
-;;        - ~/.emacs./lisp/ekeys     -   key bindings
-;;        - ~/.emacs.d/lisp/theme.el  -   modeline and color theme
+;;        - ~/.emacs.d/lisp/efunc.el          - custom functions
+;;        - ~/.emacs.d/lisp/mode.el           - modes supported
+;;        - ~/.emacs.d/lisp/org-mode-setup.el - org-mode stuff
+;;        - ~/.emacs./lisp/ekeys              - key bindings
+;;        - ~/.emacs.d/lisp/theme.el          - modeline and color theme
 ;;
-;; And color themes are in ~/.emacs.d/themes
+;; And color themes are in ~/.emacs.d/themes. themes.el refers to
+;; schwilk-theme.el
 ;;;;---------------------------------------------------------------------------
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
