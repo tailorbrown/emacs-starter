@@ -245,7 +245,7 @@
 (setq TeX-source-correlate-method 'synctex)
 ;; Enable synctex generation. Even though the command shows
 ;; as "latex" pdflatex is actually called
-(custom-set-variables '(LaTeX-command "latex -synctex=1") )
+(setq LaTeX-command "latex -synctex=1")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
