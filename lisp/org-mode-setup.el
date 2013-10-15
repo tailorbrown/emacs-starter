@@ -29,6 +29,8 @@
 (setq my-contacts-file "~/org/contacts.org")
 (setq org-contacts-files (file-expand-wildcards my-contacts-file) )
 
+;; org-protocol
+(require 'org-protocol)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; General settings to invoke for org-mode
@@ -250,8 +252,8 @@
                "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
               ("j" "Journal" entry (file+datetree my-journal-file)
                "* %?\n%U\n" :clock-in t :clock-resume t)
-             ; ("w" "org-protocol" entry (file "~/org/refile.org")
-             ;  "* TODO Review %c\n%U\n" :immediate-finish t)
+              ("w" "Org-protocol" entry (file+headline org-default-notes-file "Links")
+               "* %^{Title}\n\n  Source: %u, %c\n\n  %i" :empty-lines 1)
               ("p" "Phone call" entry (file org-default-notes-file)
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file org-default-notes-file)
