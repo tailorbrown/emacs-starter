@@ -27,6 +27,10 @@
 ;; General setup
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; start server if not running
+(load "server")
+(unless (server-running-p) (server-start))
+
 ;; turn on Common Lisp support
 (require 'cl)
 
@@ -179,10 +183,6 @@
 
 ;; Start in insert mode.  Needed?
 (put 'overwrite-mode 'disabled nil)
-
-;; start server if not running
-(load "server")
-(unless (server-running-p) (server-start))
 
 ;; Add final message so using C-h l I can see if .emacs failed
 (message ".emacs loaded successfully!.")
