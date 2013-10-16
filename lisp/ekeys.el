@@ -29,8 +29,10 @@
    ;; f2 - 2-column
    ;; f3 - define kbd macro
    "<f12>" toggle-truncate-lines
-   "C-x w"    what-line
-   "M-g"      goto-line
+
+  ;; general keybindings:
+   "C-x w" what-line
+   "M-g"   goto-line
    "s-n"   next-logical-line
    "s-p"   previous-logical-line
   ;; prefer backward-kill-word over Backspace
@@ -43,10 +45,10 @@
   "C-c p"   previous-error
 
   ;; last call-kbd-macro-rebind to a single keystroke
-  "C-c A"   auto-fill-mode
+  ;"C-c A"   auto-fill-modge
 
    ;; additional shortcuts buffers and windows
-  "C-x B"   bury-buffer
+  "C-<tab>"   bury-buffer ; cycle through buffers
   "C-x E"   apply-macro-to-region-lines
   "C-x I"   insert-buffer
   "C-c s"   swap-windows  ; defined in efuncs.el
@@ -66,17 +68,18 @@
   "C-c a"   org-agenda
   "C-c b"   org-iswitchb
   "C-c c"   org-capture  
-  "<f9> p"  dws/phone-call
   "<f5>"    dws/org-todo
   "<S-f5>"  dws/widen
 
+  ;; Start shell or switch to it if it's active.
+ "C-x m"   shell
   ;; Programming and ess
-  "<f8>"     compile
+  "<f8>"    compile
   ;"C-c C-r"  eval-region   ;; same as in ess ; should not be needed
   ;"C-c C-b"  eval-buffer   ;; same as in ess
 
   ;; git, magit, vc
-  "C-c m"   magit-status
+  "C-x g"   magit-status
   ;; blogging
 ;  "C-c b s" weblogger-start-entry
 
@@ -121,7 +124,7 @@
 ;;   (global-unset-key (kbd "C-z")))
 
 ;; disable sendmail
-(global-unset-key (kbd "C-x m"))
+; (global-unset-key (kbd "C-x m"))
 
 ;; aliases
 (defalias 'qrr 'query-replace-regexp)
