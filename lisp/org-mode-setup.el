@@ -252,7 +252,7 @@
                "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
               ("j" "Journal" entry (file+datetree my-journal-file)
                "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("w" "Org-protocol" entry (file+headline org-default-notes-file "Links")
+              ("w" "Org-protocol" entry (file org-default-notes-file)
                "* %^{Title}\n\n  Source: %u, %c\n\n  %i" :empty-lines 1)
               ("p" "Phone call" entry (file org-default-notes-file)
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
