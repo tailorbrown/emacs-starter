@@ -22,30 +22,32 @@
     ;; panels, menubars and whatnot), then divide by the height of a char to
     ;; get the height we want
     (add-to-list 'default-frame-alist 
-                 (cons 'height (/ (- (x-display-pixel-height) 200) (frame-char-height)))))))
-
-(set-frame-size-according-to-resolution)
-
-;; Select theme using emacs24 theme system (~/.emacs.d/themes/)
-(load-theme 'schwilk t)
+      (cons 'height (/ (- (x-display-pixel-height) 200) (frame-char-height)))))))
 
 ;; Dynamic fonts
+(require 'dynamic-fonts)
 (setq dynamic-fonts-preferred-proportional-fonts
       '("Source Sans Pro" "DejaVu Sans" "Helvetica"))
   
 (setq dynamic-fonts-preferred-monospace-fonts
       '("Inconsolata" "Ubuntu Mono" "Source Code Pro" "Envy Code R"
         "Droid Sans Mono Pro" "Droid Sans Mono" "DejaVu Sans Mono"))
+
 (setq dynamic-fonts-preferred-monospace-point-size 14)
 (setq dynamic-fonts-preferred-proportional-point-size 14)
 
-(require 'dynamic-fonts)
-;; If we started with a frame, just setup the fonts, otherwise wait until
-;; we make a frame.  THis must come after the theme call
-(if initial-window-system
-    (dynamic-fonts-setup)
-  (add-to-list 'after-make-frame-functions
-               (lambda (frame) (dynamic-fonts-setup))))
+
+;; Now setup the theme. 
+(defun my-start-theme (new-frame)
+   (select-frame new-frame)
+   (set-frame-size-according-to-resolution)
+   (load-theme 'schwilk t)
+   (dynamic-fonts-setup)
+  )
+
+;; And this is required to get the theme to load correctly using emacsclient
+;; and server. Otheriwse font and cursor are not set correctly
+(add-hook 'after-make-frame-functions 'my-start-theme)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set modeline
