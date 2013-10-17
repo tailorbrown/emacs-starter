@@ -200,11 +200,6 @@
       (call-interactively 'ess-eval-region)
       (call-interactively 'ess-eval-line-and-step)))
 
-;; ;; Allow C-up anddown to scroll through history. alt-p also works
-;; (add-hook 'inferior-ess-mode-hook
-;;   #'(lambda()
-;;      (local-set-key [C-up] 'comint-previous-input)
-;;      (local-set-key [C-down] 'comint-next-input)))
 
 (autoload 'R-mode "R mode" "mode for interacting with R" t)
  (setq auto-mode-alist

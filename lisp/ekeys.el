@@ -49,13 +49,8 @@
   "C-x E"   apply-macro-to-region-lines
   "C-x I"   insert-buffer
   "C-c s"   swap-windows  ; defined in efuncs.el
-
   "C-c g"   goto-line
   "C-c G"   goto-char
-
-; "C-c k"   delete-region
-; "C-c c"   comment-region
-; "C-c u"   uncomment-region
   "C-c w"   count-words-region
   "M-/"     hippie-expand
  ; "\C-cr"   replace-garbage-chars ;; replaces MS-windows \222, etc
@@ -72,9 +67,7 @@
  "C-x m"   shell
   ;; Programming and ess
   "<f8>"    compile
-  ;"C-c C-r"  eval-region   ;; same as in ess ; should not be needed
-  ;"C-c C-b"  eval-buffer   ;; same as in ess
-
+ 
   ;; git, magit, vc
   "C-x g"   magit-status
   ;; blogging
@@ -127,10 +120,14 @@
     (define-key text-mode-map "\M-q" 'maybe-fill-paragraph)
     (remove-hook 'text-mode-hook 'cjm-fix-text-mode)))
 
-;; ESS ctl-return to start
+;; ESS mode hooks
 (add-hook 'ess-mode-hook
   (lambda()
-    (local-set-key [(shift return)] 'my-ess-eval)))
+    (local-set-key [(shift return)] 'my-ess-eval) ;; start ess
+    (local-set-key [C-up] 'comint-previous-input) ;; like alt-p
+    (local-set-key [C-down] 'comint-next-input)
+   )
+)
 
 ;; HTML mode keys
 (add-hook 'html-mode-hook
