@@ -3,11 +3,10 @@
 ;; efuncs.el configuration file
 ;; author: Dylan Schwilk
 ;; version: 2.3
-;; date: 2013-10-13
+;; date: 2013-10-16
 ;;
 ;;; my utility functions
 ;;;;---------------------------------------------------------------------------
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; General lisp functions
@@ -18,7 +17,6 @@
   (remove-if
      #'(lambda (x) (and (member x a) (member x b)))
      (append a b)))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Interface customizations, menus, etc.
@@ -117,7 +115,6 @@ NEW-WRAP-COLUMN disables this behavior."
    (find-file "~/org/gtd.org")
 )
 
-
 ;;;----------------------------------------------------------------------------
 ;;; Replace windows garbage chars
 (defun replace-garbage-chars ()
@@ -141,7 +138,6 @@ NEW-WRAP-COLUMN disables this behavior."
 ;; C-c i calls insert-date-string
 ;; end insert-date-string
 
-
 ;;;----------------------------------------------------------------------------
 ;; Indent region, clean up
 (defun fix-and-indent ()
@@ -153,7 +149,7 @@ NEW-WRAP-COLUMN disables this behavior."
 
 ;;;----------------------------------------------------------------------------
 ;; tidy-region
-(global-set-key "\C-xt" 'tidy-region)
+
 (setq shell-command-default-error-buffer "tidy-errors") ; define error buffer
 (defun tidy-region ()
   "Run Tidy HTML parser on current region."
@@ -217,25 +213,9 @@ table determines which characters these are."
 ;; into one very long line) and removes any blank lines that
 ;; previously separated paragraphs.
 ;;
-(defun wp-munge () "un-fill paragraphs and remove blank lines" (interactive)
-  (let ((save-fill-column fill-column))
-    (set-fill-column 1000000)
-    (mark-whole-buffer)
-    (fill-individual-paragraphs (point-min) (point-max))
-    (delete-matching-lines "^$")
-    (set-fill-column save-fill-column)
-))
-
-(defun wp-unmunge () "fill paragraphs and separate them with blank lines"
-  (interactive)
-    (mark-whole-buffer)
-    (replace-regexp "$" "\n")
-    ; (replace-regexp "\(^.*\)$" "groogle\n");"\1\n\n")
-    (fill-individual-paragraphs (point-min) (point-max))
-)
-
 (defun fill () "fill paragraphs" (interactive)
     (mark-whole-buffer)
+    ;;(replace-regexp "$" "\n")
     (fill-individual-paragraphs (point-min) (point-max)))
 
 (defun unfill () "un-fill paragraphs" (interactive)
@@ -243,9 +223,9 @@ table determines which characters these are."
     (set-fill-column 1000000)
     (mark-whole-buffer)
     (fill-individual-paragraphs (point-min) (point-max))
+    ;;(delete-matching-lines "^$")
     (set-fill-column save-fill-column)
 ))
-
 
 (defun make-file-executable-if-script ()
   "Make file executable according to umask if not already executable.
@@ -265,19 +245,6 @@ file modes."
                              (logior current-mode add-mode))))))
 
 
-(defun byte-compile-emacs-config ()
-  "Byte compile the current file, when saved, if the file is part of
-my Emacs Lisp configuration."
-  (let* ((current-file (buffer-file-name))
-         (config-dir (concat emacs-root "lisp"))
-         (string-length (length config-dir)))
-    (if (and (eq (compare-strings config-dir 0 string-length
-                         current-file 0 string-length) t)
-             (string-match "\\.el\\'" current-file))
-        (byte-compile-file current-file)
-        nil)))
-
-
 (defun swap-windows ()
  "If you have 2 windows, it swaps them." 
  (interactive)
@@ -295,6 +262,7 @@ my Emacs Lisp configuration."
           (set-window-start w1 s2)
           (set-window-start w2 s1)))))
 
+
 (defun rename-file-and-buffer (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
   (interactive "sNew name: ")
@@ -310,24 +278,24 @@ my Emacs Lisp configuration."
             (set-visited-file-name new-name)
             (set-buffer-modified-p nil))))))
 
-(defun move-buffer-file (dir)
-  "Moves both current buffer and file it's visiting to DIR."
-  (interactive "DNew directory: ")
-  (let* ((name (buffer-name))
-          (filename (buffer-file-name))
-          (dir
-             (if (string-match dir "\\(?:/\\|\\\\)$")
-                       (substring dir 0 -1) dir))
-          (newname (concat dir "/" name)))
+;; (defun move-buffer-file (dir)
+;;   "Moves both current buffer and file it's visiting to DIR."
+;;   (interactive "DNew directory: ")
+;;   (let* ((name (buffer-name))
+;;           (filename (buffer-file-name))
+;;           (dir
+;;              (if (string-match dir "\\(?:/\\|\\\\)$")
+;;                        (substring dir 0 -1) dir))
+;;           (newname (concat dir "/" name)))
 
-    (if (not filename)
-        (message "Buffer '%s' is not visiting a file!" name)
-      (progn
-        (copy-file filename newname 1)
-        (delete-file filename)
-        (set-visited-file-name newname)
-        (set-buffer-modified-p nil)
-        t))))
+;;     (if (not filename)
+;;         (message "Buffer '%s' is not visiting a file!" name)
+;;       (progn
+;;         (copy-file filename newname 1)
+;;         (delete-file filename)
+;;         (set-visited-file-name newname)
+;;         (set-buffer-modified-p nil)
+;;         t))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Find duplicate words
@@ -342,29 +310,6 @@ my Emacs Lisp configuration."
        "\\b\\([^@ \n\t]+\\)[ \n\t]+\\1\\b" nil 'move)
       (message "Found duplicated word.")
       (message "End of buffer")))
-
-(defun fix-amazon-url ()
-  "Minimizes the Amazon URL under the point.  You can paste an Amazon
-URL out of your browser, put the cursor in it somewhere, and invoke
-this method to convert it."
-  (interactive)
-  (and (search-backward "http://www.amazon.com" (point-at-bol) t)
-       (search-forward-regexp
-		".+/\\([A-Z0-9]\\{10\\}\\)/[^[:space:]\"]+" (point-at-eol) t)
-       (replace-match
-		(concat "http://www.amazon.com/o/asin/"
-				(match-string 1)
-				(match-string 3)))))
-
-(defun fix-google-search-url ()
-  "Minimizes a Google search URL under the point."
-  (interactive)
-  (and (search-backward-regexp "http://www\\.google\\.[a-z]\\{2,3\\}/search" (point-at-bol) t)
-       (search-forward-regexp
-        ".+[&?]\\(q=[a-zA-Z0-9%+]+\\)\\(&.+\\)*" (point-at-eol) t)
-       (replace-match
-        (concat "http://www.google.com/search?"
-                (match-string 1)))))
 
 (defun compile-adjust-variable ()
   (unless (file-exists-p "Makefile")

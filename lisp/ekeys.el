@@ -8,7 +8,6 @@
 ;;; my global key bindings and aliases for emacs
 ;;;;---------------------------------------------------------------------------
 
-
 (defmacro bind-key (key function)
   `(progn
      (global-set-key (read-kbd-macro ,key) ,function)))
@@ -31,10 +30,8 @@
    "<f12>" toggle-truncate-lines
 
   ;; general keybindings:
-   "C-x w" what-line
+;   "C-x w" what-line
    "M-g"   goto-line
-   "s-n"   next-logical-line
-   "s-p"   previous-logical-line
   ;; prefer backward-kill-word over Backspace
 ;  "C-w"     backward-kill-word
 ;  "C-x C-k" kill-region
@@ -88,21 +85,13 @@
 ;  "M-p"     chop-move-up
 
   ;; bindings for functions defined in lisp/efuncs.el
+   "C-x r"   rename-file-and-buffer
    "C-c \\"  the-the
    "C-c i"   insert-date-string
   ;; Browse url
 ;  [(shift button3)] browse-url-at-mouse
   ;"C-c b"   browse-url
 ))
-
-;; kill ring menu
-(when (require 'browse-kill-ring nil 'noerror)
-  (browse-kill-ring-default-keybindings))
-
-(global-set-key "\C-cy" '(lambda ()
-   (interactive)
-   (popup-menu 'yank-menu)))
-
 
 
 ;; (eval-when-compile
@@ -142,3 +131,8 @@
 (add-hook 'ess-mode-hook
   (lambda()
     (local-set-key [(shift return)] 'my-ess-eval)))
+
+;; HTML mode keys
+(add-hook 'html-mode-hook
+  (lambda()
+    (local-set-key "\C-xt" 'tidy=region)))
