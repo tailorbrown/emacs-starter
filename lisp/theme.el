@@ -49,6 +49,15 @@
 ;; and server. Otheriwse font and cursor are not set correctly
 (add-hook 'after-make-frame-functions 'my-start-theme)
 
+;; and this to get window focus:
+(defun px-raise-frame-and-give-focus ()
+  (when window-system
+    (raise-frame)
+    (x-focus-frame (selected-frame))
+    (set-mouse-pixel-position (selected-frame) 4 4)
+    ))
+(add-hook 'server-switch-hook 'px-raise-frame-and-give-focus)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set modeline
 ;; use setq-default to set it for /all/ modes
