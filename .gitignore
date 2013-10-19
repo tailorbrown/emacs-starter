@@ -1,0 +1,12 @@
+elpa/
+auto-save-list/
+idlwave/
+url/
+var/
+abbrev_defs
+bookmarks
+ido.last
+org-clock-save.el
+/.org-id-locations
+tramp
+session.*
