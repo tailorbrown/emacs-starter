@@ -759,6 +759,7 @@ tasks."
 ;; Explicitly load required exporters
 (require 'ox-html)
 (require 'ox-latex)
+(require 'ox-beamer)
 (require 'ox-ascii)
 
 (defun dws/display-inline-images ()
@@ -1304,7 +1305,8 @@ Late deadlines first, then scheduled, then non-late deadlines"
               ("a" "#+begin_ascii\n?\n#+end_ascii")
               ("A" "#+ascii: ")
               ("i" "#+index: ?" "#+index: ?")
-              ("I" "#+include %file ?" "<include file=%file markup=\"?\">"))))
+              ("I" "#+include %file ?" "<include file=%file markup=\"?\">")
+              ("r" "#+begin_src R :exports none\n\n#+end_src"))))
 
 (defun dws/mark-next-parent-tasks-todo ()
   "Visit each parent task and change NEXT states to TODO"
