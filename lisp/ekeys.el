@@ -87,13 +87,6 @@
   ;"C-c b"   browse-url
 ))
 
-
-;; (eval-when-compile
-;;   (require 'python-mode))
-;; (define-key py-mode-map "\C-c\C-v" 'py-pychecker-run)
-;; (define-key py-mode-map "\C-c\C-l" 'py-execute-import-or-reload)
-
-
 ;; add occur to isearch
 (define-key isearch-mode-map (kbd "C-o")
   (lambda ()
@@ -124,7 +117,8 @@
 ;; ESS mode hooks
 (add-hook 'ess-mode-hook
   (lambda()
-    (local-set-key [(shift return)] 'my-ess-eval) ;; start ess
+    (local-set-key [(control return)] nil)
+    (local-set-key [(shift return)] 'ess-eval-region-or-line-and-step) ;; start ess
     (local-set-key [C-up] 'comint-previous-input) ;; like alt-p
     (local-set-key [C-down] 'comint-next-input)
    )

@@ -3,7 +3,7 @@
 ;; modes.el configuration file
 ;; author: Dylan Schwilk
 ;; version: 2.3
-;; date: 2013-10-13
+;; date: 2013-10-19
 ;;
 ;; Provides hooks and customizations for various modes (text, LaTeX and bibtex,
 ;; html, C, C++, python, ess (R and julia).
@@ -179,27 +179,6 @@
 (setq ess-nuke-trailing-whitespace-p t)
 ;; turn off aligning single '#' to col 40!
 (setq ess-fancy-comments nil)
-
-;; Function to create window and start R
-(defun my-ess-start-R ()
-    (interactive)
-    (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
-      (progn
-          (delete-other-windows)
-          (setq w1 (selected-window))
-          (setq w1name (buffer-name))
-          (setq w2 (split-window w1 nil t))
-          (R)
-          (set-window-buffer w2 "*R*")
-          (set-window-buffer w1 w1name))))
-
-(defun my-ess-eval ()
-    (interactive)
-    (my-ess-start-R)
-    (if (and transient-mark-mode mark-active)
-      (call-interactively 'ess-eval-region)
-      (call-interactively 'ess-eval-line-and-step)))
-
 
 (autoload 'R-mode "R mode" "mode for interacting with R" t)
  (setq auto-mode-alist
