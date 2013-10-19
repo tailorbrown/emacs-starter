@@ -129,6 +129,16 @@ NEW-WRAP-COLUMN disables this behavior."
   (replace-string "" "--" nil (point-min) (point-max))
 ))
 
+;; ----------------------------------------------------------------------------
+;; browse-kill-ring
+;; Select something that you put in the kill ring ages ago. use C-c k
+(autoload 'browse-kill-ring "browse-kill-ring" "Browse the kill ring." t)
+(eval-after-load "browse-kill-ring"
+  '(progn
+     (setq browse-kill-ring-quit-action 'save-and-restore)))
+
+
+
 ;;;----------------------------------------------------------------------------
 ;;; Insert date
 (defun insert-date-string ()
@@ -149,7 +159,6 @@ NEW-WRAP-COLUMN disables this behavior."
 
 ;;;----------------------------------------------------------------------------
 ;; tidy-region
-
 (setq shell-command-default-error-buffer "tidy-errors") ; define error buffer
 (defun tidy-region ()
   "Run Tidy HTML parser on current region."

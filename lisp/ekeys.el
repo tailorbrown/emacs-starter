@@ -81,6 +81,7 @@
    "C-x r"   rename-file-and-buffer
    "C-c \\"  the-the
    "C-c i"   insert-date-string
+   "C-c k"   browse-kill-ring
   ;; Browse url
 ;  [(shift button3)] browse-url-at-mouse
   ;"C-c b"   browse-url
