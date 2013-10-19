@@ -5,9 +5,10 @@ idlwave/
 url/
 var/
 abbrev_defs
-bookmarks
+bookmarksx
 ido.last
 org-clock-save.el
 /.org-id-locations
 tramp
 custom.el
+session.*
