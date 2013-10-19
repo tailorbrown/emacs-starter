@@ -7,13 +7,13 @@ Installing
 ----------
 
 ### Via git
-    - Make your .emacs.d directory if it does not exist.
-    - clone into it:  
-      git clone https://github.com/dschwilk/schwilk-emacs-starter.git ~/.emacs.d
+    1. Make your .emacs.d directory if it does not exist.
+    2. clone into it
+        git clone https://github.com/dschwilk/schwilk-emacs-starter.git ~/.emacs.d
 
 ### Via a zipfile
-   - use the "Download zip" link at https://github.com/dschwilk/schwilk-emacs-starter
-   - extract the zip file to your .emacs.d directory
+    1. use the "Download zip" link at https://github.com/dschwilk/schwilk-emacs-starter
+    2. extract the zip file to your .emacs.d directory
 
 
 Personalizing
@@ -21,10 +21,9 @@ Personalizing
 
 Modify the placeholders for email address and name in init.el:
 
-
-> ;; Identification
-> (defun user-mail-address() "john.doe@ttu.edu")
-> (setq user-full-name "John Doe")
+    ;; Identification
+    (defun user-mail-address() "john.doe@ttu.edu")
+    (setq user-full-name "John Doe")
 
 
 Using
@@ -41,15 +40,15 @@ Using
    Note that my version binds shift-enter rather than shift-control.
 
 ### Some departures from emacs defaults
-    - shift-enter for ess
-    - cua-mode: http://ess.r-project.org/
+    * shift-enter for ess
+    * cua-mode: http://ess.r-project.org/
       Windows style cut-copy-paste (C-x, C-c, C-v) enabled.
-    - Uses my dark theme (schwilk-theme) and a custom mode-line. Also uses
+    * Uses my dark theme (schwilk-theme) and a custom mode-line. Also uses
       dynamic-fonts to select the font. Currently it chooses monospaced fonts
       according to this priority list:
 
-    > "Inconsolata" "Consolas" "Ubuntu Mono" "Source Code Pro" "Envy Code R" "Droid Sans
-    >  Mono Pro" "Droid Sans Mono" "DejaVu Sans Mono"
+        "Inconsolata" "Consolas" "Ubuntu Mono" "Source Code Pro" "Envy Code R" "Droid Sans
+        Mono Pro" "Droid Sans Mono" "DejaVu Sans Mono"
 
    You can change this in lisp/theme.el. Install one of these fonts, if needed.
    I prefer Inconsolata: http://www.levien.com/type/myfonts/inconsolata.html
