@@ -159,6 +159,8 @@
 ;(custom-set-faces
  ;'(org-mode-line-clock ((t (:foreground "red" :box (:line-width -1 :style released-button)))) t))
 
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; babel
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -756,34 +758,46 @@ tasks."
 ;; Export-related settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Explicitly load required exporters
-(require 'ox-html)
-(require 'ox-latex)
-(require 'ox-beamer)
-(require 'ox-ascii)
-
 (defun dws/display-inline-images ()
   (condition-case nil
       (org-display-inline-images)
     (error nil)))
 
-;; ;; Don't enable this because it breaks access to emacs from my Android phone
-;; (setq org-startup-with-inline-images nil)
+;; Explicitly load required exporters
+(require 'ox-html)
+(require 'ox-ascii)
 
-;; ;
-; Inline images in HTML instead of producting links to the image
-(setq org-html-inline-images t)
-; Do not use sub or superscripts - I currently don't need this functionality in my documents
-;(setq org-export-with-sub-superscripts nil)
-(setq org-html-head-include-default-style nil)
-; Do not generate internal css formatting for HTML exports
-(setq org-export-htmlize-output-type (quote css))
+;; latex and beamer
+(require 'ox-latex)
+(require 'ox-beamer)
+
+
+(add-to-list 'org-latex-classes
+                '("pres"
+                  "\\documentclass[presentation]{beamer}
+\[DEFAULT-PACKAGES]
+\[PACKAGES]
+\[EXTRA]"
+                  ("\\section{%s}" . "\\section*{%s}")
+                  ("\\subsection{%s}" . "\\subsection*{%s}")
+                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+
 ; Export with LaTeX fragments
 (setq org-export-with-LaTeX-fragments t)
 ; Increase default number of headings to export
-(setq org-export-headline-levels 6)
-
+;(setq org-export-headline-levels 6)
 ;; (setq org-latex-listings t)
+
+;; use okular with org-mode pdf viewer
+(setq  org-file-apps (quote ((auto-mode . emacs) ("\\.mm\\'" . system) ("\\.x?html?\\'" . system) ("\\.pdf\\'" . "okular --unique %s#src:%n%b"))))
+
+;; HTML export
+; Inline images in HTML instead of producting links to the image
+(setq org-html-inline-images t)
+(setq org-html-head-include-default-style nil)
+; Do not generate internal css formatting for HTML exports
+(setq org-export-htmlize-output-type (quote css))
+
 
 (setq org-html-xml-declaration (quote (("html" . "")
                                        ("was-html" . "<?xml version=\"1.0\" encoding=\"%s\"?>")
