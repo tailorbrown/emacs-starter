@@ -7,49 +7,38 @@ Installing
 ----------
 
 ### Via git
-    1. Make your .emacs.d directory if it does not exist.
-    2. clone into it
-        git clone https://github.com/dschwilk/schwilk-emacs-starter.git ~/.emacs.d
+1. Make your .emacs.d directory if it does not exist
+2. clone into it: git clone `https://github.com/dschwilk/schwilk-emacs-starter.git ~/.emacs.d`
 
 ### Via a zipfile
-    1. use the "Download zip" link at https://github.com/dschwilk/schwilk-emacs-starter
-    2. extract the zip file to your .emacs.d directory
-
+1. use the "Download zip" link at [https://github.com/dschwilk/schwilk-emacs-starter](https://github.com/dschwilk/schwilk-emacs-starter)
+2. extract the zip file to your .emacs.d directory
 
 Personalizing
 -------------
-
 Modify the placeholders for email address and name in init.el:
 
     ;; Identification
     (defun user-mail-address() "john.doe@ttu.edu")
     (setq user-full-name "John Doe")
 
-
 Using
 -----
 
 ### For coding in R and running R interactively
 
-    R mode is automatical entered when you edit a file with the extension *.r
-    or *.R. To start the R interpreter highlight a region or put your cursor on
-    a line of code and hit [shift-enter]. Do the same to send more code to the
-    interpreter. See emacs speaks statistics for more details:
-    http://ess.r-project.org/
+R mode is automatical entered when you edit a file with the extension *.r or *.R. To start the R interpreter highlight a region or put your cursor on
+a line of code and hit [shift-enter]. Do the same to send more code to the interpreter. See emacs speaks statistics for more details: [http://ess.r-project.org/](http://ess.r-project.org/)
 
-   Note that my version binds shift-enter rather than shift-control.
+Note that my version binds shift-enter rather than shift-control.
 
 ### Some departures from emacs defaults
-    * shift-enter for ess
-    * cua-mode: http://ess.r-project.org/
-      Windows style cut-copy-paste (C-x, C-c, C-v) enabled.
-    * Uses my dark theme (schwilk-theme) and a custom mode-line. Also uses
-      dynamic-fonts to select the font. Currently it chooses monospaced fonts
-      according to this priority list:
 
-        "Inconsolata" "Consolas" "Ubuntu Mono" "Source Code Pro" "Envy Code R" "Droid Sans
-        Mono Pro" "Droid Sans Mono" "DejaVu Sans Mono"
+* shift-enter for ess
+* [cua-mode](http://ess.r-project.org/) Windows style cut-copy-paste (`C-x, C-c, C-v`) enabled
+* Uses my dark theme (schwilk-theme) and a custom mode-line. Also uses dynamic-fonts to select the font. Currently it chooses monospaced fonts according to this priority list:
 
-   You can change this in lisp/theme.el. Install one of these fonts, if needed.
-   I prefer Inconsolata: http://www.levien.com/type/myfonts/inconsolata.html
+    "Inconsolata" "Consolas" "Ubuntu Mono" "Source Code Pro" "Envy Code R" "Droid Sans
+    Mono Pro" "Droid Sans Mono" "DejaVu Sans Mono"
     
+  You can change this in lisp/theme.el. Install one of these fonts, if needed. I prefer [Inconsolata](http://www.levien.com/type/myfonts/inconsolata.html)
