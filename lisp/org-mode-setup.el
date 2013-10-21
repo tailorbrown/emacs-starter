@@ -786,10 +786,10 @@ tasks."
 (setq org-export-with-LaTeX-fragments t)
 ; Increase default number of headings to export
 ;(setq org-export-headline-levels 6)
-;; (setq org-latex-listings t)
+(setq org-export-latex-listings t)
 
 ;; use okular with org-mode pdf viewer
-(setq  org-file-apps (quote ((auto-mode . emacs) ("\\.mm\\'" . system) ("\\.x?html?\\'" . system) ("\\.pdf\\'" . "okular --unique %s#src:%n%b"))))
+(setq  org-file-apps (quote ((auto-mode . emacs) ("\\.mm\\'" . system) ("\\.x?html?\\'" . system) ("\\.pdf\\'" . "okular --unique %s"))))
 
 ;; HTML export
 ; Inline images in HTML instead of producting links to the image

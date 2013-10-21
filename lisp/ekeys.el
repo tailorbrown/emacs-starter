@@ -78,7 +78,7 @@
 ;  "M-p"     chop-move-up
 
   ;; bindings for functions defined in lisp/efuncs.el
-   "C-x r"   rename-file-and-buffer
+   "C-c r"   rename-file-and-buffer
    "C-c \\"  the-the
    "C-c i"   insert-date-string
    "C-c k"   browse-kill-ring

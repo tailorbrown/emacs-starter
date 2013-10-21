@@ -103,7 +103,7 @@
 (setq-default indent-tabs-mode nil)                    ;; uses spaces rather than tabs
 (setq default-tab-width 4); 
 (setq delete-key-deletes-forward t)
-(delete-selection-mode t)                               ;; Typed text replaces a selection
+;(delete-selection-mode t)                               ;; Typed text replaces a selection
 (setq mouse-yank-at-point t)                          ;; commented out this does what I want:
 (line-number-mode t)
 (column-number-mode t)

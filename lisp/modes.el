@@ -38,6 +38,14 @@
 ; (require 'rst)
 ; (add-hook 'text-mode-hook 'rst-text-mode-bindings)
 
+;; Markdown mode
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+;(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+
 ;;;---------------------------------------------------------------------------
 ;;; Setup psgml-mode ;;  
 ;; ---------------------------------------------------------------------------
