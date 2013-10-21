@@ -788,8 +788,8 @@ tasks."
 ;(setq org-export-headline-levels 6)
 (setq org-export-latex-listings t)
 
-;; use okular with org-mode pdf viewer
-(setq  org-file-apps (quote ((auto-mode . emacs) ("\\.mm\\'" . system) ("\\.x?html?\\'" . system) ("\\.pdf\\'" . "okular --unique %s"))))
+;; use okular with org-mode pdf viewer.  Run after org.el or overwritten
+(add-hook 'org-load-hook '(setq  org-file-apps (quote ((auto-mode . emacs) ("\\.mm\\'" . system) ("\\.x?html?\\'" . system) ("\\.pdf\\'" . "okular --unique %s")))))
 
 ;; HTML export
 ; Inline images in HTML instead of producting links to the image
