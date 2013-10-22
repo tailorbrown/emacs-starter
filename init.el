@@ -1,15 +1,12 @@
 ;;;;---------------------------------------------------------------------------
 ;; init.el emacs configuration file
 ;; author: Dylan W. Schwilk
-;; version: 2.2
-;; date: 2013-10-13
 ;;
 ;; packages supported:
 ;;   bs (buffer management), cc-mode, font-lock, func-menu, html-mode,
-;;   speedbar, auctex, reftex, vc (version control)
+;;   speedbar, auctex, reftex, magit and vc (version control)
 ;;
-;; Supports modes for: text,  LaTeX and bibtex, C,
-;; C++, python, html
+;; Supports modes for: text, LaTeX and bibtex, C, C++, python, html
 ;;
 ;; this .emacs file loads several other customization files:
 ;;        - ~/.emacs.d/lisp/efunc.el          - custom functions
@@ -24,7 +21,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; General setup
+;; General setup and package managment
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; start server if not running
@@ -55,7 +52,6 @@
 ;; add path for emacs24 style themes
 (add-to-list 'custom-theme-load-path (concat emacs-root "themes"))
 
-
 ;; ELPA Package Management
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -67,6 +63,7 @@
 ;; https://github.com/zane/dotemacs/blob/master/zane-packages.el#L62
 (setq required-packages
       '(auctex
+        browse-kill-ring
         dynamic-fonts
         ess
         org-plus-contrib
@@ -75,7 +72,7 @@
 
 (package-initialize)
 
-;;; install missing packages 
+;; install missing packages
 ;; see http://technical-dresese.blogspot.com/2012/12/elpa-and-initialization.html
 (let ((not-installed (remove-if 'package-installed-p required-packages)))
   (if not-installed
@@ -85,34 +82,36 @@
                  (dolist (package not-installed)
                    (package-install package))))))
 
-; add ESS from git for julia support change according to location
-;;(add-to-list 'load-path "/opt/ESS/lisp")
-;; not needed, I am using a symlink to opt/julia/contrib/julia-mode.el in ./contrib
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Required packages that don't fall anywhere else:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'browse-kill-ring)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Options ON/OFF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq inhibit-startup-message t)                        ;; Disable the startup splash screen
-(setq-default visible-bell t)                           ;; no beeps, flash on errors
-(menu-bar-mode 1)                                        ;; arg >= 1 enable the menu bar.
+(setq inhibit-startup-message t)           ; Disable the startup splash screen
+(setq-default visible-bell t)              ; no beeps, flash on errors
+(menu-bar-mode 1)                          ; arg >= 1 enable the menu bar
 (tool-bar-mode -1)
-(show-paren-mode 1)                                     ;; Turn on parentheses matching
-;;(if (fboundp 'blink-cursor-mode) (blink-cursor-mode 0)) ;; Turn off blinking cursor
+(show-paren-mode 1)                        ; Turn on parentheses matching
+;; Turn off blinking cursor
+;;(if (fboundp 'blink-cursor-mode) (blink-cursor-mode 0))
 (setq zmacs-regions t)
 (setq inhibit-ge t)
-(setq-default indent-tabs-mode nil)                    ;; uses spaces rather than tabs
-(setq default-tab-width 4); 
+(setq-default indent-tabs-mode nil)        ; uses spaces rather than tabs
+(setq default-tab-width 4);
 (setq delete-key-deletes-forward t)
-;(delete-selection-mode t)                               ;; Typed text replaces a selection
-(setq mouse-yank-at-point t)                          ;; commented out this does what I want:
+;(delete-selection-mode t)                 ; Typed text replaces a selection
+;(setq mouse-yank-at-point t)              ; commented out this does what I want
 (line-number-mode t)
 (column-number-mode t)
 (setq mark-diary-entries-in-calendar t)
-(setq x-select-enable-clipboard t)                      ;; cut-paste
+(setq x-select-enable-clipboard t)         ; cut-paste
 (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 (setq-default fill-column 79)
-(defalias 'yes-or-no-p 'y-or-n-p) ;; get rid of yes-or-no questions - y or n is enough
-
+(defalias 'yes-or-no-p 'y-or-n-p)          ; y or n is enough
 
 ;;window splitting: prefer vertical
 (setq split-height-threshold 80)

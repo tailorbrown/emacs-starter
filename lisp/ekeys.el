@@ -2,10 +2,9 @@
 ;;;;---------------------------------------------------------------------------
 ;; ekeys.el configuration file
 ;; author: Dylan Schwilk
-;; version: 1.3
-;; date: 2013-10-13
 ;;
-;;; my global key bindings and aliases for emacs
+;;; my key bindings and aliases for emacs. I put even the mode-specific
+;;; bindings here so I know where to look for keybindings.
 ;;;;---------------------------------------------------------------------------
 
 (defmacro bind-key (key function)
@@ -29,26 +28,17 @@
    ;; f3 - define kbd macro
    "<f12>" toggle-truncate-lines
 
-  ;; general keybindings:
-;   "M-g"   goto-line  ; default bound to M-g g is good
-
   ;; for moving to `M-x compile' and `M-x grep' matches
   "C-c n"   next-error
   "C-c p"   previous-error
-
-  ;; last call-kbd-macro-rebind to a single keystroke
-  ;"C-c A"   auto-fill-modge
 
    ;; additional shortcuts buffers and windows
   "C-<tab>"   bury-buffer ; cycle through buffers
   "C-x E"   apply-macro-to-region-lines
   "C-x I"   insert-buffer
   "C-c s"   swap-windows  ; defined in efuncs.el
-  "C-c g"   goto-line
-  "C-c G"   goto-char
   "C-c w"   count-words-region
   "M-/"     hippie-expand
- ; "\C-cr"   replace-garbage-chars ;; replaces MS-windows \222, etc
 
   ;; org-mode
   "C-c l"   org-store-link
@@ -62,25 +52,33 @@
  "C-x m"   shell
   ;; Programming and ess
   "<f8>"    compile
- 
   ;; git, magit, vc
   "C-x g"   magit-status
-  ;; blogging
-;  "C-c b s" weblogger-start-entry
-
-  ;; chop chop!
-;  "M-n"     chop-move-down
-;  "M-p"     chop-move-up
 
   ;; bindings for functions defined in lisp/efuncs.el
    "C-c r"   rename-file-and-buffer
    "C-c \\"  the-the
    "C-c i"   insert-date-string
    "C-c k"   browse-kill-ring
+ ; "\C-cr"   replace-garbage-chars ;; replaces MS-windows \222, etc
   ;; Browse url
-;  [(shift button3)] browse-url-at-mouse
-  ;"C-c b"   browse-url
+ ; [(shift button3)] browse-url-at-mouse
+ ; "C-c b"   browse-url
 ))
+
+
+;; disable iconify --- to easy to do on accident
+(when window-system
+  (global-unset-key (kbd "C-z")))
+
+;; aliases
+(defalias 'qrr 'query-replace-regexp)
+(defalias 'rr 'replace-regexp)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Mode specific bindings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; add occur to isearch
 (define-key isearch-mode-map (kbd "C-o")
@@ -90,19 +88,6 @@
       (occur (if isearch-regexp isearch-string
                (regexp-quote isearch-string))))))
 
-;; disable iconify
-;; (when window-system
-;;   (global-unset-key (kbd "C-z")))
-
-;; disable sendmail
-; (global-unset-key (kbd "C-x m"))
-
-;; aliases
-(defalias 'qrr 'query-replace-regexp)
-(defalias 'rr 'replace-regexp)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; mode specific bindings
 ;; Don't fill when we are in visual-line-mode
 (add-hook 'text-mode-hook
   (defun cjm-fix-text-mode ()

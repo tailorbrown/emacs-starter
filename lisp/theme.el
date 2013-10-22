@@ -2,11 +2,14 @@
 ;;;;---------------------------------------------------------------------------
 ;; theme.el configuration file
 ;; author: Dylan Schwilk
-;; date: 2013-06-21
-;; modified for emacs24 deftheme
 ;;
-;;; Schwilk color theme and frame setup
+;;; Theme-related houseeping such as frame setup. Actual theme to load selected
+;;; below. Default is Schwilk color theme.
 ;;;;---------------------------------------------------------------------------
+
+;; set color theme here (from themes in~/.init.d/themes/):
+(setq the-color-theme 'schwilk)
+;(setq the-color-theme 'zenburn)
 
 ;; change frame size depending on resolution
 (defun set-frame-size-according-to-resolution ()
@@ -41,7 +44,7 @@
 (defun my-start-theme (new-frame)
    (select-frame new-frame)
    (set-frame-size-according-to-resolution)
-   (load-theme 'schwilk t)
+   (load-theme the-color-theme t)
    (dynamic-fonts-setup)
   )
 

@@ -1,6 +1,10 @@
-;; Org mode setup
-;; Dylan Schwilk
-;; 2013-10-14
+;;; -*- Mode: Emacs-Lisp -*-
+;;;;---------------------------------------------------------------------------
+;; org-mode-setup.el configuration file
+;; author: Dylan Schwilk
+;;
+;;; Customizations for org-mode
+;;;;---------------------------------------------------------------------------
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Personalization and local settings
@@ -13,9 +17,10 @@
 (setq org-default-notes-file (concat org-directory "refile.org"))
 
 ;; google calendar synchronization using org-caldev
+;; see https://github.com/dengste/org-caldav
 (require 'org-id)
 (setq org-id-method (quote uuidgen))
-(require 'org-caldav)
+(require 'org-caldav) ;; in ~/.emacs.d/contrib/
 (setq org-caldav-url "https://www.google.com/calendar/dav")
 (setq org-caldav-calendar-id "dschwilk@gmail.com")
 (setq org-caldav-inbox org-default-notes-file)

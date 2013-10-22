@@ -2,10 +2,8 @@
 ;;;;---------------------------------------------------------------------------
 ;; efuncs.el configuration file
 ;; author: Dylan Schwilk
-;; version: 2.3
-;; date: 2013-10-16
 ;;
-;;; my utility functions
+;;; my elisp functions
 ;;;;---------------------------------------------------------------------------
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -87,21 +85,6 @@ NEW-WRAP-COLUMN disables this behavior."
         (set-window-margins nil (car current-margins))
         (set-window-margins nil (car current-margins)
                             (- current-available visual-wrap-column))))))
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; Do visual line movement
-;; (defun next-visual-line (&optional arg try-vscroll)
-;;  (interactive "^p\np")
-;;  (let ((line-move-visual t))
-;;    (with-no-warnings
-;;      (next-line arg try-vscroll))))
-
-;; (defun previous-visual-line (&optional arg try-vscroll)
-;;  (interactive "^p\np")
-;;  (let ((line-move-visual t))
-;;    (with-no-warnings
-;;      (previous-line arg try-vscroll))))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

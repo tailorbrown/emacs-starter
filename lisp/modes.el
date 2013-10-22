@@ -2,8 +2,6 @@
 ;;;;---------------------------------------------------------------------------
 ;; modes.el configuration file
 ;; author: Dylan Schwilk
-;; version: 2.3
-;; date: 2013-10-19
 ;;
 ;; Provides hooks and customizations for various modes (text, LaTeX and bibtex,
 ;; html, C, C++, python, ess (R and julia).
@@ -11,13 +9,14 @@
 ;; All org-mode customizations are in ~/.emacs.d/lisp/org-mode-setup.el
 ;;;;---------------------------------------------------------------------------
 
-;; setup SVN hooks
-;; (require 'psvn)  ;; removed 2013-06-20
-;; Start the svn interface with M-x svn-status
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Version control: load VC hooks
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'vc-hooks)
 (setq vc-colorized-diffs t)
+
+;; magit installed
+;; nothing needed. See http://magit.github.io/magit/magit.html
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code for various document modes
