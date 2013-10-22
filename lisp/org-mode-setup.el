@@ -794,7 +794,11 @@ tasks."
 (setq org-export-latex-listings t)
 
 ;; use okular with org-mode pdf viewer.  Run after org.el or overwritten
-(add-hook 'org-load-hook '(setq  org-file-apps (quote ((auto-mode . emacs) ("\\.mm\\'" . system) ("\\.x?html?\\'" . system) ("\\.pdf\\'" . "okular --unique %s")))))
+(add-hook 'org-load-hook 
+  '(setq  org-file-apps (quote ((auto-mode . emacs)
+        ("\\.mm\\'" . system)
+        ("\\.x?html?\\'" . system)
+        ("\\.pdf\\'" . "okular --unique %s")))))
 
 ;; HTML export
 ; Inline images in HTML instead of producting links to the image
@@ -1305,11 +1309,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 ;(global-set-key (kbd "<f6>") '(lambda () (interactive) (bookmark-jump "SAVED")))
 
 (require 'org-mime)
-
-(setq org-file-apps (quote ((auto-mode . emacs)
-                            ("\\.mm\\'" . system)
-                            ("\\.x?html?\\'" . system)
-                            ("\\.pdf\\'" . system))))
 
 (setq org-structure-template-alist
       (quote (("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
