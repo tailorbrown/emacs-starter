@@ -30,12 +30,7 @@
    "<f12>" toggle-truncate-lines
 
   ;; general keybindings:
-;   "C-x w" what-line
-   "M-g"   goto-line
-  ;; prefer backward-kill-word over Backspace
-;  "C-w"     backward-kill-word
-;  "C-x C-k" kill-region
-;  "C-c C-k" kill-region
+;   "M-g"   goto-line  ; default bound to M-g g is good
 
   ;; for moving to `M-x compile' and `M-x grep' matches
   "C-c n"   next-error

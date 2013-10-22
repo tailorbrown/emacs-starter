@@ -32,7 +32,7 @@
 (unless (server-running-p) (server-start))
 
 ;; turn on Common Lisp support
-(require 'cl)
+(require 'cl-lib)
 
 ;; Identification
 (defun user-mail-address() "dylan@schwilk.org")
@@ -47,7 +47,7 @@
 ;; add the elisp directories under ~/emacs to my load path
 (defvar home-dir (expand-file-name "~/"))
 (defvar emacs-root (concat home-dir ".emacs.d/"))
-(labels ((add-path (p)
+(cl-labels ((add-path (p)
            (add-to-list 'load-path (concat emacs-root p))))
   (add-path "lisp")              ; my personal elisp code
   (add-path "contrib")           ; elisp code from other people
