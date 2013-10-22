@@ -794,7 +794,7 @@ tasks."
 (setq org-export-latex-listings t)
 
 ;; use okular with org-mode pdf viewer.  Run after org.el or overwritten
-(add-hook 'org-load-hook 
+(eval-after-load "org"
   '(setq  org-file-apps (quote ((auto-mode . emacs)
         ("\\.mm\\'" . system)
         ("\\.x?html?\\'" . system)
