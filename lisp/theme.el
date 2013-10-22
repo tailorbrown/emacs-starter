@@ -2,8 +2,6 @@
 ;;;;---------------------------------------------------------------------------
 ;; theme.el configuration file
 ;; author: Dylan Schwilk
-;; date: 2013-06-21
-;; modified for emacs24 deftheme
 ;;
 ;;; Schwilk color theme and frame setup
 ;;;;---------------------------------------------------------------------------
