@@ -12,3 +12,4 @@ org-clock-save.el
 tramp
 custom.el
 session.*
+bookmarks
