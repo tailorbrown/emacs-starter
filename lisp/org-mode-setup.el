@@ -206,6 +206,14 @@
 ;; dws org functions, TODO states, tags taetc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Add thunderlink link type for linking to emails in thunderbird
+;; https://addons.mozilla.org/en-us/thunderbird/addon/thunderlink/
+;; Assumes that link of form:
+;; thunderlink://messageid=CC0A9B0B9C20AB4C95BD90FAEA6DACA52CDE1AE5@centaur08.ttu.edu
+(org-add-link-type "thunderlink" 'org-thunderlink-open)
+(defun org-thunderlink-open (path)
+"Opens a specified email in Thunderbird with the help of the add-on ThunderLink." (start-process "schwilk" nil "thunderbird" "-thunderlink" (concat "thunderlink:" path))) 
+
 (defun dws/hide-other ()
   (interactive)
   (save-excursion
