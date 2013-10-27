@@ -48,6 +48,7 @@
            (add-to-list 'load-path (concat emacs-root p))))
   (add-path "lisp")              ; my personal elisp code
   (add-path "contrib")           ; elisp code from other people
+  (add-path "contrib/org2blog") ; org2blog experimental from git
 )
 ;; add path for emacs24 style themes
 (add-to-list 'custom-theme-load-path (concat emacs-root "themes"))

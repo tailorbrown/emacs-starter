@@ -103,6 +103,7 @@
 ;; (setq org-edit-src-content-indentation 0)
 ;; (setq org-export-coding-system 'utf-8)
 
+
 ;; TODO states, selection
 (setq org-use-fast-todo-selection t)
 ;(setq org-treat-S-cursor-todo-selection-as-state-change nil)
@@ -784,6 +785,20 @@ tasks."
 (require 'ox-latex)
 (require 'ox-beamer)
 
+;;for code syntax highlighting
+(require 'htmlize)
+(setq org-html-htmlize-output-type 'css)
+
+;; org2blog
+(require 'org2blog-autoloads)
+(setq org2blog/wp-blog-alist
+      '(("schwilk.org"
+         :url "http://www.schwilk.org/wordpress/xmlrpc.php"
+         :username "firepulaski"
+         :default-title "Hello World"
+         :default-categories ("Ecology")
+         :tags-as-categories nil)))
+
 
 (add-to-list 'org-latex-classes
                 '("pres"
@@ -811,14 +826,7 @@ tasks."
 ;; HTML export
 ; Inline images in HTML instead of producting links to the image
 (setq org-html-inline-images t)
-(setq org-html-head-include-default-style nil)
-; Do not generate internal css formatting for HTML exports
-(setq org-export-htmlize-output-type (quote css))
-
-
-(setq org-html-xml-declaration (quote (("html" . "")
-                                       ("was-html" . "<?xml version=\"1.0\" encoding=\"%s\"?>")
-                                       ("php" . "<?php echo \"<?xml version=\\\"1.0\\\" encoding=\\\"%s\\\" ?>\"; ?>"))))
+;(setq org-html-head-include-default-style nil)
 
 ;;(setq org-export-allow-BIND t)  ;; purpose?
 
