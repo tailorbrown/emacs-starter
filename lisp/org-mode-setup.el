@@ -103,12 +103,9 @@
 ;; (setq org-edit-src-content-indentation 0)
 ;; (setq org-export-coding-system 'utf-8)
 
-
 ;; TODO states, selection
 (setq org-use-fast-todo-selection t)
 ;(setq org-treat-S-cursor-todo-selection-as-state-change nil)
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; logging and timestamps
@@ -318,13 +315,10 @@
 
 (setq org-refile-target-verify-function 'dws/verify-refile-target)
 
-;; refiling and IDO mode (I don't use IDO for now, maybe someday)
-
+;; refiling and IDO mode 
 (setq org-completion-use-ido 1)
-
 ; Use full outline paths for refile targets - we file directly with IDO
 (setq org-refile-use-outline-path t)
-
 ; Targets complete directly with IDO
 (setq org-outline-path-complete-in-steps nil)
 
@@ -345,8 +339,7 @@
 
 ;; Resume clocking task when emacs is restarted
 (org-clock-persistence-insinuate)
-;;
-;; Show lot sof clocking history so it's easy to pick items off the C-F11 list
+;; Show lots of clocking history so it's easy to pick items off the C-F11 list
 (setq org-clock-history-length 36)
 ;; Resume clocking task on clock-in if the clock is open
 (setq org-clock-in-resume t)
@@ -780,8 +773,6 @@ tasks."
 ;; Explicitly load required exporters
 (require 'ox-html)
 (require 'ox-ascii)
-
-;; latex and beamer
 (require 'ox-latex)
 (require 'ox-beamer)
 
@@ -875,7 +866,6 @@ tasks."
 
 ; For tag searches ignore tasks with scheduled and deadline dates
 (setq org-agenda-tags-todo-honor-ignore-options t)
-
 
 ;; Custom agenda command definitions
 (setq org-agenda-custom-commands
