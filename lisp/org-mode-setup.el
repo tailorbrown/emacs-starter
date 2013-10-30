@@ -72,7 +72,8 @@
 (setq org-reverse-note-order nil)
 (setq org-show-following-heading t)
 (setq org-show-hierarchy-above t)
-(setq org-show-siblings (quote ((default))))
+(setq org-show-hierarchy-below t)
+(setq org-show-siblings t)
 (setq org-yank-adjusted-subtrees t)  ;; adjusts level during paste of subtree
 (setq org-deadline-warning-days 30)
 (setq org-export-with-timestamps nil) ;;?
@@ -760,7 +761,6 @@ tasks."
               nil))  ; available to archive
         (or next-headline (point-max))))))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Export-related settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -817,7 +817,7 @@ tasks."
 ;; HTML export
 ; Inline images in HTML instead of producting links to the image
 (setq org-html-inline-images t)
-;(setq org-html-head-include-default-style nil)
+(setq org-html-head-include-default-style nil)
 
 ;;(setq org-export-allow-BIND t)  ;; purpose?
 
