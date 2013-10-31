@@ -77,7 +77,6 @@
 (add-to-list 'auto-mode-alist '("\\.xsd$"    . xml-mode))
 ;; End setup psgml-mode ------------------------------------------------------
 
-
 ;; Use tidy.el to provide support for tidy
 (autoload 'tidy-buffer "tidy" "Run Tidy HTML parser on current buffer" t)
 (autoload 'tidy-parse-config-file "tidy" "Parse the `tidy-config-file'" t)
@@ -85,15 +84,6 @@
 (autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
 (add-hook 'sgml-html-mode-hook #'(lambda () (tidy-build-menu sgml-html-mode-map)))
 (add-hook 'xml-html-mode-hook #'(lambda () (tidy-build-menu xml-html-mode-map)))
-
-;;;---------------------------------------------------------------------------
-;; Setup HTMLhelper mode
-(setq html-helper-do-write-file-hooks t)
-(setq html-helper-address-string 
-  "<a href=\"http://www.schwilk.org/\">Dylan Schwilk &lt;dylan@schwilk.org&gt;</a>")
-(autoload 'html-helper-mode "html-helper-mode" "Yay HTML" t)
-(setq auto-mode-alist (cons '("\\.html$" . html-helper-mode) auto-mode-alist))
-;; End setup HTMLhelper-mode --------------------------------------------------
 
 ;; ----------------------------------------------------------------------------
 ;; Setup Common Lisp mode
