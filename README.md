@@ -34,11 +34,21 @@ Note that my version binds shift-enter rather than shift-control.
 
 ### Some departures from emacs defaults
 
+Things to note when you are reading documentation or surfing the web for help:
+
 * shift-enter for ess
 * [cua-mode](http://ess.r-project.org/) Windows style cut-copy-paste (`C-x, C-c, C-v`) enabled
-* Uses my dark theme (schwilk-theme) and a custom mode-line. Also uses dynamic-fonts to select the font. Currently it chooses monospaced fonts according to this priority list:
+* Uses my dark theme (schwilk-theme) and a custom mode-line (that line of information at the bottom of the frame just above the minibuffer). My setup also uses dynamic-fonts to select the font. Currently it chooses monospaced fonts according to this priority list:
 
-    "Inconsolata" "Consolas" "Ubuntu Mono" "Source Code Pro" "Envy Code R" "Droid Sans
-    Mono Pro" "Droid Sans Mono" "DejaVu Sans Mono"
+    "Inconsolata" "Consolas" "Ubuntu Mono" "Source Code Pro" "Envy Code R" "Droid Sans Mono Pro" "Droid Sans Mono" "DejaVu Sans Mono"
     
   You can change this in lisp/theme.el. Install one of these fonts, if needed. I prefer [Inconsolata](http://www.levien.com/type/myfonts/inconsolata.html)
+
+### Additional functions
+
+Some keybindings (shortcuts to a few functions in efuncs.el):
+
+* "C-c r"   rename-file-and-buffer: Rename your current buffer and the file with which it is associated
+* "C-c \\"  the-the: find duplicated words in your text (spellcheckers usually miss these)
+* "C-c i"   insert-date-string: insert a quick date such as 2013-10-22
+

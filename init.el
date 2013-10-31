@@ -1,8 +1,6 @@
 ;;;;---------------------------------------------------------------------------
 ;; init.el emacs configuration file for simple student starter config
 ;; author: Dylan W. Schwilk
-;; version: 0.2
-;; date: 2013-10-19
 ;;
 ;; packages supported:
 ;;   font-lock, auctex, reftex, ess, org-mode
@@ -90,7 +88,7 @@
 
 ;; Windows-style cut-copy-paste
 (cua-mode t)
-(setq x-select-enable-clipboard t)                    ;; cut-paste
+(setq x-select-enable-clipboard t) ;; cut-paste
 (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
 (transient-mark-mode 1) ;; No region when it is not highlighted
 (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
@@ -124,7 +122,6 @@
              special-display-buffer-names))
 (add-to-list 'special-display-frame-alist '(tool-bar-lines . 0))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load all external files for keybindings, modes, color themes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -136,12 +133,9 @@
    "ekeys"         ; my key bindings and some aliases
    "theme" ))      ; all the visual stuff goes there
 
-
 ;; Do customize stuff last to override anything reset
 (setq custom-file (concat emacs-root "custom.el"))
 (load custom-file)
-
-(put 'overwrite-mode 'disabled nil)
 
 ;; Add final message so using C-h l I can see if .emacs failed
 (message ".emacs loaded successfully!.")

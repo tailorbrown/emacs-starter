@@ -1,8 +1,6 @@
 ;;; -*- Mode: Emacs-Lisp -*-
 ;;;;---------------------------------------------------------------------------
 ;; ekeys.el configuration file
-;; author: Dylan Schwilk
-;; date: 2013-10-11
 ;;
 ;;; Global key bindings and aliases for emacs
 ;;;;---------------------------------------------------------------------------
@@ -29,10 +27,7 @@
    ;; f3 - define kbd macro
    "<f12>" toggle-truncate-lines
 
-  ;; general keybindings:
-   "M-g"   goto-line
-
-  ;; for moving to `M-x compile' and `M-x grep' matches
+   ;; for moving to `M-x compile' and `M-x grep' matches
   "C-c n"   next-error
   "C-c p"   previous-error
 
@@ -42,9 +37,6 @@
    ;; additional shortcuts buffers and windows
   "C-<tab>"   bury-buffer ; cycle through buffers
   "C-x I"   insert-buffer
-;  "C-c s"   swap-windows  ; defined in efuncs.el
-  "C-c g"   goto-line
-  "C-c G"   goto-char
   "C-c w"   count-words-region
   "M-/"     hippie-expand
  ; "\C-cr"   replace-garbage-chars ;; replaces MS-windows \222, etc
@@ -62,17 +54,11 @@
  
   ;; git, magit, vc
   "C-x g"   magit-status
-  ;; blogging
-;  "C-c b s" weblogger-start-entry
 
   ;; bindings for functions defined in lisp/efuncs.el
-   "C-x r"   rename-file-and-buffer
+   "C-c r"   rename-file-and-buffer
    "C-c \\"  the-the
    "C-c i"   insert-date-string
-   "C-c k"   browse-kill-ring
-  ;; Browse url
-;  [(shift button3)] browse-url-at-mouse
-  ;"C-c b"   browse-url
 ))
 
 ;; add occur to isearch
@@ -82,9 +68,6 @@
     (let ((case-fold-search isearch-case-fold-search))
       (occur (if isearch-regexp isearch-string
                (regexp-quote isearch-string))))))
-
-;; disable sendmail
-; (global-unset-key (kbd "C-x m"))
 
 ;; aliases
 (defalias 'qrr 'query-replace-regexp)
@@ -98,16 +81,12 @@
     (define-key text-mode-map "\M-q" 'maybe-fill-paragraph)
     (remove-hook 'text-mode-hook 'cjm-fix-text-mode)))
 
+;; ESS mode hooks
 (define-key ess-mode-map [(control return)] nil)
 (define-key ess-mode-map [(shift return)] 'ess-eval-region-or-line-and-step) 
-
-;; ESS mode hooks
 (add-hook 'ess-mode-hook
   (lambda()
-    (Local-set-key  [(control return)] nil) ; unset ess default
-    (local-set-key [(shift return)] 'my-eval-region-or-line-and-step) ;; start ess
     (local-set-key [C-up] 'comint-previous-input) ;; like alt-p
     (local-set-key [C-down] 'comint-next-input)
    )
 )
-
