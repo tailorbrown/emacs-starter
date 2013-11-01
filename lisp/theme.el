@@ -16,10 +16,10 @@
   (interactive)
   (if window-system
   (progn
-    ;; use 120 char wide window for largeish displays
+    ;; use 140 char wide window for largeish displays
     ;; and smaller 80 column windows for smaller displays
     (if (> (x-display-pixel-width) 1280)
-        (add-to-list 'default-frame-alist (cons 'width 120))
+        (add-to-list 'default-frame-alist (cons 'width 140))
       (add-to-list 'default-frame-alist (cons 'width 80)))
     ;; for the height, subtract a hundred pixels from the screen height (for
     ;; panels, menubars and whatnot), then divide by the height of a char to
