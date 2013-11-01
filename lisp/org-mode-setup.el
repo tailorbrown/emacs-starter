@@ -62,7 +62,6 @@
 ;(setq require-final-newline t)
 (setq org-startup-indented 1)
 (setq org-hide-leading-stars t)
-(setq org-startup-indented t)
 (setq org-agenda-include-diary 0)
 (setq org-startup-folded t)
 (setq org-alphabetical-lists t)
@@ -118,7 +117,6 @@
 ;; (setq org-habit-graph-column 50)
 ;; (run-at-time "06:00" 86400 '(lambda () (setq org-habit-show-habits t)))
 ;; (global-auto-revert-mode t)
-
 
 (setq org-log-done 'time)
 (setq org-log-into-drawer t)
@@ -303,7 +301,6 @@
 
 ; Allow setting single tags without the menu
 ;(setq org-fast-tag-selection-single-key (quote expert))
-
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -850,8 +847,6 @@ tasks."
         (org-show-todo-tree nil))
     (dws/narrow-to-org-subtree)
     (org-show-todo-tree nil)))
-
-
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

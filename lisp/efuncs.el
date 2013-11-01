@@ -120,8 +120,6 @@ NEW-WRAP-COLUMN disables this behavior."
   '(progn
      (setq browse-kill-ring-quit-action 'save-and-restore)))
 
-
-
 ;;;----------------------------------------------------------------------------
 ;;; Insert date
 (defun insert-date-string ()
@@ -151,7 +149,6 @@ NEW-WRAP-COLUMN disables this behavior."
         (command "/usr/bin/tidy -config ~/emacs/contrib/tidy-config-file -asxhtml"))
         (shell-command-on-region start end command t t
              shell-command-default-error-buffer)))
-
 
 ;;;----------------------------------------------------------------------------
 ;; Latex word counting
@@ -199,6 +196,7 @@ table determines which characters these are."
 
 
 
+;;;----------------------------------------------------------------------------
 ;; Functions for filling and unfilling text.
 ;; For composing in emacs then pasting into a word processor,
 ;; this un-fills all the paragraphs (i.e. turns each paragraph
@@ -320,4 +318,3 @@ file modes."
 
 (define-hash-region sha1-region sha1)
 (define-hash-region md5-region md5)
-
