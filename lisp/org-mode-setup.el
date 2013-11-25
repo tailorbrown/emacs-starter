@@ -83,9 +83,6 @@
 (setq org-src-window-setup 'current-window) 
 (setq org-enforce-todo-dependencies t)
 (setq org-cycle-separator-lines 0)
-(setq org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
-;(setq org-blank-before-new-entry (quote ((heading)
-;                                         (plain-list-item . auto))))
 (setq org-table-export-default-format "orgtbl-to-csv") ; tables exported csv, not tab
 ;;(setq org-table-use-standard-references 'from)
 
