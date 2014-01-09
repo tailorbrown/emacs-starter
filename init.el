@@ -48,6 +48,7 @@
       '(auctex
         ess
         org-plus-contrib
+        dynamic-fonts
         ))
 
 (package-initialize)
