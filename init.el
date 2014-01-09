@@ -132,6 +132,7 @@
  '( "modes"        ; various modes configurations
    "efuncs"        ; a bunch of utilities functions
    "ekeys"         ; my key bindings and some aliases
+;;   "org-mode-setup"; Optional, requires customization
    "theme" ))      ; all the visual stuff goes there
 
 ;; Do customize stuff last to override anything reset
