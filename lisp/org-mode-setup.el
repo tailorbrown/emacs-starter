@@ -94,6 +94,9 @@
 ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                  (org-agenda-files :maxlevel . 9))))
+;; archiving
+(setq org-archive-mark-done nil)
+(setq org-archive-location "%s_archive::* Archived Tasks")
 
 (setq org-catch-invisible-edits 'error) ;; catch edits to hidden parts. Try this
 
@@ -690,9 +693,6 @@ tasks."
     (if (dws/is-subproject-p)
         nil
       next-headline)))
-
-(setq org-archive-mark-done nil)
-(setq org-archive-location "%s_archive::* Archived Tasks")
 
 (defun dws/skip-non-archivable-tasks ()
   "Skip trees that are not available for archiving"
