@@ -16,7 +16,7 @@
 ;; catchall file (used for caldav-sync with google calendar as well)
 (setq org-default-notes-file (concat org-directory "refile.org"))
 
-;; google calendar synchronization using org-caldev
+;; google calendar synchronization using org-caldav
 ;; see https://github.com/dengste/org-caldav
 (require 'org-id)
 (setq org-id-method (quote uuidgen))
@@ -198,17 +198,21 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; dws org functions, TODO states, tags taetc
+;; Local dws org functions, TODO states, tags taetc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ;; Add thunderlink link type for linking to emails in thunderbird
 ;; https://addons.mozilla.org/en-us/thunderbird/addon/thunderlink/
 ;; Assumes that link of form:
 ;; thunderlink://messageid=CC0A9B0B9C20AB4C95BD90FAEA6DACA52CDE1AE5@centaur08.ttu.edu
+;; To add a button to thunderbird to create these links easily see:
+;; https://github.com/dschwilk/org-thunderbird-snips
 (org-add-link-type "thunderlink" 'org-thunderlink-open)
 (defun org-thunderlink-open (path)
 "Opens a specified email in Thunderbird with the help of the add-on ThunderLink." (start-process "schwilk" nil "thunderbird" "-thunderlink" (concat "thunderlink:" path))) 
 
+;; hide-other
 (defun dws/hide-other ()
   (interactive)
   (save-excursion
@@ -326,7 +330,6 @@
 ;; ; Use the current window when visiting files and buffers with ido
 (setq ido-default-file-method 'selected-window)
 (setq ido-default-buffer-method 'selected-window)
-
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -487,50 +490,6 @@ A prefix arg forces clock in of the default task."
 ;; Agenda clock report parameters
 (setq org-agenda-clockreport-parameter-plist
       (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
-
-; Set default column view headings: Task Effort Clock_Summary
-;(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
-
-; global Effort estimate values
-; global STYLE property values for completion
-;(setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
-;                                    ("STYLE_ALL" . "habit"))))
-
-
-
-;(require 'bbdb)
-;(require 'bbdb-com)
-
-;; Phone capture template handling with BBDB lookup
-;; Adapted from code by Gregory J. Grubbs
-;; (defun dws/phone-call ()
-;;   "Return name and company info for caller from bbdb lookup"
-;;   (interactive)
-;;   (let* (name rec caller)
-;;     (setq name (completing-read "Who is calling? "
-;;                                 (bbdb-hashtable)
-;;                                 'bbdb-completion-predicate
-;;                                 'confirm))
-;;     (when (> (length name) 0)
-;;       ; Something was supplied - look it up in bbdb
-;;       (setq rec
-;;             (or (first
-;;                  (or (bbdb-search (bbdb-records) name nil nil)
-;;                      (bbdb-search (bbdb-records) nil name nil)))
-;;                 name)))
-
-;;     ; Build the bbdb link if we have a bbdb record, otherwise just return the name
-;;     (setq caller (cond ((and rec (vectorp rec))
-;;                         (let ((name (bbdb-record-name rec))
-;;                               (company (bbdb-record-company rec)))
-;;                           (concat "[[bbdb:"
-;;                                   name "]["
-;;                                   name "]]"
-;;                                   (when company
-;;                                     (concat " - " company)))))
-;;                        (rec)
-;;                        (t "NameOfCaller")))
-;;     (insert caller)))
 
 (defun dws/is-project-p ()
   "Any task with a todo keyword subtask"

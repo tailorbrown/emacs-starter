@@ -13,3 +13,4 @@ tramp
 custom.el
 session.*
 bookmarks
+/org-caldav-backup.org
