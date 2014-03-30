@@ -729,6 +729,7 @@ tasks."
 (require 'ox-ascii)
 (require 'ox-latex)
 (require 'ox-beamer)
+(require 'ox-md)
 
 ;;for code syntax highlighting
 (require 'htmlize)
