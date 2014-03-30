@@ -69,6 +69,7 @@
         ess
         org-plus-contrib
         rainbow-mode
+        jedi
         ))
 
 (package-initialize)
