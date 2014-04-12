@@ -57,7 +57,6 @@
 ;; org options
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; filetypes
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 (setq org-archive-save-context-info 1)
 ;(setq require-final-newline t)
@@ -96,10 +95,12 @@
                                  (org-agenda-files :maxlevel . 9))))
 ;; archiving
 (setq org-archive-mark-done nil)
-(setq org-archive-location "%s_archive::* Archived Tasks")
+(setq org-archive-location "%s_archive:: * ")
 
 (setq org-catch-invisible-edits 'error) ;; catch edits to hidden parts. Try this
 
+;; Source code
+(setq org-confirm-babel-evaluate nil)
 ;; (setq org-src-preserve-indentation nil)
 ;; (setq org-edit-src-content-indentation 0)
 ;; (setq org-export-coding-system 'utf-8)
@@ -163,6 +164,17 @@
  ;'(org-mode-line-clock ((t (:foreground "red" :box (:line-width -1 :style released-button)))) t))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Using BibTeX and org-mode with reftex
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun org-mode-reftex-setup ()
+(load-library "reftex")
+(and (buffer-file-name)
+(file-exists-p (buffer-file-name))
+(reftex-parse-all))
+(define-key org-mode-map (kbd "C-c )") 'reftex-citation)
+)
+(add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; babel
@@ -731,9 +743,12 @@ tasks."
 (require 'ox-beamer)
 (require 'ox-md)
 
+;; github-flavored markdown
+(require 'ox-gfm)
+
 ;;for code syntax highlighting
 (require 'htmlize)
-(setq org-html-htmlize-output-type 'css)
+;;(setq org-html-htmlize-output-type 'css)
 
 ;; org2blog
 (require 'org2blog-autoloads)

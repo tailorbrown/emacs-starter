@@ -142,21 +142,45 @@
 (add-hook 'c-mode-common-hook 'lconfig-c-mode)
 ;; End setup c mode -----------------------------------------------------------
 
-
 ;;;----------------------------------------------------------------------------
-;; Setup flymake for pylint -- uses my custom epylint script in ~/scripts
-    (when (load "flymake" t)
-      (defun flymake-pylint-init ()
-        (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                           'flymake-create-temp-inplace))
+;; python mode
+
+;; jedi http://tkf.github.io/emacs-jedi/latest/
+
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)                 ; optional
+
+;; pyflakes flymake integration
+;; http://stackoverflow.com/a/1257306/347942
+(when (load "flymake" t)
+  (defun flymake-pyflakes-init ()
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
            (local-file (file-relative-name
                         temp-file
                         (file-name-directory buffer-file-name))))
-          (list "epylint" (list local-file))))
+      (list "pycheckers" (list local-file))))
+  (add-to-list 'flymake-allowed-file-name-masks
+               '("\\.py\\'" flymake-pyflakes-init)))
+(add-hook 'python-mode-hook 'flymake-mode)
+
+
+;; End setup python-mode-------------------------------------------------------
+
+;; ;;;----------------------------------------------------------------------------
+;; ;; Setup flymake for pylint -- uses my custom epylint script in ~/scripts
+;;     (when (load "flymake" t)
+;;       (defun flymake-pylint-init ()
+;;         (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;;                            'flymake-create-temp-inplace))
+;;            (local-file (file-relative-name
+;;                         temp-file
+;;                         (file-name-directory buffer-file-name))))
+;;           (list "epylint" (list local-file))))
     
-      (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pylint-init)))
-;; End setup flymake ----------------------------------------------------------
+;;       (add-to-list 'flymake-allowed-file-name-masks
+;;                '("\\.py\\'" flymake-pylint-init)))
+;; ;; End setup flymake ----------------------------------------------------------
 
 
 ;;;----------------------------------------------------------------------------

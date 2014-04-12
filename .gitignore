@@ -14,3 +14,5 @@ custom.el
 session.*
 bookmarks
 /org-caldav-backup.org
+.python-environments/
+/ac-comphist.dat
