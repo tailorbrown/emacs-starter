@@ -748,7 +748,7 @@ tasks."
 
 ;;for code syntax highlighting
 (require 'htmlize)
-;;(setq org-html-htmlize-output-type 'css)
+(setq org-html-htmlize-output-type 'css)
 
 ;; org2blog
 (require 'org2blog-autoloads)
@@ -775,7 +775,7 @@ tasks."
 (setq org-export-with-LaTeX-fragments t)
 ; Increase default number of headings to export
 ;(setq org-export-headline-levels 6)
-(setq org-export-latex-listings t)
+(setq org-latex-listings t)
 
 ;; use okular with org-mode pdf viewer.  Run after org.el or overwritten
 (eval-after-load "org"
