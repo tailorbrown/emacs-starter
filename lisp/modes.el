@@ -147,8 +147,8 @@
 
 ;; jedi http://tkf.github.io/emacs-jedi/latest/
 
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)                 ; optional
+;(add-hook 'python-mode-hook 'jedi:setup)
+;(setq jedi:complete-on-dot t)                 ; optional
 
 ;; pyflakes flymake integration
 ;; http://stackoverflow.com/a/1257306/347942
