@@ -746,9 +746,6 @@ tasks."
 ;;for code syntax highlighting
 (require 'htmlize)
 (setq org-html-htmlize-output-type 'css)
-<<<<<<< HEAD
-=======
-
 
 ;; export settings
 (setq org-export-with-timestamps nil) ;;?
@@ -762,17 +759,15 @@ tasks."
 (setq org-latex-listings t)
 (setq org-export-babel-evaluate nil)  ;; save time on export, do manually
 
->>>>>>> working
-
-;; org2blog
-(require 'org2blog-autoloads)
-(setq org2blog/wp-blog-alist
-      '(("schwilk.org"
-         :url "http://www.schwilk.org/wordpress/xmlrpc.php"
-         :username "firepulaski"
-         :default-title "Hello World"
-         :default-categories ("Ecology")
-         :tags-as-categories nil)))
+;; ;; org2blog
+;; (require 'org2blog-autoloads)
+;; (setq org2blog/wp-blog-alist
+;;       '(("schwilk.org"
+;;          :url "http://www.schwilk.org/wordpress/xmlrpc.php"
+;;          :username "firepulaski"
+;;          :default-title "Hello World"
+;;          :default-categories ("Ecology")
+;;          :tags-as-categories nil)))
 
 
 (add-to-list 'org-latex-classes
@@ -784,15 +779,6 @@ tasks."
                   ("\\section{%s}" . "\\section*{%s}")
                   ("\\subsection{%s}" . "\\subsection*{%s}")
                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-
-<<<<<<< HEAD
-; Export with LaTeX fragments
-(setq org-export-with-LaTeX-fragments t)
-; Increase default number of headings to export
-;(setq org-export-headline-levels 6)
-(setq org-latex-listings t)
-=======
->>>>>>> working
 
 ;; use okular with org-mode pdf viewer.  Run after org.el or overwritten
 (eval-after-load "org"
