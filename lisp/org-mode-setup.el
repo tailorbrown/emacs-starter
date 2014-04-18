@@ -75,7 +75,6 @@
 (setq org-show-siblings t)
 (setq org-yank-adjusted-subtrees t)  ;; adjusts level during paste of subtree
 (setq org-deadline-warning-days 30)
-(setq org-export-with-timestamps nil) ;;?
 (setq org-return-follows-link t)
 (setq org-special-ctrl-a/e t) ;; begin/end of heading rather than line in org-mode
 (setq org-special-ctrl-k t) ;; special kill-line
@@ -742,13 +741,25 @@ tasks."
 (require 'ox-latex)
 (require 'ox-beamer)
 (require 'ox-md)
-
-;; github-flavored markdown
-(require 'ox-gfm)
+(require 'ox-gfm)  ;; github-flavored markdown, not standard
 
 ;;for code syntax highlighting
 (require 'htmlize)
 (setq org-html-htmlize-output-type 'css)
+
+
+;; export settings
+(setq org-export-with-timestamps nil) ;;?
+(setq org-export-with-sub-superscripts t)  ; '{} would mean must use braces
+; Inline images in HTML instead of producting links to the image
+(setq org-html-inline-images t)
+(setq org-html-head-include-default-style nil)
+(setq org-export-allow-bind-keywords t)  ;; purpose?
+; Increase default number of headings to export
+(setq org-export-headline-levels 4)
+(setq org-latex-listings t)
+(setq org-export-babel-evaluate nil)  ;; save time on export, do manually
+
 
 ;; org2blog
 (require 'org2blog-autoloads)
@@ -771,11 +782,6 @@ tasks."
                   ("\\subsection{%s}" . "\\subsection*{%s}")
                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
 
-; Export with LaTeX fragments
-(setq org-export-with-LaTeX-fragments t)
-; Increase default number of headings to export
-;(setq org-export-headline-levels 6)
-(setq org-latex-listings t)
 
 ;; use okular with org-mode pdf viewer.  Run after org.el or overwritten
 (eval-after-load "org"
@@ -784,12 +790,7 @@ tasks."
         ("\\.x?html?\\'" . system)
         ("\\.pdf\\'" . "okular --unique %s")))))
 
-;; HTML export
-; Inline images in HTML instead of producting links to the image
-(setq org-html-inline-images t)
-(setq org-html-head-include-default-style nil)
 
-;;(setq org-export-allow-BIND t)  ;; purpose?
 
 ;; ; Erase all reminders and rebuilt reminders for today from the agenda
 ;; (defun dws/org-agenda-to-appt ()
