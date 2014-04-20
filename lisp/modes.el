@@ -33,10 +33,6 @@
 (require 'table)
 (add-hook 'text-mode-hook 'table-recognize)
 
-;; Setup RST mode
-; (require 'rst)
-; (add-hook 'text-mode-hook 'rst-text-mode-bindings)
-
 ;; Markdown mode
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
@@ -164,24 +160,7 @@
                '("\\.py\\'" flymake-pyflakes-init)))
 (add-hook 'python-mode-hook 'flymake-mode)
 
-
 ;; End setup python-mode-------------------------------------------------------
-
-;; ;;;----------------------------------------------------------------------------
-;; ;; Setup flymake for pylint -- uses my custom epylint script in ~/scripts
-;;     (when (load "flymake" t)
-;;       (defun flymake-pylint-init ()
-;;         (let* ((temp-file (flymake-init-create-temp-buffer-copy
-;;                            'flymake-create-temp-inplace))
-;;            (local-file (file-relative-name
-;;                         temp-file
-;;                         (file-name-directory buffer-file-name))))
-;;           (list "epylint" (list local-file))))
-    
-;;       (add-to-list 'flymake-allowed-file-name-masks
-;;                '("\\.py\\'" flymake-pylint-init)))
-;; ;; End setup flymake ----------------------------------------------------------
-
 
 ;;;----------------------------------------------------------------------------
 ;; Setup R and julia mode for ESS
