@@ -26,6 +26,7 @@
    ;; f1 - help
    ;; f2 - 2-column
    ;; f3 - define kbd macro
+   "<f11>" visual-line-mode ; toggles
    "<f12>" toggle-truncate-lines
 
   ;; for moving to `M-x compile' and `M-x grep' matches
@@ -67,9 +68,9 @@
 ))
 
 
-;; disable iconify --- to easy to do on accident
-(when window-system
-  (global-unset-key (kbd "C-z")))
+;; disable iconify --- to easy to do on accident when accustomed to
+;; windows-style undo key
+(global-unset-key (kbd "C-z"))
 
 ;; aliases
 (defalias 'qrr 'query-replace-regexp)
