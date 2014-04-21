@@ -7,9 +7,8 @@
 ;;; below. Default is Schwilk color theme.
 ;;;;---------------------------------------------------------------------------
 
-;; set color theme here (from themes in~/.init.d/themes/):
+;; set color theme here (from themes in ~/.init.d/themes/):
 (setq the-color-theme 'schwilk)
-;(setq the-color-theme 'zenburn)
 
 ;; change frame size depending on resolution
 (defun set-frame-size-according-to-resolution ()

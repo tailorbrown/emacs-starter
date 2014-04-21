@@ -38,11 +38,11 @@
 ;; end setup speedbar
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; check if in visual line mode before hard wrapping
+;; check if in visual line mode before hard wrapping. See redefinition of key
+;; shortcut M-q in text mode in ekeys.el
 (defun maybe-fill-paragraph (&optional justify region)
-  "Fill paragraph at or after point (see `fill-paragraph').
-
-Does nothing if `visual-line-mode' is on."
+  "Fill paragraph at or after point (see `fill-paragraph'). Does
+nothing if `visual-line-mode' is on."
   (interactive (progn
     	 (barf-if-buffer-read-only)
     	 (list (if current-prefix-arg 'full) t)))
@@ -57,7 +57,7 @@ Does nothing if `visual-line-mode' is on."
 (defun set-visual-wrap-column (new-wrap-column &optional buffer)
   "Force visual line wrap at NEW-WRAP-COLUMN in BUFFER (defaults
 to current buffer) by setting the right-hand margin on every
-window that displays BUFFER.  A value of NIL or 0 for
+window that displays BUFFER. A value of NIL or 0 for
 NEW-WRAP-COLUMN disables this behavior."
   (interactive (list (read-number "New visual wrap column, 0 to disable: " (or visual-wrap-column fill-column 0))))
   (if (and (numberp new-wrap-column)

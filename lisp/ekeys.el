@@ -88,11 +88,14 @@
       (occur (if isearch-regexp isearch-string
                (regexp-quote isearch-string))))))
 
-;; Don't fill when we are in visual-line-mode
+;; Don't us alt-q to fill when we are in visual-line-mode make temprorary
+;; function, run hook function in text mode and after it is run once remove the
+;; function
 (add-hook 'text-mode-hook
-  (defun cjm-fix-text-mode ()
+  (defun dws-fix-text-mode ()
     (define-key text-mode-map "\M-q" 'maybe-fill-paragraph)
-    (remove-hook 'text-mode-hook 'cjm-fix-text-mode)))
+    ; remove hook not really necessary, but why not clean up after it runs?
+    (remove-hook 'text-mode-hook 'dws-fix-text-mode)))
 
 ;; ESS mode hooks
 (add-hook 'ess-mode-hook
