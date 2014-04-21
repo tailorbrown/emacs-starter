@@ -15,7 +15,7 @@
 (require 'vc-hooks)
 (setq vc-colorized-diffs t)
 
-;; magit installed
+;; magit installed via MELPA
 ;; nothing needed. See http://magit.github.io/magit/magit.html
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -36,7 +36,6 @@
 ;; Markdown mode
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
-;(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))

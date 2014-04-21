@@ -759,17 +759,6 @@ tasks."
 (setq org-latex-listings t)
 (setq org-export-babel-evaluate nil)  ;; save time on export, do manually
 
-;; ;; org2blog
-;; (require 'org2blog-autoloads)
-;; (setq org2blog/wp-blog-alist
-;;       '(("schwilk.org"
-;;          :url "http://www.schwilk.org/wordpress/xmlrpc.php"
-;;          :username "firepulaski"
-;;          :default-title "Hello World"
-;;          :default-categories ("Ecology")
-;;          :tags-as-categories nil)))
-
-
 (add-to-list 'org-latex-classes
                 '("pres"
                   "\\documentclass[presentation]{beamer}
@@ -787,29 +776,6 @@ tasks."
         ("\\.x?html?\\'" . system)
         ("\\.pdf\\'" . "okular --unique %s")))))
 
-
-
-;; ; Erase all reminders and rebuilt reminders for today from the agenda
-;; (defun dws/org-agenda-to-appt ()
-;;   (interactive)
-;;   (setq appt-time-msg-list nil)
-;;   (org-agenda-to-appt))
-
-;; ; Rebuild the reminders everytime the agenda is displayed
-;; (add-hook 'org-finalize-agenda-hook 'dws/org-agenda-to-appt 'append)
-
-;; ; This is at the end of my .emacs - so appointments are set up when Emacs starts
-;; (dws/org-agenda-to-appt)
-
-;; ; Activate appointments so we get notifications
-;; (appt-activate t)
-
-;; ; If we leave Emacs running overnight - reset the appointments one minute after midnight
-;; (run-at-time "24:01" nil 'dws/org-agenda-to-appt)
-
-;; ;; Enable abbrev-mode
-;; (add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
-
 (defun dws/org-todo (arg)
   (interactive "p")
   (if (equal arg 4)
@@ -818,7 +784,6 @@ tasks."
         (org-show-todo-tree nil))
     (dws/narrow-to-org-subtree)
     (org-show-todo-tree nil)))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;   Agenda functions, options
@@ -1268,13 +1233,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
         (goto-char (point-min))
         (kill-ring-save (point-min) (point-max))))))
 
-;; smex, not used
-;; (require 'smex)
-;; (smex-initialize)
-;; (global-set-key (kbd "M-x") 'smex)
-;; (global-set-key (kbd "C-x x") 'smex)
-;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-
 ;; Bookmark handling
 ;;
 ;(global-set-key (kbd "<C-f6>") '(lambda () (interactive) (bookmark-set "SAVED")))
@@ -1319,18 +1277,6 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (add-hook 'message-mode-hook
           '(lambda () (setq fill-column 72))
           'append)
-
-
-;; (add-hook 'org-mode-hook
-;;           (lambda ()
-;;             (local-set-key (kbd "C-c M-o") 'dws/mail-subtree))
-;;           'append)
-
-;; (defun dws/mail-subtree ()
-;;   (interactive)
-;;   (org-mark-subtree)
-;;   (org-mime-subtree))
-
 
 (setq org-time-clocksum-format
       '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t))
