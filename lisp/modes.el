@@ -141,6 +141,12 @@
 ;;;----------------------------------------------------------------------------
 ;; python mode
 
+;; virtual environment support
+
+(require 'virtualenvwrapper)
+(venv-initialize-interactive-shells) ;; if you want interactive shell support
+(venv-initialize-eshell) ;; if you want eshell support
+(setq venv-location "~/venv")
 ;; jedi http://tkf.github.io/emacs-jedi/latest/
 
 ;(add-hook 'python-mode-hook 'jedi:setup)
