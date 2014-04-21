@@ -69,7 +69,6 @@
         magit
         org-plus-contrib
         rainbow-mode
-        virtualenvwrapper
         ))
 
 (package-initialize)
