@@ -1,7 +1,7 @@
 schwilk-emacs-starter
 =====================
 
-A starter .emacs.d directory for my students with support for ESS, auctex, org-mode
+A starter .emacs.d directory for my students with support for R programming (through ESS), LaTeX editing (auctex), org-mode (http://orgmode.org/) and git (using magit, https://github.com/magit/magit). Note that the org-mode setup is just the org-mode defaults.  I have a customized org-mode setup in org-mode-setup.el, but this file is not loaded unless you uncomment a line in init.el.  If you want to do that, you should read through [org-mode-setup.el](file:lisp/org-mode-setup.el) and read some comments and make a few personalizations where noted.
 
 Installing
 ----------
@@ -27,14 +27,14 @@ Using
 
 ### For coding in R and running R interactively
 
-R mode is automatical entered when you edit a file with the extension *.r or *.R. To start the R interpreter highlight a region or put your cursor on
+R mode is automatically entered when you edit a file with the extension *.r or *.R. To start the R interpreter highlight a region or put your cursor on
 a line of code and hit [shift-enter]. Do the same to send more code to the interpreter. See emacs speaks statistics for more details: [http://ess.r-project.org/](http://ess.r-project.org/)
 
-Note that my version binds shift-enter rather than shift-control.
+Note that my version binds shift-enter rather than shift-control to starting the R interpreter and sending a line to the interpreter.
 
 ### Some departures from emacs defaults
 
-Things to note when you are reading documentation or surfing the web for help:
+Things to note when you are reading documentation or surfing the web for help. This mode differs from the emacs defaults in these ways
 
 * shift-enter for ess
 * [cua-mode](http://ess.r-project.org/) Windows style cut-copy-paste (`C-x, C-c, C-v`) enabled
