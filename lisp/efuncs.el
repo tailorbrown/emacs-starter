@@ -3,43 +3,12 @@
 ;; efuncs.el configuration file
 ;; author: Dylan Schwilk
 ;;
-;;; my elisp functions
+;;; Utility functions
 ;;;;---------------------------------------------------------------------------
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; General lisp functions
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; function to calculate set-differences that works on strings
-(defun my-set-difference (a b)
-  (remove-if
-     #'(lambda (x) (and (member x a) (member x b)))
-     (append a b)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Interface customizations, menus, etc.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Setup speedbar, an additional frame for viewing source files
-(autoload 'speedbar-frame-mode "speedbar" "Popup a speedbar frame" t)
-(autoload 'speedbar-get-focus "speedbar" "Jump to speedbar frame" t)
-(autoload 'speedbar-toggle-etags "speedbar" "Add argument to etags command" t)
-(setq speedbar-frame-plist '(minibuffer nil
-                             border-width 0
-                             internal-border-width 0
-                             menu-bar-lines 0
-                             modeline t
-                             name "SpeedBar"
-                             width 24
-                             unsplittable t))
-(condition-case err
-    (progn (speedbar-toggle-etags "-C"))
-  (error (message "Unable to load Speedbar package.")))
-;; end setup speedbar
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; check if in visual line mode before hard wrapping. See redefinition of key
-;; shortcut M-q in text mode in ekeys.el
+;; check if in visual line mode before hard wrapping
 (defun maybe-fill-paragraph (&optional justify region)
   "Fill paragraph at or after point (see `fill-paragraph'). Does
 nothing if `visual-line-mode' is on."
@@ -88,45 +57,17 @@ NEW-WRAP-COLUMN disables this behavior."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; My custom editing functions
+;; My general custom functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;----------------------------------------------------------------------------
-;;; open gtd.org
-(defun gtd ()
-   (interactive)
-   (find-file "~/org/gtd.org")
-)
-
-;;;----------------------------------------------------------------------------
-;;; Replace windows garbage chars
-(defun replace-garbage-chars ()
-"Replace goofy MS and other garbage characters with latin1 equivalents."
-(interactive)
-(save-excursion                         ;save the current point
-  (replace-string "—" "--" nil (point-min) (point-max)) ; multi-byte
-  (replace-string "" "`" nil (point-min) (point-max))
-  (replace-string "" "'" nil (point-min) (point-max))
-  (replace-string "" "``" nil (point-min) (point-max))
-  (replace-string "" "''" nil (point-min) (point-max))
-  (replace-string "" "--" nil (point-min) (point-max))
-))
-
-;; ----------------------------------------------------------------------------
-;; browse-kill-ring
-;; Select something that you put in the kill ring ages ago. use C-c k
-(autoload 'browse-kill-ring "browse-kill-ring" "Browse the kill ring." t)
-(eval-after-load "browse-kill-ring"
-  '(progn
-     (setq browse-kill-ring-quit-action 'save-and-restore)))
-
-;;;----------------------------------------------------------------------------
-;;; Insert date
+;;; Instert date
 (defun insert-date-string ()
   "Insert a nicely formated date string."
   (interactive)
   (insert (format-time-string "%Y-%m-%d")))
 ;; C-c i calls insert-date-string
+(global-set-key (kbd "C-c i") 'insert-date-string)
 ;; end insert-date-string
 
 ;;;----------------------------------------------------------------------------
@@ -137,18 +78,6 @@ NEW-WRAP-COLUMN disables this behavior."
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil)
   (untabify (point-min) (point-max)))
-
-;;;----------------------------------------------------------------------------
-;; tidy-region
-(setq shell-command-default-error-buffer "tidy-errors") ; define error buffer
-(defun tidy-region ()
-  "Run Tidy HTML parser on current region."
-  (interactive)
-  (let ((start (mark))
-        (end (point))
-        (command "/usr/bin/tidy -config ~/emacs/contrib/tidy-config-file -asxhtml"))
-        (shell-command-on-region start end command t t
-             shell-command-default-error-buffer)))
 
 ;;;----------------------------------------------------------------------------
 ;; Latex word counting
@@ -213,79 +142,9 @@ table determines which characters these are."
     (set-fill-column 1000000)
     (mark-whole-buffer)
     (fill-individual-paragraphs (point-min) (point-max))
-    ;;(delete-matching-lines "^$")
     (set-fill-column save-fill-column)
 ))
 
-(defun make-file-executable-if-script ()
-  "Make file executable according to umask if not already executable.
-If file already has any execute bits set at all, do not change existing
-file modes."
-  (and (save-excursion
-         (save-restriction
-           (widen)
-           (goto-char (point-min))
-           (save-match-data
-             (looking-at "^#!"))))
-       (let* ((current-mode (file-modes (buffer-file-name)))
-              (add-mode (logand ?\111 (default-file-modes))))
-         (or (/= (logand ?\111 current-mode) 0)
-             (zerop add-mode)
-             (set-file-modes (buffer-file-name)
-                             (logior current-mode add-mode))))))
-
-
-(defun swap-windows ()
- "If you have 2 windows, it swaps them." 
- (interactive)
- (cond ((not (= (count-windows) 2))
-        (message "You need exactly 2 windows to do this."))
-       (t
-        (let* ((w1 (first (window-list)))
-               (w2 (second (window-list)))
-               (b1 (window-buffer w1))
-               (b2 (window-buffer w2))
-               (s1 (window-start w1))
-               (s2 (window-start w2)))
-          (set-window-buffer w1 b2)
-          (set-window-buffer w2 b1)
-          (set-window-start w1 s2)
-          (set-window-start w2 s1)))))
-
-
-(defun rename-file-and-buffer (new-name)
-  "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
-  (let ((name (buffer-name))
-        (filename (buffer-file-name)))
-    (if (not filename)
-        (message "Buffer '%s' is not visiting a file!" name)
-      (if (get-buffer new-name)
-          (message "A buffer named '%s' already exists!" new-name)
-          (progn
-            (rename-file name new-name 1)
-            (rename-buffer new-name)
-            (set-visited-file-name new-name)
-            (set-buffer-modified-p nil))))))
-
-;; (defun move-buffer-file (dir)
-;;   "Moves both current buffer and file it's visiting to DIR."
-;;   (interactive "DNew directory: ")
-;;   (let* ((name (buffer-name))
-;;           (filename (buffer-file-name))
-;;           (dir
-;;              (if (string-match dir "\\(?:/\\|\\\\)$")
-;;                        (substring dir 0 -1) dir))
-;;           (newname (concat dir "/" name)))
-
-;;     (if (not filename)
-;;         (message "Buffer '%s' is not visiting a file!" name)
-;;       (progn
-;;         (copy-file filename newname 1)
-;;         (delete-file filename)
-;;         (set-visited-file-name newname)
-;;         (set-buffer-modified-p nil)
-;;         t))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Find duplicate words
@@ -301,20 +160,3 @@ file modes."
       (message "Found duplicated word.")
       (message "End of buffer")))
 
-(defun compile-adjust-variable ()
-  (unless (file-exists-p "Makefile")
-    (set (make-local-variable 'compile-command)
-         (let ((file (file-name-nondirectory buffer-file-name)))
-           (concat "gcc -O2 -Wall -o " (file-name-sans-extension file)
-                   " " file)))))
-
-(defmacro define-hash-region (name hash-type)
-  `(defun ,name (start end)
-     (interactive "r")
-     (save-excursion
-       (let ((s (,hash-type (buffer-substring start end))))
-         (delete-region start end)
-         (insert s)))))
-
-(define-hash-region sha1-region sha1)
-(define-hash-region md5-region md5)

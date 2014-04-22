@@ -326,6 +326,7 @@ Also bind `class' to ((class color) (min-colors 89))."
      ((((supports :underline (:style wave)))
        (:underline (:style wave :color ,schwilk-red) :inherit unspecified))
       (t (:foreground ,schwilk-red-1 :weight bold :underline t))))
+<<<<<<< variant A
 ;;;;; erc
    ;; `(erc-action-face ((t (:inherit erc-default-face))))
    ;; `(erc-bold-face ((t (:weight bold))))
@@ -346,6 +347,8 @@ Also bind `class' to ((class color) (min-colors 89))."
    ;; `(erc-prompt-face ((t (:foreground ,schwilk-orange :background ,schwilk-bg :weight bold))))
    ;; `(erc-timestamp-face ((t (:foreground ,schwilk-green+1))))
    ;; `(erc-underline-face ((t (:underline t))))
+>>>>>>> variant B
+======= end
 ;;;;; git-gutter
    `(git-gutter:added ((t (:foreground ,schwilk-green :weight bold :inverse-video t))))
    `(git-gutter:deleted ((t (:foreground ,schwilk-red :weight bold :inverse-video t))))

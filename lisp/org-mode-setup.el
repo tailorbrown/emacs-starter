@@ -18,17 +18,19 @@
 
 ;; google calendar synchronization using org-caldav
 ;; see https://github.com/dengste/org-caldav
-(require 'org-id)
-(setq org-id-method (quote uuidgen))
-(require 'org-caldav) ;; in ~/.emacs.d/contrib/
-(setq org-caldav-url "https://www.google.com/calendar/dav")
-(setq org-caldav-calendar-id "dschwilk@gmail.com")
-(setq org-caldav-inbox org-default-notes-file)
-(setq my-journal-file "~/org/*journal.org")
-(setq my-exclude-from-caldav-sync (file-expand-wildcards "~/org/*journal.org") )
-(setq org-caldav-files (my-set-difference org-agenda-files my-exclude-from-caldav-sync) )
-(setq org-caldav-save-directory org-directory)
-(setq org-icalendar-include-sexps nil)
+
+;; uncomment this if you want to be able to synchronize with google calendar
+;; (require 'org-id)
+;; (setq org-id-method (quote uuidgen))
+;; (require 'org-caldav) ;; in ~/.emacs.d/contrib/
+;; (setq org-caldav-url "https://www.google.com/calendar/dav")
+;; (setq org-caldav-calendar-id "myname@gmail.com")  ;; change!
+;; (setq org-caldav-inbox org-default-notes-file)
+;; (setq org-caldav-files "~/org/*.org") 
+;; (setq org-caldav-save-directory org-directory)
+;; (setq org-icalendar-include-sexps nil)
+
+
 ;; org-contacts
 (require 'org-contacts)
 (setq my-contacts-file "~/org/contacts.org")
@@ -162,17 +164,6 @@
  ;'(org-mode-line-clock ((t (:foreground "red" :box (:line-width -1 :style released-button)))) t))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Using BibTeX and org-mode with reftex
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun org-mode-reftex-setup ()
-(load-library "reftex")
-(and (buffer-file-name)
-(file-exists-p (buffer-file-name))
-(reftex-parse-all))
-(define-key org-mode-map (kbd "C-c )") 'reftex-citation)
-)
-(add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; babel
@@ -219,13 +210,15 @@
 ;; https://addons.mozilla.org/en-us/thunderbird/addon/thunderlink/
 ;; Assumes that link of form:
 ;; thunderlink://messageid=CC0A9B0B9C20AB4C95BD90FAEA6DACA52CDE1AE5@centaur08.ttu.edu
-;; To add a button to thunderbird to create these links easily see:
-;; https://github.com/dschwilk/org-thunderbird-snips
-(org-add-link-type "thunderlink" 'org-thunderlink-open)
-(defun org-thunderlink-open (path)
-"Opens a specified email in Thunderbird with the help of the add-on ThunderLink." (start-process "schwilk" nil "thunderbird" "-thunderlink" (concat "thunderlink:" path))) 
 
-;; hide-other
+;; uncomment to allow this and set up link org-protocol commands
+;; see https://github.com/dschwilk/org-thunderbird-snips
+;; change username below from "schwilk"!
+
+;; (org-add-link-type "thunderlink" 'org-thunderlink-open)
+;; (defun org-thunderlink-open (path)
+;; "Opens a specified email in Thunderbird with the help of the add-on ThunderLink." (start-process "schwilk" nil "thunderbird" "-thunderlink" (concat "thunderlink:" path))) 
+
 (defun dws/hide-other ()
   (interactive)
   (save-excursion
@@ -740,7 +733,7 @@ tasks."
 (require 'ox-latex)
 (require 'ox-beamer)
 (require 'ox-md)
-(require 'ox-gfm)  ;; github-flavored markdown, not standard
+;(require 'ox-gfm)  ;; github-flavored markdown, not standard
 
 ;;for code syntax highlighting
 (require 'htmlize)

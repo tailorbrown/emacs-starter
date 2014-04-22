@@ -3,43 +3,29 @@
 ;; author: Dylan W. Schwilk
 ;;
 ;; packages supported:
-;;   bs (buffer management), cc-mode, font-lock, func-menu, html-mode,
-;;   speedbar, auctex, reftex, magit and vc (version control)
+;;   font-lock, auctex, reftex, ess, org-mode
 ;;
 ;; Supports modes for: text, LaTeX and bibtex, C, C++, python, html
 ;;
 ;; this .emacs file loads several other customization files:
-;;        - ~/.emacs.d/lisp/efunc.el          - custom functions
-;;        - ~/.emacs.d/lisp/mode.el           - modes supported
-;;        - ~/.emacs.d/lisp/org-mode-setup.el - org-mode stuff
-;;        - ~/.emacs./lisp/ekeys              - key bindings
-;;        - ~/.emacs.d/lisp/theme.el          - modeline and color theme
+;;        - ~/.emacs.d/lisp/efunc.el  -   custom functions
+;;        - ~/.emacs.d/lisp/mode.el   -   modes supported
+;;        - ~/.emacs./lisp/ekeys     -   key bindings
+;;        - ~/.emacs.d/lisp/theme.el  -   modeline and color theme
 ;;
-;; And color themes are in ~/.emacs.d/themes. themes.el refers to
-;; schwilk-theme.el
+;; And color themese are in ~/.emacs.d/themes
 ;;;;---------------------------------------------------------------------------
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; General setup and package managment
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; start server if not running
-(load "server")
-(unless (server-running-p) (server-start))
-
 ;; turn on Common Lisp support
 (require 'cl-lib)
 
 ;; Identification
-(defun user-mail-address() "dylan@schwilk.org")
-(setq user-full-name "Dylan W. Schwilk")
-
-;; EasyPG for gpg. built-in
-(require 'epa-file)
-(epa-file-enable)
-;; stop EasyPG from asking for the recipient
-(setq epa-file-encrypt-to "dylan@schwilk.org")
+(defun user-mail-address() "john.doe@ttu.edu")
+(setq user-full-name "John Doe")
 
 ;; add the elisp directories under ~/emacs to my load path
 (defvar home-dir (expand-file-name "~/"))
@@ -63,12 +49,10 @@
 ;; https://github.com/zane/dotemacs/blob/master/zane-packages.el#L62
 (setq required-packages
       '(auctex
-        browse-kill-ring
-        dynamic-fonts
         ess
         magit
         org-plus-contrib
-        rainbow-mode
+        dynamic-fonts
         ))
 
 (package-initialize)
@@ -82,12 +66,6 @@
           (progn (package-refresh-contents)
                  (dolist (package not-installed)
                    (package-install package))))))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Required packages that don't fall anywhere else:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'browse-kill-ring)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Options ON/OFF
@@ -104,15 +82,19 @@
 (setq-default indent-tabs-mode nil)        ; uses spaces rather than tabs
 (setq default-tab-width 4);
 (setq delete-key-deletes-forward t)
-;(delete-selection-mode t)                 ; Typed text replaces a selection
-;(setq mouse-yank-at-point t)              ; commented out this does what I want
+(setq mouse-yank-at-point t)
 (line-number-mode t)
 (column-number-mode t)
-(setq mark-diary-entries-in-calendar t)
-(setq x-select-enable-clipboard t)         ; cut-paste
-(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 (setq-default fill-column 79)
-(defalias 'yes-or-no-p 'y-or-n-p)          ; y or n is enough
+(defalias 'yes-or-no-p 'y-or-n-p) ;; get rid of yes-or-no questions - y or n is enough
+
+;; Windows-style cut-copy-paste
+(cua-mode t)
+(setq x-select-enable-clipboard t) ;; cut-paste
+(setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
+(transient-mark-mode 1) ;; No region when it is not highlighted
+(setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
+(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
 ;;window splitting: prefer vertical
 (setq split-height-threshold 80)
@@ -142,28 +124,6 @@
              special-display-buffer-names))
 (add-to-list 'special-display-frame-alist '(tool-bar-lines . 0))
 
-
-;; Setup save options (auto and backup) -- still buggy need new Replace func
-(setq backup-directory-alist `((".*" . "~/.saves")))
-(setq auto-save-file-name-transforms
-          `((".*" , "~/.saves" t)))
-
-;; delete backup files > week old
-(message "Deleting old backup files...")
-(let ((week (* 60 60 24 7))
-      (current (float-time (current-time))))
-  (dolist (file (directory-files "~/.saves" t))
-    (when (and (backup-file-name-p file)
-               (> (- current (float-time (fifth (file-attributes file))))
-                  week))
-      (message "%s" file)
-      (delete-file file))))
-
-;;(setq auto-save-timeout 2000)
-;;(setq make-backup-files t)
-;;(setq make-backup-files nil)
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load all external files for keybindings, modes, color themes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -172,17 +132,13 @@
  'load-library
  '( "modes"        ; various modes configurations
    "efuncs"        ; a bunch of utilities functions
-   "org-mode-setup"; org-mode specific settings
    "ekeys"         ; my key bindings and some aliases
+;;   "org-mode-setup"; Optional, requires customization
    "theme" ))      ; all the visual stuff goes there
-
 
 ;; Do customize stuff last to override anything reset
 (setq custom-file (concat emacs-root "custom.el"))
 (load custom-file)
-
-;; Start in insert mode.  Needed?
-(put 'overwrite-mode 'disabled nil)
 
 ;; Add final message so using C-h l I can see if .emacs failed
 (message ".emacs loaded successfully!.")

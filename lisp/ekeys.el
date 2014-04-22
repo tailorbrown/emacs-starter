@@ -1,10 +1,8 @@
 ;;; -*- Mode: Emacs-Lisp -*-
 ;;;;---------------------------------------------------------------------------
 ;; ekeys.el configuration file
-;; author: Dylan Schwilk
 ;;
-;;; my key bindings and aliases for emacs. I put even the mode-specific
-;;; bindings here so I know where to look for keybindings.
+;;; Global key bindings and aliases for emacs
 ;;;;---------------------------------------------------------------------------
 
 (defmacro bind-key (key function)
@@ -35,9 +33,7 @@
 
    ;; additional shortcuts buffers and windows
   "C-<tab>"   bury-buffer ; cycle through buffers
-  "C-x E"   apply-macro-to-region-lines
   "C-x I"   insert-buffer
-  "C-c s"   swap-windows  ; defined in efuncs.el
   "C-c w"   count-words-region
   "M-/"     hippie-expand
 
@@ -46,8 +42,6 @@
   "C-c a"   org-agenda
   "C-c b"   org-iswitchb
   "C-c c"   org-capture  
-  "<f5>"    dws/org-todo
-  "<S-f5>"  dws/widen
 
   ;; Start shell or switch to it if it's active.
  "C-x m"   shell
@@ -60,26 +54,7 @@
    "C-c r"   rename-file-and-buffer
    "C-c \\"  the-the
    "C-c i"   insert-date-string
-   "C-c k"   browse-kill-ring
- ; "\C-cr"   replace-garbage-chars ;; replaces MS-windows \222, etc
-  ;; Browse url
- ; [(shift button3)] browse-url-at-mouse
- ; "C-c b"   browse-url
 ))
-
-
-;; disable iconify --- to easy to do on accident when accustomed to
-;; windows-style undo key
-(global-unset-key (kbd "C-z"))
-
-;; aliases
-(defalias 'qrr 'query-replace-regexp)
-(defalias 'rr 'replace-regexp)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Mode specific bindings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; add occur to isearch
 (define-key isearch-mode-map (kbd "C-o")
@@ -107,8 +82,3 @@
     (local-set-key [C-down] 'comint-next-input)
    )
 )
-
-;; HTML mode keys
-(add-hook 'html-mode-hook
-  (lambda()
-    (local-set-key "\C-xt" 'tidy=region)))

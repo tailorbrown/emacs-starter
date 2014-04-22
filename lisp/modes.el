@@ -88,91 +88,15 @@
 ;; End setup lisp-mode --------------------------------------------------------
 
 ;;;----------------------------------------------------------------------------
-;; Setup C, C++ mode
-(autoload 'c++-mode  "cc-mode" "C++ Editing Mode" t)
-(autoload 'c-mode    "cc-mode" "C Editing Mode" t)
-(autoload 'c-mode-common-hook "cc-mode" "C Mode Hooks" t)
-(autoload 'c-add-style "cc-mode" "Add coding style" t)
-
-;; Associate extensions with c modes
-(add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
-
-;; Create my own c/cpp coding style
-;; No space before { and function sig indents 4 if argument overflow
-(setq dws-c-style
-      '((c-auto-newline                 . nil)
-        (c-basic-offset                 . 4)
-        (c-comment-only-line-offset     . 0)
-        (c-echo-syntactic-information-p . nil)
-        (c-hungry-delete-key            . t)
-        (c-tab-always-indent            . t)
-        (c-toggle-hungry-state          . t)
-        (c-hanging-braces-alist         . ((substatement-open after)
-                                          (brace-list-open)))
-        (c-offsets-alist                . ((arglist-close . c-lineup-arglist)
-                                           (case-label . 4)
-                                           (substatement-open . 0)
-                                           (block-open . 0) ; no space before {
-                                           (knr-argdecl-intro . -)))
-        (c-hanging-colons-alist         . ((member-init-intro before)
-                                           (inher-intro)
-                                           (case-label after)
-                                           (label after)
-                                           (access-label after)))
-        (c-cleanup-list                 . (scope-operator
-                                           empty-defun-braces
-                                           defun-close-semi))))
-        
-;; Construct a hook to be called when entering C mode
-(defun lconfig-c-mode ()
-  (progn (define-key c-mode-base-map "\C-m" 'newline-and-indent)
-         (define-key c-mode-base-map [f4] 'speedbar-get-focus)
-         (define-key c-mode-base-map [f5] 'next-error)
-         (define-key c-mode-base-map [f6] 'run-program)
-         (define-key c-mode-base-map [f8] 'compile)
-         (define-key c-mode-base-map [f9] 'insert-breakpoint)
-         (define-key c-mode-base-map [f10] 'step-over)
-         (define-key c-mode-base-map [f11] 'step-into)
-         (c-add-style "Dylan's Coding Style" dws-c-style t)))
-(add-hook 'c-mode-common-hook 'lconfig-c-mode)
-;; End setup c mode -----------------------------------------------------------
-
-;;;----------------------------------------------------------------------------
 ;; python mode
 
-;; virtual environment support
-
-;(require 'virtualenvwrapper)
-;(venv-initialize-interactive-shells) ;; if you want interactive shell support
-;(venv-initialize-eshell) ;; if you want eshell support
-;(setq venv-location "~/venv")
-;; jedi http://tkf.github.io/emacs-jedi/latest/
-
-;(add-hook 'python-mode-hook 'jedi:setup)
-;(setq jedi:complete-on-dot t)                 ; optional
-
-;; pyflakes flymake integration
-;; http://stackoverflow.com/a/1257306/347942
-(when (load "flymake" t)
-  (defun flymake-pyflakes-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "pycheckers" (list local-file))))
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pyflakes-init)))
-(add-hook 'python-mode-hook 'flymake-mode)
+;; nothing to do should work
 
 ;; End setup python-mode-------------------------------------------------------
 
 ;;;----------------------------------------------------------------------------
-;; Setup R and julia mode for ESS
-(require 'ess-site) 
-;(setq inferior-julia-program-name "/opt/julia/usr/bin/julia-release-basic")
-
-;; R
+;; Setup R mode and and define the shift-enter function
+(require 'ess-site)
 (setq ess-ask-for-ess-directory nil)
 (setq ess-local-process-name "R")
 (setq ansi-color-for-comint-mode 'filter)
@@ -187,8 +111,8 @@
 
 (autoload 'R-mode "R mode" "mode for interacting with R" t)
  (setq auto-mode-alist
-       (append '(("\\.[rR]$" . R-mode) 
-                 ("\\.[rr]history" . R-mode)) auto-mode-alist))
+       (append '(("\\.[rR]$" . R-mode)
+                 ("\\.[rR]history" . R-mode)) auto-mode-alist))
 
 ;; End setup R-mode -----------------------------------------------------------
 
@@ -201,11 +125,8 @@
 ;(define-key LaTeX-mode-map "\C-cw" 'latex-word-count))
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-;;(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
-;;(add-hook 'LaTeX-mode-hook #'(lambda() (setq fill-column 79)))
 (add-hook 'LaTeX-mode-hook 'turn-on-visual-line-mode)  ;; visual line wrapping
 (add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-fold-mode 1)))    ;; turn on folding
-;; note: can most of these just be made normal setq calls?
 (add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-newline-function 'reindent-then-newline-and-indent) ))
 (add-hook 'LaTeX-mode-hook #'(lambda() (setq LaTeX-item-indent 2)))
 (add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-brace-indent-level 2)))
@@ -218,32 +139,6 @@
 (add-hook 'LaTeX-mode-hook '(lambda() (setq ispell-check-comments nil)))
 (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
 (setq TeX-show-compilation nil) ;; turn off compilation buffer
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Enable synctex correlation
-(setq TeX-source-correlate-method 'synctex)
-;; Enable synctex generation. Even though the command shows
-;; as "latex" pdflatex is actually called
-(setq LaTeX-command "latex -synctex=1")
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Use Okular as the pdf viewer. Build okular 
-;; command, so that Okular jumps to the current line 
-;; in the viewer.
-;; Okular setup: 
-;; 1.) Open Okular and go to...
-;; 2.) Settings -> Configure Okular -> Editor
-;; 3.) Set Editor to "Emacs client"
-;; 4.) Command should automatically set to: 
-;; emacsclient -a emacs --no-wait +%l %f
-(setq TeX-view-program-selection
- '((output-pdf "PDF Viewer")))
-(setq TeX-view-program-list
- '(("PDF Viewer" "okular --unique %o#src:%n%b")))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
 ;; turn on reftex
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-cite-format 'natbib)
@@ -252,18 +147,6 @@
 (setq reftex-use-multiple-selection-buffers t)
 (setq reftex-plug-into-AUCTeX t)
 
-;; LaTeX environments to recognize  ;; removed for now not working 
-;;(add-hook 'LaTeX-mode-hook (add-to-list 'LaTeX-indent-environment-list '("tikzpicture")))
-;;(add-to-list 'LaTeX-verbatim-environments "lstlisting")
-
-;; ;; Ispell ignore \citep  
-;; (eval-after-load "ispell"
-;;    '(let ((list (car ispell-tex-skip-alists)))
-;;       (add-to-list 'list '("\\\\cite[tp]" ispell-tex-arg-end))
-;;       (setcar ispell-tex-skip-alists list)))
-
-;; Add keywords
- 
 
 ;;;----------------------------------------------------------------------------
 ;; Setup Shell mode
@@ -281,10 +164,6 @@
 		      (rename-buffer "shell" t))))
 
 ;; End setup shell-mode -------------------------------------------------------
-
-
-;; setup remote file access mode for tramp ------------------------------------
-(setq tramp-default-method "ssh")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; End document modes setup

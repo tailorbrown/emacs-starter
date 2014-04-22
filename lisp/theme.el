@@ -32,7 +32,7 @@
       '("Source Sans Pro" "DejaVu Sans" "Helvetica"))
   
 (setq dynamic-fonts-preferred-monospace-fonts
-      '("Inconsolata" "Ubuntu Mono" "Source Code Pro" "Envy Code R"
+      '("Inconsolata" "Consolas" "Ubuntu Mono" "Source Code Pro" "Envy Code R"
         "Droid Sans Mono Pro" "Droid Sans Mono" "DejaVu Sans Mono"))
 
 (setq dynamic-fonts-preferred-monospace-point-size 14)
