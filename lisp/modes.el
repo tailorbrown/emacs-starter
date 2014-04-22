@@ -9,20 +9,17 @@
 ;; All org-mode customizations are in ~/.emacs.d/lisp/org-mode-setup.el
 ;;;;---------------------------------------------------------------------------
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Version control: load VC hooks
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'vc-hooks)
-(setq vc-colorized-diffs t)
-
+;;;---------------------------------------------------------------------------
+;;; Version control setup
+;; ---------------------------------------------------------------------------
 ;; magit installed via MELPA
 ;; nothing needed. See http://magit.github.io/magit/magit.html
+;; End setup version control -------------------------------------------------
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Code for various document modes
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Setup text mode
+;;;---------------------------------------------------------------------------
+;;; Various text modes setup
+;; ---------------------------------------------------------------------------
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'text-mode-hook '(lambda() (setq visual-wrap-column 79)))
 ;; and for when we turn off visual-line-mode:
@@ -39,6 +36,7 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+;; End setup text modes ------------------------------------------------------
 
 ;;;---------------------------------------------------------------------------
 ;;; Setup psgml-mode ;;  
@@ -146,9 +144,7 @@
 
 ;;;----------------------------------------------------------------------------
 ;; Setup Shell mode
-
 ; nothing to do. All set up in comint mode, above.
-
 ;; End setup shell-mode -------------------------------------------------------
 
 ;;;----------------------------------------------------------------------------
@@ -186,8 +182,7 @@
 (setq ess-ask-for-ess-directory nil)
 (setq ess-nuke-trailing-whitespace-p t)
 (ess-toggle-underscore nil)
-;; turn off aligning single '#' to col 40!
-(setq ess-fancy-comments nil)
+(setq ess-fancy-comments nil) ; turn off aligning single '#' to col 40
 ;; End setup R-mode -----------------------------------------------------------
 
 ;; ----------------------------------------------------------------------------
@@ -248,7 +243,3 @@
 
 ;; setup remote file access mode for tramp ------------------------------------
 (setq tramp-default-method "ssh")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; End document modes setup
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
