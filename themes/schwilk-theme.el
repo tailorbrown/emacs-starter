@@ -326,29 +326,6 @@ Also bind `class' to ((class color) (min-colors 89))."
      ((((supports :underline (:style wave)))
        (:underline (:style wave :color ,schwilk-red) :inherit unspecified))
       (t (:foreground ,schwilk-red-1 :weight bold :underline t))))
-<<<<<<< variant A
-;;;;; erc
-   ;; `(erc-action-face ((t (:inherit erc-default-face))))
-   ;; `(erc-bold-face ((t (:weight bold))))
-   ;; `(erc-current-nick-face ((t (:foreground ,schwilk-blue :weight bold))))
-   ;; `(erc-dangerous-host-face ((t (:inherit font-lock-warning))))
-   ;; `(erc-default-face ((t (:foreground ,schwilk-fg))))
-   ;; `(erc-direct-msg-face ((t (:inherit erc-default-face))))
-   ;; `(erc-error-face ((t (:inherit font-lock-warning))))
-   ;; `(erc-fool-face ((t (:inherit erc-default))))
-   ;; `(erc-highlight-face ((t (:inherit highlight))))
-   ;; `(erc-input-face ((t (:foreground ,schwilk-yellow))))
-   ;; `(erc-keyword-face ((t (:foreground ,schwilk-blue :weight bold))))
-   ;; `(erc-nick-default-face ((t (:foreground ,schwilk-yellow :weight bold))))
-   ;; `(erc-my-nick-face ((t (:foreground ,schwilk-red :weight bold))))
-   ;; `(erc-nick-msg-face ((t (:inherit erc-default-face))))
-   ;; `(erc-notice-face ((t (:foreground ,schwilk-green))))
-   ;; `(erc-pal-face ((t (:foreground ,schwilk-orange :weight bold))))
-   ;; `(erc-prompt-face ((t (:foreground ,schwilk-orange :background ,schwilk-bg :weight bold))))
-   ;; `(erc-timestamp-face ((t (:foreground ,schwilk-green+1))))
-   ;; `(erc-underline-face ((t (:underline t))))
->>>>>>> variant B
-======= end
 ;;;;; git-gutter
    `(git-gutter:added ((t (:foreground ,schwilk-green :weight bold :inverse-video t))))
    `(git-gutter:deleted ((t (:foreground ,schwilk-red :weight bold :inverse-video t))))
