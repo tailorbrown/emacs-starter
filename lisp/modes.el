@@ -170,7 +170,7 @@
 ;;;----------------------------------------------------------------------------
 ;; Setup R and julia mode for ESS
 (require 'ess-site) 
-(setq inferior-julia-program-name "/opt/julia/usr/bin/julia-release-basic")
+;(setq inferior-julia-program-name "/opt/julia/usr/bin/julia-release-basic")
 
 ;; R
 (setq ess-ask-for-ess-directory nil)
