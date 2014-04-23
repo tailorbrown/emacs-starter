@@ -66,7 +66,10 @@
         browse-kill-ring
         dynamic-fonts
         ess
+        htmlize
+        list-utils
         magit
+        markdown-mode
         org-plus-contrib
         rainbow-mode
         ))
@@ -82,12 +85,6 @@
           (progn (package-refresh-contents)
                  (dolist (package not-installed)
                    (package-install package))))))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Required packages that don't fall anywhere else:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'browse-kill-ring)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Options ON/OFF
