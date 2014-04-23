@@ -3,26 +3,23 @@
 ;; modes.el configuration file
 ;; author: Dylan Schwilk
 ;;
-;; Provides hooks and customizations for various modes (text, LaTeX and bibtex,
-;; html, C, C++, python, ess (R and julia).
+;; Provides hooks and customizations for various modes (text, markdown, LaTeX
+;; and bibtex, html, C, C++, python, ess (R and julia).
 ;;
 ;; All org-mode customizations are in ~/.emacs.d/lisp/org-mode-setup.el
 ;;;;---------------------------------------------------------------------------
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Version control: load VC hooks
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'vc-hooks)
-(setq vc-colorized-diffs t)
-
+;;;---------------------------------------------------------------------------
+;;; Version control setup
+;; ---------------------------------------------------------------------------
 ;; magit installed via MELPA
 ;; nothing needed. See http://magit.github.io/magit/magit.html
+;; End setup version control -------------------------------------------------
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Code for various document modes
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Setup text mode
+;;;---------------------------------------------------------------------------
+;;; Various text modes setup
+;; ---------------------------------------------------------------------------
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'text-mode-hook '(lambda() (setq visual-wrap-column 79)))
 ;; and for when we turn off visual-line-mode:
@@ -39,6 +36,7 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+;; End setup text modes ------------------------------------------------------
 
 ;;;---------------------------------------------------------------------------
 ;;; Setup psgml-mode ;;  
@@ -138,16 +136,27 @@
 ;; End setup c mode -----------------------------------------------------------
 
 ;;;----------------------------------------------------------------------------
+;; Setup comint mode (command-line-interpreter) for R, julia, python, shell etc
+(setq ansi-color-for-comint-mode t) ;; show ansi terminal colors
+(setq comint-scroll-to-bottom-on-input t)
+(setq comint-scroll-to-bottom-on-output t)
+(setq comint-move-point-for-output t)
+
+;;;----------------------------------------------------------------------------
+;; Setup Shell mode
+; nothing to do. All set up in comint mode, above.
+;; End setup shell-mode -------------------------------------------------------
+
+;;;----------------------------------------------------------------------------
 ;; python mode
 
 ;; virtual environment support
-
 ;(require 'virtualenvwrapper)
 ;(venv-initialize-interactive-shells) ;; if you want interactive shell support
 ;(venv-initialize-eshell) ;; if you want eshell support
 ;(setq venv-location "~/venv")
-;; jedi http://tkf.github.io/emacs-jedi/latest/
 
+;; jedi http://tkf.github.io/emacs-jedi/latest/
 ;(add-hook 'python-mode-hook 'jedi:setup)
 ;(setq jedi:complete-on-dot t)                 ; optional
 
@@ -168,28 +177,12 @@
 ;; End setup python-mode-------------------------------------------------------
 
 ;;;----------------------------------------------------------------------------
-;; Setup R and julia mode for ESS
+;; Setup R and julia mode using ESS
 (require 'ess-site) 
-;(setq inferior-julia-program-name "/opt/julia/usr/bin/julia-release-basic")
-
-;; R
 (setq ess-ask-for-ess-directory nil)
-(setq ess-local-process-name "R")
-(setq ansi-color-for-comint-mode 'filter)
-(setq comint-scroll-to-bottom-on-input t)
-(setq comint-scroll-to-bottom-on-output t)
-(setq comint-move-point-for-output t)
 (setq ess-nuke-trailing-whitespace-p t)
 (ess-toggle-underscore nil)
-(setq ess-nuke-trailing-whitespace-p t)
-;; turn off aligning single '#' to col 40!
-(setq ess-fancy-comments nil)
-
-(autoload 'R-mode "R mode" "mode for interacting with R" t)
- (setq auto-mode-alist
-       (append '(("\\.[rR]$" . R-mode) 
-                 ("\\.[rr]history" . R-mode)) auto-mode-alist))
-
+(setq ess-fancy-comments nil) ; turn off aligning single '#' to col 40
 ;; End setup R-mode -----------------------------------------------------------
 
 ;; ----------------------------------------------------------------------------
@@ -198,14 +191,10 @@
 ;; (load "auctex.el" nil t t)  ;; not needed when using auctex from ELPA
 ;; (require 'latex) ;; not needed when using auctex from ELPA
 
-;(define-key LaTeX-mode-map "\C-cw" 'latex-word-count))
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-;;(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
-;;(add-hook 'LaTeX-mode-hook #'(lambda() (setq fill-column 79)))
 (add-hook 'LaTeX-mode-hook 'turn-on-visual-line-mode)  ;; visual line wrapping
 (add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-fold-mode 1)))    ;; turn on folding
-;; note: can most of these just be made normal setq calls?
 (add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-newline-function 'reindent-then-newline-and-indent) ))
 (add-hook 'LaTeX-mode-hook #'(lambda() (setq LaTeX-item-indent 2)))
 (add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-brace-indent-level 2)))
@@ -252,40 +241,5 @@
 (setq reftex-use-multiple-selection-buffers t)
 (setq reftex-plug-into-AUCTeX t)
 
-;; LaTeX environments to recognize  ;; removed for now not working 
-;;(add-hook 'LaTeX-mode-hook (add-to-list 'LaTeX-indent-environment-list '("tikzpicture")))
-;;(add-to-list 'LaTeX-verbatim-environments "lstlisting")
-
-;; ;; Ispell ignore \citep  
-;; (eval-after-load "ispell"
-;;    '(let ((list (car ispell-tex-skip-alists)))
-;;       (add-to-list 'list '("\\\\cite[tp]" ispell-tex-arg-end))
-;;       (setcar ispell-tex-skip-alists list)))
-
-;; Add keywords
- 
-
-;;;----------------------------------------------------------------------------
-;; Setup Shell mode
-
-;; Actually display colors when programs output colored text.  Without
-;; this command, emacs prints the actual control characters.
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-(add-hook 'shell-mode-hook
-	  (function (lambda ()
-		      (setq comint-scroll-to-bottom-on-input t)
-		      (setq comint-scroll-to-bottom-on-output t)
-		      (setq comint-scroll-show-maximum-output t)
-		      (compilation-shell-minor-mode)
-		      (rename-buffer "shell" t))))
-
-;; End setup shell-mode -------------------------------------------------------
-
-
 ;; setup remote file access mode for tramp ------------------------------------
 (setq tramp-default-method "ssh")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; End document modes setup
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
