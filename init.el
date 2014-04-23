@@ -50,7 +50,10 @@
 (setq required-packages
       '(auctex
         ess
+        htmlize
+        list-utils
         magit
+        markdown-mode
         org-plus-contrib
         dynamic-fonts
         ))
