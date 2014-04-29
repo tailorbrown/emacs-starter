@@ -150,6 +150,13 @@
 ;;;----------------------------------------------------------------------------
 ;; python mode
 
+(add-hook 'python-mode-hook
+  (lambda ()
+    (setq indent-tabs-mode t)
+    (setq python-indent 4)
+    (setq tab-width 4))
+    (when indent-tabs-mode (guess-style-guess-tab-width)))
+
 ;; virtual environment support
 ;(require 'virtualenvwrapper)
 ;(venv-initialize-interactive-shells) ;; if you want interactive shell support
