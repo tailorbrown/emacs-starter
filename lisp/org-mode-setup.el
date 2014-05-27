@@ -299,19 +299,18 @@
 
 ; Tags with fast selection keys
 (setq org-tag-alist (quote ((:startgroup)
-                            ("@errand" . ?e)
-                            ("@office" . ?o)
+                            ("@errand" . ?E)
+                            ("@office" . ?O)
                             ("@home" . ?H)
                               (:endgroup)
                             ("PHONE" . ?p)
                             ("WAITING" . ?w)
                             ("HOLD" . ?h)
-                            ("personal" . ?P)
-                            ("WORK" . ?W)
-                            ("ORG" . ?O)
+                            ("personal" . P?)
+                            ("work" . ?W)
                             ("MARK" . ?M)
-                            ("NOTE" . ?n)
                             ("CANCELLED" . ?c)
+                            ("noexport"  . ?n)
                             ("FLAGGED" . ??))))
 
 ; Allow setting single tags without the menu
