@@ -187,6 +187,7 @@
          (gnuplot . t)
          (sh . t)
          (org . t)
+         (ditaa . t) ; this line activates ditaa
          (latex . t))))
 
 (add-hook 'org-babel-after-execute-hook 'dws/display-inline-images 'append)
@@ -197,6 +198,8 @@
 ;; still need to get org mode complete bound to a key
 ;(setq org-fallback-completion-command 'hippie-expand)
 
+;; set ditaa path for ubuntu
+(setq org-ditaa-jar-path "/usr/bin/ditaa")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-crypt
