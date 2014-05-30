@@ -152,7 +152,7 @@
 
 (add-hook 'python-mode-hook
   (lambda ()
-    (setq indent-tabs-mode t)
+;    (setq indent-tabs-mode t)
     (setq python-indent 4)
     (setq tab-width 4))
     (when indent-tabs-mode (guess-style-guess-tab-width)))
