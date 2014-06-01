@@ -178,6 +178,7 @@
          (gnuplot . t)
          (sh . t)
          (org . t)
+         (ditaa . t) ; this line activates ditaa
          (latex . t))))
 
 (add-hook 'org-babel-after-execute-hook 'dws/display-inline-images 'append)
@@ -188,6 +189,8 @@
 ;; still need to get org mode complete bound to a key
 ;(setq org-fallback-completion-command 'hippie-expand)
 
+;; set ditaa path for ubuntu
+(setq org-ditaa-jar-path "/usr/bin/ditaa")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-crypt
@@ -292,19 +295,18 @@
 
 ; Tags with fast selection keys
 (setq org-tag-alist (quote ((:startgroup)
-                            ("@errand" . ?e)
-                            ("@office" . ?o)
+                            ("@errand" . ?E)
+                            ("@office" . ?O)
                             ("@home" . ?H)
                               (:endgroup)
                             ("PHONE" . ?p)
                             ("WAITING" . ?w)
                             ("HOLD" . ?h)
-                            ("personal" . ?P)
-                            ("WORK" . ?W)
-                            ("ORG" . ?O)
+                            ("personal" . P?)
+                            ("work" . ?W)
                             ("MARK" . ?M)
-                            ("NOTE" . ?n)
                             ("CANCELLED" . ?c)
+                            ("noexport"  . ?n)
                             ("FLAGGED" . ??))))
 
 ; Allow setting single tags without the menu
