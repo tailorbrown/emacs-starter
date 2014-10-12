@@ -26,11 +26,9 @@ Personalizing
 -------------
 Modify the placeholders for email address and name in init.el:
 
-'''lisp
     ;; Identification
     (defun user-mail-address() "john.doe@ttu.edu")
     (setq user-full-name "John Doe")
-'''
 
 Using
 -----
