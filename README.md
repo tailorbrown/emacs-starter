@@ -1,7 +1,7 @@
 schwilk-emacs-starter
 =====================
 
-A starter .emacs.d directory for my students with support for R programming (through ESS), Markdown editing ( [markdown-mode][markdown-mode] and [pandoc-mode][pandoc-mode]), LaTeX editing (auctex), [org-mode][org-mode] and git (using magit, https://github.com/magit/magit). Note that the org-mode setup is just the org-mode defaults. I have a customized org-mode setup in org-mode-setup.el, but this file is not loaded unless you uncomment a line in init.el. If you want to do that, you should read through [org-mode-setup.el](file:lisp/org-mode-setup.el) and read some comments and make a few personalizations where noted.
+A starter .emacs.d directory for my students with support for R programming (through ESS), Markdown editing ([markdown-mode][markdown-mode] and [pandoc-mode][pandoc-mode]), LaTeX editing (auctex), [org-mode][org-mode] and git (using magit, https://github.com/magit/magit). Note that the org-mode setup is just the org-mode defaults. I have a customized org-mode setup in org-mode-setup.el, but this file is not loaded unless you uncomment a line in init.el. If you want to do that, you should read through [org-mode-setup.el](file:lisp/org-mode-setup.el) and read some comments and make a few personalizations where noted.
 
 Requirements
 ------------
@@ -66,6 +66,6 @@ Some keybindings (shortcuts to a few functions in efuncs.el):
 [cua-mode]:http://www.emacswiki.org/CuaMode
 [ess]:http://ess.r-project.org/
 [inconsolata]:http://www.levien.com/type/myfonts/inconsolata.html
-[markdonw-mode]:http://jblevins.org/projects/markdown-mode/
+[markdown-mode]:http://jblevins.org/projects/markdown-mode/
 [org-mode]:http://orgmode.org/
 [pandoc-mode]:http://joostkremers.github.io/pandoc-mode/
