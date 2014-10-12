@@ -50,6 +50,8 @@
     ("schwilk-red-3"    . "#9C6363")
     ("schwilk-red-4"    . "#8C5353")
     ("schwilk-orange"   . "#FFB272")
+    ("schwilk-orange-1" . "#FA943E")
+    ("schwilk-orange-red" . "#FB6246")
     ("schwilk-yellow"   . "#F0DFAF")
     ("schwilk-yellow-1" . "#E0CF9F")
     ("schwilk-yellow-2" . "#D0BF8F")
@@ -106,11 +108,12 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(region ((,class (:background ,schwilk-bg+2))
              (t :inverse-video t)))
    `(success ((t (:foreground ,schwilk-green :weight bold))))
-   `(warning ((t (:foreground ,schwilk-orange :weight bold))))
+   `(warning ((t (:foreground ,schwilk-orange-1 :weight bold))))
+   `(error ((t (:foreground ,schwilk-orange-red :weight bold))))
 ;;;;; compilation
    `(compilation-column-face ((t (:foreground ,schwilk-yellow))))
    `(compilation-enter-directory-face ((t (:foreground ,schwilk-green))))
-   `(compilation-error-face ((t (:foreground ,schwilk-red-1 :weight bold :underline t))))
+   `(compilation-error-face ((t (:inherit error :weight bold :underline t))))
    `(compilation-face ((t (:foreground ,schwilk-fg))))
    `(compilation-info-face ((t (:foreground ,schwilk-blue))))
    `(compilation-info ((t (:foreground ,schwilk-green+4 :underline t))))
@@ -118,7 +121,7 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(compilation-line-face ((t (:foreground ,schwilk-yellow))))
    `(compilation-line-number ((t (:foreground ,schwilk-yellow))))
    `(compilation-message-face ((t (:foreground ,schwilk-blue))))
-   `(compilation-warning-face ((t (:foreground ,schwilk-orange :weight bold :underline t))))
+   `(compilation-warning-face ((t (:inherit warning :underline t))))
    `(compilation-mode-line-exit ((t (:foreground ,schwilk-green+2 :weight bold))))
    `(compilation-mode-line-fail ((t (:foreground ,schwilk-red :weight bold))))
    `(compilation-mode-line-run ((t (:foreground ,schwilk-yellow :weight bold))))
@@ -162,7 +165,7 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(font-lock-string-face ((t (:foreground ,schwilk-green))))
    `(font-lock-type-face ((t (:foreground ,schwilk-yellow-2))))
    `(font-lock-variable-name-face ((t (:foreground ,schwilk-orange))))
-   `(font-lock-warning-face ((t (:foreground ,schwilk-yellow-2 :weight bold))))
+   `(font-lock-warning-face ((t (:inherit warning))))
    `(c-annotation-face ((t (:inherit font-lock-constant-face))))
 ;;;;; newsticker
    `(newsticker-date-face ((t (:foreground ,schwilk-fg))))
@@ -216,10 +219,10 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(popup-isearch-match ((t (:background ,schwilk-bg :foreground ,schwilk-fg))))
 ;;;;; android mode
    `(android-mode-debug-face ((t (:foreground ,schwilk-green+1))))
-   `(android-mode-error-face ((t (:foreground ,schwilk-orange :weight bold))))
+   `(android-mode-error-face ((t (:inherit error))))
    `(android-mode-info-face ((t (:foreground ,schwilk-fg))))
    `(android-mode-verbose-face ((t (:foreground ,schwilk-green))))
-   `(android-mode-warning-face ((t (:foreground ,schwilk-yellow))))
+   `(android-mode-warning-face ((t (:inherit warning))))
 ;;;;; bm
    `(bm-face ((t (:background ,schwilk-yellow-1 :foreground ,schwilk-bg))))
    `(bm-fringe-face ((t (:background ,schwilk-yellow-1 :foreground ,schwilk-bg))))
@@ -247,9 +250,6 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(diff-file-header
      ((,class (:background ,schwilk-bg+2 :foreground ,schwilk-fg :bold t))
       (t (:background ,schwilk-fg :foreground ,schwilk-bg :bold t))))
-;;;;; magit (git interface, diffs)
-   `(magit-item-highlight ((,class :foreground "#ffffff" :background ,schwilk-bg+2))  )
-;   `(magit-item-highlight ((,class :foreground "#ffffff" :background "#3f4747"))  )
 ;;;;; dired+
    `(diredp-display-msg ((t (:foreground ,schwilk-blue))))
    `(diredp-compressed-file-suffix ((t (:foreground ,schwilk-orange))))
@@ -277,7 +277,7 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(diredp-write-priv ((t (:foreground ,schwilk-magenta))))
 ;;;;; ert
    `(ert-test-result-expected ((t (:foreground ,schwilk-green+4 :background ,schwilk-bg))))
-   `(ert-test-result-unexpected ((t (:foreground ,schwilk-red :background ,schwilk-bg))))
+   `(ert-test-result-unexpected ((t (:inherit warning))))
 ;;;;; eshell
    `(eshell-prompt ((t (:foreground ,schwilk-yellow :weight bold))))
    `(eshell-ls-archive ((t (:foreground ,schwilk-red-1 :weight bold))))
@@ -299,7 +299,7 @@ Also bind `class' to ((class color) (min-colors 89))."
      ((((supports :underline (:style wave)))
        (:underline (:style wave :color ,schwilk-orange) :inherit unspecified))
       (t (:foreground ,schwilk-orange :weight bold :underline t))))
-   `(flycheck-fringe-error ((t (:foreground ,schwilk-red-1 :weight bold))))
+   `(flycheck-fringe-error ((t (:inherit warning))))
    `(flycheck-fringe-warning ((t (:foreground ,schwilk-orange :weight bold))))
 ;;;;; flymake
    `(flymake-errline
@@ -326,6 +326,26 @@ Also bind `class' to ((class color) (min-colors 89))."
      ((((supports :underline (:style wave)))
        (:underline (:style wave :color ,schwilk-red) :inherit unspecified))
       (t (:foreground ,schwilk-red-1 :weight bold :underline t))))
+;;;;; erc
+   ;;   `(erc-action-face ((t (:inherit erc-default-face))))
+   ;; `(erc-bold-face ((t (:weight bold))))
+   ;; `(erc-current-nick-face ((t (:foreground ,schwilk-blue :weight bold))))
+   ;; `(erc-dangerous-host-face ((t (:inherit font-lock-warning))))
+   ;; `(erc-default-face ((t (:foreground ,schwilk-fg))))
+   ;; `(erc-direct-msg-face ((t (:inherit erc-default-face))))
+   ;; `(erc-error-face ((t (:inherit font-lock-warning))))
+   ;; `(erc-fool-face ((t (:inherit erc-default))))
+   ;; `(erc-highlight-face ((t (:inherit highlight))))
+   ;; `(erc-input-face ((t (:foreground ,schwilk-yellow))))
+   ;; `(erc-keyword-face ((t (:foreground ,schwilk-blue :weight bold))))
+   ;; `(erc-nick-default-face ((t (:foreground ,schwilk-yellow :weight bold))))
+   ;; `(erc-my-nick-face ((t (:foreground ,schwilk-red :weight bold))))
+   ;; `(erc-nick-msg-face ((t (:inherit erc-default-face))))
+   ;; `(erc-notice-face ((t (:foreground ,schwilk-green))))
+   ;; `(erc-pal-face ((t (:foreground ,schwilk-orange :weight bold))))
+   ;; `(erc-prompt-face ((t (:foreground ,schwilk-orange :background ,schwilk-bg :weight bold))))
+   ;; `(erc-timestamp-face ((t (:foreground ,schwilk-green+1))))
+   ;; `(erc-underline-face ((t (:underline t))))
 ;;;;; git-gutter
    `(git-gutter:added ((t (:foreground ,schwilk-green :weight bold :inverse-video t))))
    `(git-gutter:deleted ((t (:foreground ,schwilk-red :weight bold :inverse-video t))))
@@ -430,8 +450,8 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(ido-only-match ((t (:foreground ,schwilk-orange :weight bold))))
    `(ido-subdir ((t (:foreground ,schwilk-yellow))))
 ;;;;; js2-mode
-   `(js2-warning-face ((t (:underline ,schwilk-orange))))
-   `(js2-error-face ((t (:foreground ,schwilk-red :weight bold))))
+   `(js2-warning-face ((t (:inherit warning))))
+   `(js2-error-face ((t (:foreground ,schwilk-red-3 :weight bold))))
    `(js2-jsdoc-tag-face ((t (:foreground ,schwilk-green-1))))
    `(js2-jsdoc-type-face ((t (:foreground ,schwilk-green+2))))
    `(js2-jsdoc-value-face ((t (:foreground ,schwilk-green+3))))
@@ -469,7 +489,10 @@ Also bind `class' to ((class color) (min-colors 89))."
 ;;;;; magit
    `(magit-section-title ((t (:foreground ,schwilk-yellow :weight bold))))
    `(magit-branch ((t (:foreground ,schwilk-orange :weight bold))))
-   `(magit-item-highlight ((t (:background ,schwilk-bg+1 :bold nil))))
+   `(magit-item-highlight ((t (:background ,schwilk-bg+1))))
+   `(magit-diff-hunk-header ((t (:background ,schwilk-bg+2))))
+   `(git-commit-summary-face ((t (:foreground ,schwilk-yellow :weight bold))))
+   `(git-commit-overlong-summary-face ((t (:inherit error :background ,schwilk-bg+2))))
 ;;;;; egg
    `(egg-text-base ((t (:foreground ,schwilk-fg))))
    `(egg-help-header-1 ((t (:foreground ,schwilk-yellow))))
@@ -587,7 +610,7 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(org-time-grid ((t (:foreground ,schwilk-orange))))
    `(org-todo ((t (:bold t :foreground ,schwilk-red :weight bold))))
    `(org-upcoming-deadline ((t (:inherit font-lock-keyword-face))))
-   `(org-warning ((t (:bold t :foreground ,schwilk-red :weight bold :underline nil))))
+   `(org-warning ((t (:inherit warning))))
    `(org-column ((t (:background ,schwilk-bg-1))))
    `(org-column-title ((t (:background ,schwilk-bg-1 :underline t :weight bold))))
 ;;;;; outline
@@ -597,7 +620,7 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(outline-4 ((t (:foreground ,schwilk-yellow-2))))
    `(outline-5 ((t (:foreground ,schwilk-cyan))))
    `(outline-6 ((t (:foreground ,schwilk-green+2))))
-   `(outline-7 ((t (:foreground ,schwilk-red-4))))
+   `(outline-7 ((t (:foreground ,schwilk-red-2))))
    `(outline-8 ((t (:foreground ,schwilk-blue-4))))
 ;;;;; python
    `(py-builtins-face ((t (:bold t :foreground ,schwilk-blue-1))))
@@ -643,11 +666,11 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(rpm-spec-var-face ((t (:foreground ,schwilk-red))))
 ;;;;; rst-mode
    `(rst-level-1-face ((t (:foreground ,schwilk-orange))))
-   `(rst-level-2-face ((t (:foreground ,schwilk-green+1))))
-   `(rst-level-3-face ((t (:foreground ,schwilk-blue-1))))
-   `(rst-level-4-face ((t (:foreground ,schwilk-yellow-2))))
-   `(rst-level-5-face ((t (:foreground ,schwilk-cyan))))
-   `(rst-level-6-face ((t (:foreground ,schwilk-green-1))))
+   `(rst-level-2-face ((t (:foreground ,schwilk-yellow))))
+   `(rst-level-3-face ((t (:foreground ,schwilk-green+4))))
+   `(rst-level-4-face ((t (:foreground ,schwilk-blue-1))))
+   `(rst-level-5-face ((t (:foreground ,schwilk-yellow-2))))
+   `(rst-level-6-face ((t (:foreground ,schwilk-cyan))))
 ;;;;; show-paren
    `(show-paren-mismatch ((t (:foreground ,schwilk-red-3 :background ,schwilk-bg :weight bold))))
    `(show-paren-match ((t (:foreground ,schwilk-blue-1 :background ,schwilk-bg :weight bold))))
