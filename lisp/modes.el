@@ -33,50 +33,12 @@
 ;; Markdown mode
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
+(add-hook 'markdown-mode-hook 'turn-on-pandoc) ;; pandoc-mode
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 ;; End setup text modes ------------------------------------------------------
 
-;;;---------------------------------------------------------------------------
-;;; Setup psgml-mode ;;  
-;; ---------------------------------------------------------------------------
-;; XML/SGML - PSGML
-;;
-;;   First, we'll just set up PSGML. Then we'll create a derived mode for
-;;   (X)HTML using mmm-mode for fancy (X)HTML/CSS/Javascript/PHP coding
-
-(autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t )
-(autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
-
-(setq auto-mode-alist
-  (append
-  (list
-    '("\\.sgm$" . sgml-mode)
-    '("\\.sgml$" . sgml-mode)
-    '("\\.xml$" . xml-mode)
-    )
-  auto-mode-alist))
-;; Enable editing help with mouse-3 in all sgml files
-
-(defun go-bind-markup-menu-to-mouse3 ()
-        (define-key sgml-mode-map [(down-mouse-3)] 'sgml-tags-menu))
-(add-hook 'sgml-mode-hook 'go-bind-markup-menu-to-mouse3)
-
-(setq sgml-indent-step 2)
-(setq sgml-indent-data t)
-(setq sgml-warn-about-undefined-entities nil)
-(setq sgml-warn-about-undefined-elements nil)
-(add-to-list 'auto-mode-alist '("\\.xsd$"    . xml-mode))
-;; End setup psgml-mode ------------------------------------------------------
-
-;; Use tidy.el to provide support for tidy
-(autoload 'tidy-buffer "tidy" "Run Tidy HTML parser on current buffer" t)
-(autoload 'tidy-parse-config-file "tidy" "Parse the `tidy-config-file'" t)
-(autoload 'tidy-save-settings "tidy" "Save settings to `tidy-config-file'" t)
-(autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
-(add-hook 'sgml-html-mode-hook #'(lambda () (tidy-build-menu sgml-html-mode-map)))
-(add-hook 'xml-html-mode-hook #'(lambda () (tidy-build-menu xml-html-mode-map)))
 
 ;; ----------------------------------------------------------------------------
 ;; Setup Common Lisp mode
@@ -149,9 +111,7 @@
 
 ;;;----------------------------------------------------------------------------
 ;; python mode
-
 ;; nothing to do should work
-
 ;; End setup python-mode-------------------------------------------------------
 
 ;;;----------------------------------------------------------------------------

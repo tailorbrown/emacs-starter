@@ -42,20 +42,19 @@
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")
-                         ("org" . "http://orgmode.org/elpa/")
 ))
 
 ;; Package setup, taken from
 ;; https://github.com/zane/dotemacs/blob/master/zane-packages.el#L62
 (setq required-packages
       '(auctex
+        dynamic-fonts
         ess
         htmlize
         list-utils
         magit
         markdown-mode
-        org-plus-contrib
-        dynamic-fonts
+        pandoc-mode
         ))
 
 (package-initialize)
