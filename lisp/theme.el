@@ -73,22 +73,25 @@
 
     ;; line and column
     "(" ;; '%02' to set to 2 chars at least; prevents flickering
-      (propertize "%02l" 'face 'font-lock-type-face) ","
-      (propertize "%02c" 'face 'font-lock-type-face) 
+      (propertize "%02l" 'face 'font-lock-type-face 'help-echo "Line number")
+       ","
+      (propertize "%02c" 'face 'font-lock-type-face 'help-echo "Column number")
     ") "
 
     ;; relative position, size of file
     "["
-    (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
+    (propertize "%p" 'face 'font-lock-constant-face
+                     'help-echo "Relative position") ;; % above top
     "/"
-    (propertize "%I" 'face 'font-lock-constant-face) ;; size
+    (propertize "%I" 'face 'font-lock-constant-face
+                     'help-echo "Buffer size") ;; size
     "] "
 
     ;; the current major mode for the buffer.
     "["
 
     '(:eval (propertize "%m" 'face 'font-lock-string-face
-              'help-echo buffer-file-coding-system))
+              'help-echo "Major mode"))
     "] "
 
 
@@ -99,8 +102,8 @@
                            (if overwrite-mode "overwrite" "insert") " mode")))
 
     ;; was this buffer modified since the last save?
-    '(:eval (when (buffer-modified-p)
-              (concat ","  (propertize "Mod"
+    '(:eval (when (and (buffer-modified-p) (not buffer-read-only) )
+              (concat ","  (propertize "Unsaved"
                              'face 'font-lock-warning-face
                              'help-echo "Buffer has been modified"))))
 
@@ -111,14 +114,13 @@
                              'help-echo "Buffer is read-only"))))  
     "] "
 
-    ;; add the time, with the date and the emacs uptime in the tooltip
+    ;; add the time, with the date
     '(:eval (propertize (format-time-string "%H:%M")
               'help-echo
-              (concat (format-time-string "%c; ")
-                      (emacs-uptime "Uptime:%hh"))))
+              (format-time-string "%c")))
     " --"
-    ;; i don't want to see minor-modes; but if you want, uncomment this:
-    minor-mode-alist  ;; list of minor modes
+    ;; I don't want to see minor-modes; but if you want, uncomment this:
+    ;;minor-mode-alist  ;; list of minor modes
     "%-" ;; fill with '-'
     ))
 ;; end set modeline
