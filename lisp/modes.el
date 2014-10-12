@@ -9,17 +9,17 @@
 ;; All org-mode customizations are in ~/.emacs.d/lisp/org-mode-setup.el
 ;;;;---------------------------------------------------------------------------
 
-;;;---------------------------------------------------------------------------
+;;;----------------------------------------------------------------------------
 ;;; Version control setup
-;; ---------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 ;; magit installed via MELPA
 ;; nothing needed. See http://magit.github.io/magit/magit.html
-;; End setup version control -------------------------------------------------
+;; End setup version control --------------------------------------------------
 
 
-;;;---------------------------------------------------------------------------
+;;;----------------------------------------------------------------------------
 ;;; Various text modes setup
-;; ---------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 (add-hook 'text-mode-hook '(lambda() (setq visual-wrap-column 79)))
 ;; and for when we turn off visual-line-mode:
@@ -37,7 +37,7 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-;; End setup text modes ------------------------------------------------------
+;; End setup text modes -------------------------------------------------------
 
 
 ;; ----------------------------------------------------------------------------
@@ -132,11 +132,13 @@
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (add-hook 'LaTeX-mode-hook 'turn-on-visual-line-mode)  ;; visual line wrapping
-(add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-fold-mode 1)))    ;; turn on folding
-(add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-newline-function 'reindent-then-newline-and-indent) ))
+(add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-fold-mode 1)))
+(add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-newline-function 
+                                        'reindent-then-newline-and-indent) ))
 (add-hook 'LaTeX-mode-hook #'(lambda() (setq LaTeX-item-indent 2)))
 (add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-brace-indent-level 2)))
-(add-hook 'LaTeX-mode-hook #'(lambda() (setq font-latex-match-textual-keywords (quote ("citet" "citep" "citeauthor" "citeyear")))))
+(add-hook 'LaTeX-mode-hook #'(lambda() (setq font-latex-match-textual-keywords 
+                            (quote ("citet" "citep" "citeauthor" "citeyear")))))
 (font-lock-add-keywords
  'latex-mode
  '(("\\\\clearpage" 0 font-lock-keyword-face prepend)

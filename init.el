@@ -10,7 +10,7 @@
 ;; this .emacs file loads several other customization files:
 ;;        - ~/.emacs.d/lisp/efunc.el  -   custom functions
 ;;        - ~/.emacs.d/lisp/mode.el   -   modes supported
-;;        - ~/.emacs./lisp/ekeys     -   key bindings
+;;        - ~/.emacs./lisp/ekeys.el   -   key bindings
 ;;        - ~/.emacs.d/lisp/theme.el  -   modeline and color theme
 ;;
 ;; And color themese are in ~/.emacs.d/themes
@@ -88,14 +88,14 @@
 (line-number-mode t)
 (column-number-mode t)
 (setq-default fill-column 79)
-(defalias 'yes-or-no-p 'y-or-n-p) ;; get rid of yes-or-no questions - y or n is enough
+(defalias 'yes-or-no-p 'y-or-n-p)     ;; y or n is enough
 
 ;; Windows-style cut-copy-paste
 (cua-mode t)
-(setq x-select-enable-clipboard t) ;; cut-paste
+(setq x-select-enable-clipboard t)    ;; cut-paste
 (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
-(transient-mark-mode 1) ;; No region when it is not highlighted
-(setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
+(transient-mark-mode 1)               ;; No region when it is not highlighted
+(setq cua-keep-region-after-copy t)   ;; Standard Windows behaviour
 (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
 ;;window splitting: prefer vertical
