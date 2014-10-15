@@ -1,12 +1,12 @@
 schwilk-emacs-starter
 =====================
 
-A starter .emacs.d directory for my students with support for R programming (through ESS), Markdown editing ([markdown-mode][markdown-mode] and [pandoc-mode][pandoc-mode]), LaTeX editing (auctex), [org-mode][org-mode] and git (using magit, https://github.com/magit/magit). Note that the org-mode setup is just the org-mode defaults. I have a customized org-mode setup in org-mode-setup.el, but this file is not loaded unless you uncomment a line in init.el. If you want to do that, you should read through [org-mode-setup.el](file:lisp/org-mode-setup.el) and read some comments and make a few personalizations where noted.
+A starter .emacs.d directory for my students with support for R programming (through ESS), Markdown editing ([markdown-mode][markdown-mode] and [pandoc-mode][pandoc-mode]), LaTeX editing (auctex), [org-mode][org-mode] and git (using [magit][magit]). Note that the org-mode setup is just the org-mode defaults. I have a customized org-mode setup in org-mode-setup.el, but this file is not loaded unless you uncomment a line in init.el. If you want to do that, you should read through [org-mode-setup.el](file:lisp/org-mode-setup.el) and read some comments and make a few personalizations where noted.
 
 Requirements
 ------------
 
-This configuration requires Emacs 24.  The init.el file will use the Emacs package manager to automatically install any missing required packages.
+This configuration requires Emacs 24. The init.el file will use the Emacs package manager to automatically install any missing required packages.
 
 Installing
 ----------
@@ -48,11 +48,11 @@ Things to note when you are reading documentation or surfing the web for help. T
 
 * shift-enter for ess
 * [cua-mode][cua-mode] Windows style cut-copy-paste (`C-x, C-c, C-v`) enabled
-* Uses my dark theme (schwilk-theme) and a custom mode-line (that line of information at the bottom of the frame just above the minibuffer). My setup also uses dynamic-fonts to select the font. Currently it chooses monospaced fonts according to this priority list:
+* Uses my dark theme (schwilk-theme) and a custom mode-line (that line of information at the bottom of the frame just above the minibuffer, what is called a "status bar" in other applications). My setup also uses dynamic-fonts to select the font. Currently it chooses monospaced fonts according to this priority list:
 
     "Inconsolata" "Consolas" "Ubuntu Mono" "Source Code Pro" "Envy Code R" "Droid Sans Mono Pro" "Droid Sans Mono" "DejaVu Sans Mono"
     
-You can change this in lisp/theme.el. Install one of these fonts, if needed. I prefer [Inconsolata][inconsolata].
+Emacs will look for fonts in this order so make sure that at least one is installed. You can change this in lisp/theme.el. I prefer [Inconsolata][inconsolata].
 
 ### Additional functions
 
@@ -66,6 +66,7 @@ Some keybindings (shortcuts to a few functions in efuncs.el):
 [cua-mode]:http://www.emacswiki.org/CuaMode
 [ess]:http://ess.r-project.org/
 [inconsolata]:http://www.levien.com/type/myfonts/inconsolata.html
+[magit]:https://github.com/magit/magit
 [markdown-mode]:http://jblevins.org/projects/markdown-mode/
 [org-mode]:http://orgmode.org/
 [pandoc-mode]:http://joostkremers.github.io/pandoc-mode/
