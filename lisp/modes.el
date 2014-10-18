@@ -9,13 +9,19 @@
 ;; All org-mode customizations are in ~/.emacs.d/lisp/org-mode-setup.el
 ;;;;---------------------------------------------------------------------------
 
-;;;----------------------------------------------------------------------------
+;;;---------------------------------------------------------------------------
 ;;; Version control setup
-;; ----------------------------------------------------------------------------
-;; magit installed via MELPA
-;; nothing needed. See http://magit.github.io/magit/magit.html
-;; End setup version control --------------------------------------------------
+;; ---------------------------------------------------------------------------
+;; magit installed via MELPA, See http://magit.github.io/magit/magit.html
+;; git-commit-mode installed via MELPA
 
+;; weird, all below should be automatic as part of git-commit-mode other than
+;; turning off visual line mode.
+(add-hook 'git-commit-mode-hook (lambda () (visual-line-mode -1)))
+(add-hook 'git-commit-mode-hook (lambda () (auto-fill-mode t)))
+(add-hook 'git-commit-mode-hook 'flyspell-mode)
+(add-hook 'git-commit-mode-hook (lambda () (setq fill-column git-commit-fill-column)))
+;; End setup version control -------------------------------------------------
 
 ;;;----------------------------------------------------------------------------
 ;;; Various text modes setup
