@@ -33,7 +33,9 @@ Modify the placeholders for email address and name in init.el:
 Using
 -----
 
-The first time you start emacs with this new configuration, emacs will ask you if it is ok to install some packages from MELPA (see list of required packages in init.el). Choose "y" so that emacs will use the package manager to install these packages upon which this configuration depends.
+The first time you start emacs with this new configuration, do so as a regular emacs session (not daemon). Emacs will ask you if it is ok to install some packages from MELPA (see list of required packages in init.el). Choose "y" so that emacs will use the package manager to install these packages upon which this configuration depends.
+
+When emacs starts, it may show a gray background theme rather than the dark "schwilk" theme. To load my color theme, go to "options -> Customize Emacs -> Custom themes" and choose "schwilk".  Then choose "save" to allow this theme to load automatically from now on.
 
 ### For coding in R and running R interactively
 
