@@ -61,7 +61,7 @@
 
 ;; install missing packages
 ;; see http://technical-dresese.blogspot.com/2012/12/elpa-and-initialization.html
-(let ((not-installed (remove-if 'package-installed-p required-packages)))
+(let ((not-installed (cl-remove-if 'package-installed-p required-packages)))
   (if not-installed
       (if (y-or-n-p (format "there are %d packages to be installed. install them? "
                             (length not-installed)))
