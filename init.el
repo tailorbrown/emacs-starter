@@ -75,7 +75,7 @@
 (setq inhibit-startup-message t)           ; Disable the startup splash screen
 (setq-default visible-bell t)              ; no beeps, flash on errors
 (menu-bar-mode 1)                          ; arg >= 1 enable the menu bar
-(tool-bar-mode -1)
+(tool-bar-mode 1)
 (show-paren-mode 1)                        ; Turn on parentheses matching
 ;; Turn off blinking cursor
 ;;(if (fboundp 'blink-cursor-mode) (blink-cursor-mode 0))
