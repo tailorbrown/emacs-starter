@@ -47,9 +47,14 @@
    (dynamic-fonts-setup)
   )
 
-;; And this is required to get the theme to load correctly using emacsclient
-;; and server. Otheriwse font and cursor are not set correctly
-(add-hook 'after-make-frame-functions 'my-start-theme)
+
+;; if starting daemon, add hook to load theme, otherwise load theme
+(if (daemonp)
+    (add-hook 'after-make-frame-functions 'my-start-theme)
+    (set-frame-size-according-to-resolution)
+    (load-theme the-color-theme t)
+    (dynamic-fonts-setup)
+)
 
 ;; and this to get window focus:
 (defun px-raise-frame-and-give-focus ()
@@ -124,3 +129,4 @@
     "%-" ;; fill with '-'
     ))
 ;; end set modeline
+
