@@ -48,7 +48,6 @@ Note that my version binds shift-enter rather than shift-control to starting the
 
 Things to note when you are reading documentation or surfing the web for help. This mode differs from the emacs defaults in these ways
 
-* shift-enter for ess
 * [cua-mode][cua-mode] Windows style cut-copy-paste (`C-x, C-c, C-v`) enabled
 * Uses my dark theme (schwilk-theme) and a custom mode-line (that line of information at the bottom of the frame just above the minibuffer, what is called a "status bar" in other applications). My setup also uses dynamic-fonts to select the font. Currently it chooses monospaced fonts according to this priority list:
 

@@ -73,12 +73,3 @@
     ; remove hook not really necessary, but why not clean up after it runs?
     (remove-hook 'text-mode-hook 'dws-fix-text-mode)))
 
-;; ESS mode hooks
-(add-hook 'ess-mode-hook
-  (lambda()
-    (local-set-key [(control return)] nil)
-    (local-set-key [(shift return)] 'ess-eval-region-or-line-and-step) ;; start ess
-    (local-set-key [C-up] 'comint-previous-input) ;; like alt-p
-    (local-set-key [C-down] 'comint-next-input)
-   )
-)
