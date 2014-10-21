@@ -63,32 +63,9 @@
 ;; Associate extensions with c modes
 (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
 
-;; Create my own c/cpp coding style
-;; No space before { and function sig indents 4 if argument overflow
-(setq dws-c-style
-      '((c-auto-newline                 . nil)
-        (c-basic-offset                 . 4)
-        (c-comment-only-line-offset     . 0)
-        (c-echo-syntactic-information-p . nil)
-        (c-hungry-delete-key            . t)
-        (c-tab-always-indent            . t)
-        (c-toggle-hungry-state          . t)
-        (c-hanging-braces-alist         . ((substatement-open after)
-                                          (brace-list-open)))
-        (c-offsets-alist                . ((arglist-close . c-lineup-arglist)
-                                           (case-label . 4)
-                                           (substatement-open . 0)
-                                           (block-open . 0) ; no space before {
-                                           (knr-argdecl-intro . -)))
-        (c-hanging-colons-alist         . ((member-init-intro before)
-                                           (inher-intro)
-                                           (case-label after)
-                                           (label after)
-                                           (access-label after)))
-        (c-cleanup-list                 . (scope-operator
-                                           empty-defun-braces
-                                           defun-close-semi))))
-        
+;; Use K&R c coding style
+(setq c-default-style "k&r")
+
 ;; Construct a hook to be called when entering C mode
 (defun lconfig-c-mode ()
   (progn (define-key c-mode-base-map "\C-m" 'newline-and-indent)
@@ -98,8 +75,7 @@
          (define-key c-mode-base-map [f8] 'compile)
          (define-key c-mode-base-map [f9] 'insert-breakpoint)
          (define-key c-mode-base-map [f10] 'step-over)
-         (define-key c-mode-base-map [f11] 'step-into)
-         (c-add-style "Dylan's Coding Style" dws-c-style t)))
+         (define-key c-mode-base-map [f11] 'step-into)))
 (add-hook 'c-mode-common-hook 'lconfig-c-mode)
 ;; End setup c mode -----------------------------------------------------------
 
