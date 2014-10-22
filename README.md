@@ -42,7 +42,9 @@ When emacs starts, it may show a gray background theme rather than the dark "sch
 R mode is automatically entered when you edit a file with the extension *.r or *.R. To start the R interpreter highlight a region or put your cursor on
 a line of code and hit [shift-enter]. Do the same to send more code to the interpreter. See [emacs speaks statistics][ess] for more details.
 
-Note that my version binds shift-enter rather than shift-control to starting the R interpreter and sending a line to the interpreter.
+### Using git from Emacs
+
+[magit][magit] provides a great interface for git. To bring up the git interface, type "C-x g" when in a window visiting any buffer in a git repository.  See the magit documentation for more detail.
 
 ### Some departures from emacs defaults
 
@@ -55,6 +57,7 @@ Things to note when you are reading documentation or surfing the web for help. T
     
 Emacs will look for fonts in this order so make sure that at least one is installed. You can change this in lisp/theme.el. I prefer [Inconsolata][inconsolata].
 
+* See lisp/ekeys.el for all keybindings.
 ### Additional functions
 
 Some keybindings (shortcuts to a few functions in efuncs.el):
