@@ -64,3 +64,7 @@
     ; remove hook not really necessary, but why not clean up after it runs?
     (remove-hook 'text-mode-hook 'dws-fix-text-mode)))
 
+;; Define eval line in ESS as shift-enter rather than C-enter. because C-enter
+;; conflicts with the rectangle selection tool in CUA-mode.
+(define-key ess-mode-map [(control return)] nil)
+(define-key ess-mode-map [(shift return)] 'ess-eval-region-or-line-and-step)
