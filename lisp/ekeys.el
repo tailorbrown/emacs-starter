@@ -20,12 +20,13 @@
 
 (bind-keys
 '(
-   ;; Function keys:
-   ;; f1 - help
-   ;; f2 - 2-column
-   ;; f3 - define kbd macro
-   "<f11>" visual-line-mode ; toggles
-   "<f12>" toggle-truncate-lines
+  ;; Function keys:
+  ;; f1 - help
+  ;; f2 - 2-column
+  ;; f3 - define kbd macro
+  "<f8>"    compile
+  "<f11>" visual-line-mode ; toggles
+  "<f12>" toggle-truncate-lines
 
   ;; for moving to `M-x compile' and `M-x grep' matches
   "C-c n"   next-error
@@ -44,9 +45,7 @@
   "C-c c"   org-capture  
 
   ;; Start shell or switch to it if it's active.
- "C-x m"   shell
-  ;; Programming and ess
-  "<f8>"    compile
+  "C-x m"   shell
   ;; git, magit, vc
   "C-x g"   magit-status
 
@@ -55,14 +54,6 @@
    "C-c \\"  the-the
    "C-c i"   insert-date-string
 ))
-
-;; add occur to isearch
-(define-key isearch-mode-map (kbd "C-o")
-  (lambda ()
-    (interactive)
-    (let ((case-fold-search isearch-case-fold-search))
-      (occur (if isearch-regexp isearch-string
-               (regexp-quote isearch-string))))))
 
 ;; Don't use alt-q to fill when we are in visual-line-mode make temporary
 ;; function, run hook function in text mode and after it is run once remove the
