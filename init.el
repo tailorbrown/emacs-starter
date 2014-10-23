@@ -127,6 +127,21 @@
 (add-to-list 'special-display-frame-alist '(tool-bar-lines . 0))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; backup and autosave options
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq backup-directory-alist `(("." . ,(expand-file-name
+                                    (concat emacs-root "backups"))))
+      auto-save-file-name-transforms
+         `((".*" ,(expand-file-name (concat emacs-root "autosaves"))))
+      delete-old-versions t
+      kept-new-versions 6
+      kept-old-versions 2
+)
+;; create the autosave dir if necessary, since emacs won't.
+(make-directory (concat emacs-root "autosaves") t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load all external files for keybindings, modes, color themes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

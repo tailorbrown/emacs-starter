@@ -1,5 +1,7 @@
 elpa/
 auto-save-list/
+autosaves/
+backups/
 contrib/
 idlwave/
 url/
