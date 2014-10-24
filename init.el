@@ -24,8 +24,8 @@
 (require 'cl-lib)
 
 ;; Identification
-(defun user-mail-address() "john.doe@ttu.edu")
-(setq user-full-name "John Doe")
+(defun user-mail-address() "jane.doe@ttu.edu")
+(setq user-full-name "Jane Doe")
 
 ;; add the elisp directories under ~/emacs to my load path
 (defvar home-dir (expand-file-name "~/"))
@@ -150,7 +150,6 @@
  '( "modes"        ; various modes configurations
    "efuncs"        ; a bunch of utilities functions
    "ekeys"         ; my key bindings and some aliases
-;;   "org-mode-setup"; Optional, requires customization
    "theme" ))      ; all the visual stuff goes there
 
 ;; Do customize stuff last to override anything reset

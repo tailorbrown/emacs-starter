@@ -1,7 +1,7 @@
 schwilk-emacs-starter
 =====================
 
-A starter .emacs.d directory for my students with support for R programming (through ESS), Markdown editing ([markdown-mode][markdown-mode] and [pandoc-mode][pandoc-mode]), LaTeX editing (auctex), [org-mode][org-mode] and git (using [magit][magit]). Note that the org-mode setup is just the org-mode defaults. I have a customized org-mode setup in org-mode-setup.el, but this file is not loaded unless you uncomment a line in init.el. If you want to do that, you should read through [org-mode-setup.el](file:lisp/org-mode-setup.el) and read some comments and make a few personalizations where noted.
+A starter .emacs.d directory for my students with support for R programming (through ESS), Markdown editing ([markdown-mode][markdown-mode] and [pandoc-mode][pandoc-mode]), LaTeX editing (auctex), and git (using [magit][magit]). I use [org-mode][org-mode] but for this .emacs, the org-mode setup is just the org-mode defaults. If you are interested in a more complete org-mode setup, see [my own .emacs](https://github.com/dschwilk/emacs-config) which has a similar structure to this one but with more customization.
 
 Requirements
 ------------
@@ -35,22 +35,24 @@ Using
 
 The first time you start emacs with this new configuration, do so as a regular emacs session (not daemon). Emacs will ask you if it is ok to install some packages from MELPA (see list of required packages in init.el). Choose "y" so that emacs will use the package manager to install these packages upon which this configuration depends.
 
-When emacs starts, it may show a gray background theme rather than the dark "schwilk" theme. To load my color theme, go to "options -> Customize Emacs -> Custom themes" and choose "schwilk".  Then choose "save" to allow this theme to load automatically from now on.
+If you receive any errors, close Emacs (from the menu, with "C-x C-c", or "M-x kill-emacs") and restart it. Sometimes it needs a couple of restarts during this package installation phase (I will work on fixing this, it may have to do with the order in which packages are installed).. 
+
+When emacs starts, it may show a gray background theme rather than the dark "schwilk" theme. To load my color theme, go to "options -> Customize Emacs -> Custom themes" and choose "schwilk". Then choose "save" to allow this theme to load automatically from now on. You can use this Customize Emacs menu to select any other installed theme and to change emacs options.  Those settings are then saved to ".emacs.d/custom.el".
 
 ### For coding in R and running R interactively
 
 R mode is automatically entered when you edit a file with the extension *.r or *.R. To start the R interpreter highlight a region or put your cursor on
-a line of code and hit [shift-enter]. Do the same to send more code to the interpreter. See [emacs speaks statistics][ess] for more details.
+a line of code and hit [shift-enter]. Do the same to send more code to the interpreter. This differs from the standard shortcut key (C-enter) because that key conflcits with CUA-mode. See [emacs speaks statistics][ess] for more details.
 
 ### Using git from Emacs
 
-[magit][magit] provides a great interface for git. To bring up the git interface, type "C-x g" when in a window visiting any buffer in a git repository.  See the magit documentation for more detail.
+[magit][magit] provides a great interface for git. To bring up the git interface, type "C-x g" when in a window visiting any buffer in a git repository. This calls "magit-status." See the magit documentation for more detail.
 
 ### Some departures from emacs defaults
 
 Things to note when you are reading documentation or surfing the web for help. This mode differs from the emacs defaults in these ways
 
-* shift-enter for ess
+* shift-enter for ess rather than C-enter (to avoid conflict with CUA-mode)
 * [cua-mode][cua-mode] Windows style cut-copy-paste (`C-x, C-c, C-v`) enabled
 * Uses my dark theme (schwilk-theme) and a custom mode-line (that line of information at the bottom of the frame just above the minibuffer, what is called a "status bar" in other applications). My setup also uses dynamic-fonts to select the font. Currently it chooses monospaced fonts according to this priority list:
 
@@ -59,6 +61,7 @@ Things to note when you are reading documentation or surfing the web for help. T
 Emacs will look for fonts in this order so make sure that at least one is installed. You can change this in lisp/theme.el. I prefer [Inconsolata][inconsolata].
 
 * See lisp/ekeys.el for all keybindings.
+
 ### Additional functions
 
 Some keybindings (shortcuts to a few functions in efuncs.el):
