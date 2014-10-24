@@ -80,19 +80,6 @@ NEW-WRAP-COLUMN disables this behavior."
   (untabify (point-min) (point-max)))
 
 ;;;----------------------------------------------------------------------------
-;; Latex word counting
-(defun latex-word-count ()
-    (interactive)
-    (let* ((this-file (buffer-file-name))
-           (word-count
-            (with-output-to-string
-              (with-current-buffer standard-output
-                (call-process "texcount" nil t nil "-brief" this-file)))))
-      (string-match "\n$" word-count)
-     (message (replace-match "" nil nil word-count))))
-
-
-;;;----------------------------------------------------------------------------
 ;; Functions for filling and unfilling text.
 ;; For composing in emacs then pasting into a word processor,
 ;; this un-fills all the paragraphs (i.e. turns each paragraph
