@@ -98,9 +98,23 @@
 (setq cua-keep-region-after-copy t)   ;; Standard Windows behaviour
 (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
-;;window splitting: prefer vertical
-(setq split-height-threshold 80)
-(setq split-width-threshold 80)
+;; window splitting:
+(setq split-height-threshold 45)
+(setq split-width-threshold 100)
+
+;; But Emacs still prefers to split vertically (on top of one another). To
+;; prefer side-by-side windows when automatically splitting a single window:
+defun split-window-prefer-horizonally (window)
+  "If there's only one window (excluding any possibly active
+minibuffer), then split the current window horizontally."
+  (if (and (one-window-p t)
+           (not (active-minibuffer-window)))
+      (let ((split-height-threshold nil))
+        (split-window-sensibly window))
+    (split-window-sensibly window)))
+
+(setq split-window-preferred-function 'split-window-prefer-horizonally)
+
 
 ;; Printing setup
 (setq ps-n-up-printing 2)
