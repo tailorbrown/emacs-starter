@@ -25,15 +25,15 @@
   ;; f2 - 2-column
   ;; f3 - define kbd macro
   "<f8>"    compile
-  "<f11>" visual-line-mode ; toggles
-  "<f12>" toggle-truncate-lines
+  "<f11>"   visual-line-mode ; toggles
+  "<f12>"   toggle-truncate-lines
 
   ;; for moving to `M-x compile' and `M-x grep' matches
   "C-c n"   next-error
   "C-c p"   previous-error
 
    ;; additional shortcuts buffers and windows
-  "C-<tab>"   bury-buffer ; cycle through buffers
+  "C-<tab>" bury-buffer ; cycle through buffers
   "C-x I"   insert-buffer
   "C-c w"   count-words-region
   "M-/"     hippie-expand
@@ -50,9 +50,9 @@
   "C-x g"   magit-status
 
   ;; bindings for functions defined in lisp/efuncs.el
-   "C-c r"   rename-file-and-buffer
-   "C-c \\"  the-the
-   "C-c i"   insert-date-string
+   "C-c r"  rename-file-and-buffer
+   "C-c \\" the-the
+   "C-c i"  insert-date-string
 ))
 
 ;; Don't use alt-q to fill when we are in visual-line-mode make temporary

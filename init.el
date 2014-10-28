@@ -17,14 +17,14 @@
 ;;;;---------------------------------------------------------------------------
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; General setup and package managment
+;; Personalization and package management
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; turn on Common Lisp support
 (require 'cl-lib)
 
 ;; Identification
-(defun user-mail-address() "jane.doe@ttu.edu")
+(setq user-mail-address "jane.doe@ttu.edu")
 (setq user-full-name "Jane Doe")
 
 ;; add the elisp directories under ~/emacs to my load path
@@ -33,7 +33,7 @@
 (cl-labels ((add-path (p)
            (add-to-list 'load-path (concat emacs-root p))))
   (add-path "lisp")              ; my personal elisp code
-  (add-path "contrib")           ; elisp code from other people
+  (add-path "contrib")           ; put elisp code from other people here
 )
 ;; add path for emacs24 style themes
 (add-to-list 'custom-theme-load-path (concat emacs-root "themes"))
@@ -77,10 +77,7 @@
 (menu-bar-mode 1)                          ; arg >= 1 enable the menu bar
 (tool-bar-mode 1)
 (show-paren-mode 1)                        ; Turn on parentheses matching
-;; Turn off blinking cursor
-;;(if (fboundp 'blink-cursor-mode) (blink-cursor-mode 0))
 (setq zmacs-regions t)
-(setq inhibit-ge t)
 (setq-default indent-tabs-mode nil)        ; uses spaces rather than tabs
 (setq default-tab-width 4);
 (setq delete-key-deletes-forward t)
@@ -97,10 +94,6 @@
 (transient-mark-mode 1)               ;; No region when it is not highlighted
 (setq cua-keep-region-after-copy t)   ;; Standard Windows behaviour
 (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-
-;; Printing setup
-(setq ps-n-up-printing 2)
-(setq ps-print-header nil)
 
 ;; we speak utf-8 here
 (set-language-environment "utf-8")
@@ -129,25 +122,6 @@ minibuffer), then split the current window horizontally."
     (split-window-sensibly window)))
 
 (setq split-window-preferred-function 'split-window-prefer-horizonally)
-
-
-;; Printing setup
-(setq ps-n-up-printing 2)
-(setq ps-print-header nil)
-
-;; we speak utf-8 here
-(set-language-environment "utf-8")
-(prefer-coding-system 'utf-8)
-
-(setq sentence-end-double-space nil)
-(setq sentence-end "[.?!][]\"')]*\\($\\|\t\\| \\)[ \t\n]*")
-
-;; disable advanced features? Bah.
-(put 'downcase-region  'disabled nil)
-(put 'set-goal-column  'disabled nil)
-(put 'upcase-region    'disabled nil)
-(put 'narrow-to-page   'disabled nil)
-(put 'narrow-to-region 'disabled nil)
 
 ;; display various non-editing buffers in their own frames
 (setq special-display-buffer-names
