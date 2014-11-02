@@ -129,13 +129,72 @@
 (add-hook 'LaTeX-mode-hook '(lambda() (setq ispell-check-comments nil)))
 (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
 (setq TeX-show-compilation nil) ;; turn off compilation buffer
-;; turn on reftex
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-(setq reftex-cite-format 'natbib)
+
+;; RefTeX
 (setq reftex-enable-partial-scans t)
 (setq reftex-save-parse-info t)
 (setq reftex-use-multiple-selection-buffers t)
 (setq reftex-plug-into-AUCTeX t)
 
-;; setup remote file access mode for tramp ------------------------------------
-(setq tramp-default-method "ssh")
+
+(autoload 'reftex-mode     "reftex" "RefTeX Minor Mode" t)
+(autoload 'turn-on-reftex  "reftex" "RefTeX Minor Mode" nil)
+(autoload 'reftex-citation "reftex-cite" "Make citation" nil)
+(autoload 'reftex-index-phrase-mode "reftex-index" "Phrase mode" t)
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
+(add-hook 'latex-mode-hook 'turn-on-reftex)   ; with Emacs latex mode
+(add-hook 'markdown-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
+
+;; Make RefTeX work with Org-Mode
+(defun org-mode-reftex-setup ()
+  (load-library "reftex")
+  (and (buffer-file-name)
+  (file-exists-p (buffer-file-name))
+  (reftex-parse-all)))
+
+(add-hook 'org-mode-hook 'org-mode-reftex-setup)
+
+(eval-after-load 'reftex-vars
+  '(progn
+     ;; cite format for pandoc-markdown, bibtex/natbiib and biblatex
+     (setq reftex-cite-format
+       '((?c . "[@%l]")  ;; for pandoc-style citations. Doesn't work for
+                         ;; multiple keys at once yet
+         (?\C-m . "\\cite[]{%l}")
+         (?p . "\\citep[][]{%l}")  ; natbib
+         (?t . "\\citet[][]{%l}")  ; natbib
+         (?F . "\\footcite[][]{%l}")
+         (?T . "\\textcite[]{%l}")
+         (?P . "\\parencite[]{%l}")
+         (?o . "\\citepr[]{%l}")
+         (?n . "\\nocite{%l}")))))
+
+(setq font-latex-match-reference-keywords
+      '(("cite" "[{")
+        ("citep" "[{")  ;; for natbib
+        ("cites" "[{}]")
+        ("footcite" "[{")
+        ("footcites" "[{")
+        ("parencite" "[{")
+        ("textcite" "[{")
+        ("fullcite" "[{")
+        ("citetitle" "[{")
+        ("citetitles" "[{")
+        ("headlessfullcite" "[{")))
+
+(setq reftex-cite-prompt-optional-args nil)
+(setq reftex-cite-cleanup-optional-args t)
+
+;; BibTeX-mode Get bibtex mode to autogenerate keys that match schwilk database
+;; style
+(setq bibtex-autokey-preserve-case t)
+(setq bibtex-autokey-names 2)
+(setq bibtex-autokey-name-separator "+")
+(setq bibtex-autokey-year-length 4)
+(setq  bibtex-autokey-title-terminators ".") ;; no title
+(setq bibtex-autokey-name-year-separator "-")
+(setq bibtex-autokey-additional-names "+etal")
+(defun dws-do-nothing (tstr) tstr)
+(setq bibtex-autokey-name-case-convert-function 'dws-do-nothing)
+(setq bibtex-autokey-edit-before-use nil)
