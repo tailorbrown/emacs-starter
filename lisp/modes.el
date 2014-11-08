@@ -15,27 +15,31 @@
 ;; magit installed via MELPA, See http://magit.github.io/magit/magit.html
 ;; git-commit-mode installed via MELPA
 
-;; weird, all below should be automatic as part of git-commit-mode other than
-;; turning off visual line mode.
-(add-hook 'git-commit-mode-hook (lambda () (visual-line-mode -1)))
-(add-hook 'git-commit-mode-hook (lambda () (auto-fill-mode t)))
-(add-hook 'git-commit-mode-hook 'flyspell-mode)
-(add-hook 'git-commit-mode-hook (lambda () (setq fill-column git-commit-fill-column)))
+;; All below should be automatic as part of git-commit-mode other than turning
+;; off visual line mode.
+(add-hook 'git-commit-mode-hook (lambda ()
+  (visual-line-mode -1)
+  (auto-fill-mode t)
+  (setq fill-column git-commit-fill-column)
+))
 ;; End setup version control -------------------------------------------------
 
 ;;;----------------------------------------------------------------------------
 ;;; Various text modes setup
-;; ----------------------------------------------------------------------------
-(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
-(add-hook 'text-mode-hook '(lambda() (setq visual-wrap-column 79)))
-;; and for when we turn off visual-line-mode:
-(add-hook 'text-mode-hook '(lambda() (setq fill-column 79)))
-(add-hook 'text-mode-hook 'flyspell-mode)
+;; ---------------------------------------------------------------------------
 
-;; Setup table editing using table.el
+;; Overall text-mode settings
 (require 'table)
-(add-hook 'text-mode-hook 'table-recognize)
+(add-hook 'text-mode-hook '(lambda()
+  (setq visual-wrap-column 79)
+  (visual-line-mode)
+  ;; and for when we turn off visual-line-mode:
+  (setq fill-column 79)
+  (flyspell-mode)
+  (table-recognize) ; use table.el
+))
 
+;; ----------------------------------------------------------------------------
 ;; Markdown mode
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
@@ -47,11 +51,13 @@
 
 
 ;; ----------------------------------------------------------------------------
-;; Setup Common Lisp mode
-(condition-case err
-    (require 'cl)
-  (error (message "Unable to load Common Lisp package.")))
-;; End setup lisp-mode --------------------------------------------------------
+;; Setup HTML
+
+;; Use tidy.el to provide support for tidy
+(autoload 'tidy-buffer "tidy" "Run Tidy HTML parser on current buffer" t)
+(autoload 'tidy-parse-config-file "tidy" "Parse the `tidy-config-file'" t)
+(autoload 'tidy-save-settings "tidy" "Save settings to `tidy-config-file'" t)
+(autoload 'tidy-build-menu  "tidy" "Install an options menu for HTML Tidy." t)
 
 ;;;----------------------------------------------------------------------------
 ;; Setup C, C++ mode
@@ -87,11 +93,6 @@
 (setq comint-move-point-for-output t)
 
 ;;;----------------------------------------------------------------------------
-;; Setup Shell mode
-; nothing to do. All set up in comint mode, above.
-;; End setup shell-mode -------------------------------------------------------
-
-;;;----------------------------------------------------------------------------
 ;; python mode
 ;; nothing to do should work
 ;; End setup python-mode-------------------------------------------------------
@@ -110,25 +111,30 @@
 
 ;; (load "auctex.el" nil t t)  ;; not needed when using auctex from ELPA
 ;; (require 'latex) ;; not needed when using auctex from ELPA
+(add-hook 'LaTeX-mode-hook (lambda ()
+  (setq TeX-fold-mode 1)    ;; turn on folding
+  (TeX-PDF-mode)
+  (setq TeX-newline-function 'reindent-then-newline-and-indent)
+  (setq LaTeX-item-indent 2)
+  (setq TeX-brace-indent-level 2)
+  (setq ispell-check-comments nil)
+  (setq font-latex-match-textual-keywords
+     (quote ("citet" "citep" "citeauthor" "citeyear")))
+))
 
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-(add-hook 'LaTeX-mode-hook 'turn-on-visual-line-mode)  ;; visual line wrapping
-(add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-fold-mode 1)))
-(add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-newline-function 
-                                        'reindent-then-newline-and-indent) ))
-(add-hook 'LaTeX-mode-hook #'(lambda() (setq LaTeX-item-indent 2)))
-(add-hook 'LaTeX-mode-hook #'(lambda() (setq TeX-brace-indent-level 2)))
-(add-hook 'LaTeX-mode-hook #'(lambda() (setq font-latex-match-textual-keywords 
-                            (quote ("citet" "citep" "citeauthor" "citeyear")))))
 (font-lock-add-keywords
  'latex-mode
  '(("\\\\clearpage" 0 font-lock-keyword-face prepend)
   ("\\\\label" 0 font-lock-keyword-face prepend)))
 
-(add-hook 'LaTeX-mode-hook '(lambda() (setq ispell-check-comments nil)))
 (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
 (setq TeX-show-compilation nil) ;; turn off compilation buffer
+
+;; Enable synctex correlation
+(setq TeX-source-correlate-method 'synctex)
+;; Enable synctex generation. Even though the command shows as "latex" pdflatex
+;; is actually called
+(setq LaTeX-command "latex -synctex=1")
 
 ;; RefTeX
 (setq reftex-enable-partial-scans t)
@@ -146,22 +152,39 @@
 (add-hook 'markdown-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
 
-;; Make RefTeX work with Org-Mode
-(defun org-mode-reftex-setup ()
-  (load-library "reftex")
-  (and (buffer-file-name)
-  (file-exists-p (buffer-file-name))
-  (reftex-parse-all)))
 
+; RefTeX for markdown
+(defun markdown-mode-reftex-setup ()
+  (turn-on-reftex)
+  (and (buffer-file-name) (file-exists-p (buffer-file-name))
+    (progn
+    ;enable auto-revert-mode to update reftex when bibtex file changes on disk
+      (global-auto-revert-mode t)
+      (reftex-parse-all)
+      ; pandoc-style citations. Multiple selections do not get correct
+      ; semi-colon separator
+      (reftex-set-cite-format '((?\C-m . "[@%l]")                 
+)))))
+(add-hook 'markdown-mode-hook 'markdown-mode-reftex-setup)
+
+;; RefTeX for org-mode
+(defun org-mode-reftex-setup ()
+  (turn-on-reftex)
+  (and (buffer-file-name) (file-exists-p (buffer-file-name))
+    (progn
+    ;enable auto-revert-mode to update reftex when bibtex file changes on disk
+    (global-auto-revert-mode t)
+    (reftex-parse-all)
+    ;add a custom reftex cite format to insert links
+    (reftex-set-cite-format '((?\C-m . "[[cite:%l]]")
+)))))
 (add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
 (eval-after-load 'reftex-vars
   '(progn
-     ;; cite format for pandoc-markdown, bibtex/natbiib and biblatex
+     ;; cite format for bibtex/natbiib and biblatex
      (setq reftex-cite-format
-       '((?c . "[@%l]")  ;; for pandoc-style citations. Doesn't work for
-                         ;; multiple keys at once yet
-         (?\C-m . "\\cite[]{%l}")
+       '((?\C-m . "\\cite[]{%l}")
          (?p . "\\citep[][]{%l}")  ; natbib
          (?t . "\\citet[][]{%l}")  ; natbib
          (?F . "\\footcite[][]{%l}")
