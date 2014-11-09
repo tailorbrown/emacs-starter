@@ -65,11 +65,9 @@ Emacs will look for fonts in this order so make sure that at least one is instal
 ### Additional functions
 
 Some keybindings (shortcuts to a few functions in efuncs.el):
-
-* "C-c r"   rename-file-and-buffer: Rename your current buffer and the file with which it is associated
+* "C-x g"   magit-status
 * "C-c \\"  the-the: find duplicated words in your text (spellcheckers usually miss these)
-* "C-c i"   insert-date-string: insert a quick date such as 2013-10-22
-
+* "C-c d"   insert-date-string: insert a quick date such as 2013-10-22
 
 [cua-mode]:http://www.emacswiki.org/CuaMode
 [ess]:http://ess.r-project.org/

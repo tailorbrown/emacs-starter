@@ -33,7 +33,7 @@
   "C-c p"   previous-error
 
    ;; additional shortcuts buffers and windows
-  "C-<tab>" bury-buffer ; cycle through buffers
+  ;; "C-<tab>" bury-buffer ; cycle through buffers
   "C-x I"   insert-buffer
   "C-c w"   count-words-region
   "M-/"     hippie-expand
@@ -46,23 +46,18 @@
 
   ;; Start shell or switch to it if it's active.
   "C-x m"   shell
-  ;; git, magit, vc
+  ;; magit for git
   "C-x g"   magit-status
 
   ;; bindings for functions defined in lisp/efuncs.el
-   "C-c r"  rename-file-and-buffer
    "C-c \\" the-the
-   "C-c i"  insert-date-string
+   "C-c d"  insert-date-string
 ))
 
-;; Don't use alt-q to fill when we are in visual-line-mode make temporary
-;; function, run hook function in text mode and after it is run once remove the
-;; function
-(add-hook 'text-mode-hook
-  (defun dws-fix-text-mode ()
-    (define-key text-mode-map "\M-q" 'maybe-fill-paragraph)
-    ; remove hook not really necessary, but why not clean up after it runs?
-    (remove-hook 'text-mode-hook 'dws-fix-text-mode)))
+;; Rebind Alt-q to maybe-fill-paragraph so we don't use alt-q to fill when we
+;; are in visual-line-mode
+(add-hook 'text-mode-hook '(lambda ()
+  (define-key text-mode-map "\M-q" 'maybe-fill-paragraph)))
 
 ;; Define eval line in ESS as shift-enter rather than C-enter. because C-enter
 ;; conflicts with the rectangle selection tool in CUA-mode.

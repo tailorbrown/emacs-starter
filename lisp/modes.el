@@ -72,17 +72,6 @@
 ;; Use K&R c coding style
 (setq c-default-style "k&r")
 
-;; Construct a hook to be called when entering C mode
-(defun lconfig-c-mode ()
-  (progn (define-key c-mode-base-map "\C-m" 'newline-and-indent)
-         (define-key c-mode-base-map [f4] 'speedbar-get-focus)
-         (define-key c-mode-base-map [f5] 'next-error)
-         (define-key c-mode-base-map [f6] 'run-program)
-         (define-key c-mode-base-map [f8] 'compile)
-         (define-key c-mode-base-map [f9] 'insert-breakpoint)
-         (define-key c-mode-base-map [f10] 'step-over)
-         (define-key c-mode-base-map [f11] 'step-into)))
-(add-hook 'c-mode-common-hook 'lconfig-c-mode)
 ;; End setup c mode -----------------------------------------------------------
 
 ;;;----------------------------------------------------------------------------
@@ -153,33 +142,22 @@
 (setq reftex-plug-into-AUCTeX t)
 
 
-; RefTeX for markdown
-(defun markdown-mode-reftex-setup ()
+; RefTeX for pandoc style citations in markdown and org-mode
+(defun pandoc-reftex-setup ()
   (turn-on-reftex)
   (and (buffer-file-name) (file-exists-p (buffer-file-name))
     (progn
-    ;enable auto-revert-mode to update reftex when bibtex file changes on disk
+      ; enable auto-revert-mode to update reftex when bibtex file changes on disk
       (global-auto-revert-mode t)
       (reftex-parse-all)
       ; pandoc-style citations. Multiple selections do not get correct
       ; semi-colon separator
       (reftex-set-cite-format '((?\C-m . "[@%l]")                 
 )))))
-(add-hook 'markdown-mode-hook 'markdown-mode-reftex-setup)
+(add-hook 'markdown-mode-hook 'pandoc-reftex-setup)
+;(add-hook 'org-mode-hook 'pandoc-reftex-setup) ; if you use ox-pandoc
 
-;; RefTeX for org-mode
-(defun org-mode-reftex-setup ()
-  (turn-on-reftex)
-  (and (buffer-file-name) (file-exists-p (buffer-file-name))
-    (progn
-    ;enable auto-revert-mode to update reftex when bibtex file changes on disk
-    (global-auto-revert-mode t)
-    (reftex-parse-all)
-    ;add a custom reftex cite format to insert links
-    (reftex-set-cite-format '((?\C-m . "[[cite:%l]]")
-)))))
-(add-hook 'org-mode-hook 'org-mode-reftex-setup)
-
+;; For LaTeX:
 (eval-after-load 'reftex-vars
   '(progn
      ;; cite format for bibtex/natbiib and biblatex
