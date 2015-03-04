@@ -24,8 +24,8 @@
 (require 'cl-lib)
 
 ;; Identification
-(setq user-mail-address "jane.doe@ttu.edu")
-(setq user-full-name "Jane Doe")
+(setq user-mail-address "tailor.brown@ttu.edu")
+(setq user-full-name "Tailor Brown")
 
 ;; add the elisp directories under ~/emacs to my load path
 (defvar home-dir (expand-file-name "~/"))
